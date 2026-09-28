@@ -1,0 +1,886 @@
+{
+ "fetched": "2026-09-28",
+ "source": "https://api.aladhan.com/v1/timings",
+ "cases": [
+  {
+   "city": "Setif",
+   "lat": 36.19112,
+   "lon": 5.41373,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=36.19112&longitude=5.41373&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "05:16",
+    "sunrise": "06:42",
+    "dhuhr": "12:46",
+    "asr": "16:12",
+    "maghrib": "18:50",
+    "isha": "20:11"
+   }
+  },
+  {
+   "city": "Setif",
+   "lat": 36.19112,
+   "lon": 5.41373,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=36.19112&longitude=5.41373&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "03:31",
+    "sunrise": "05:21",
+    "dhuhr": "12:40",
+    "asr": "16:30",
+    "maghrib": "19:59",
+    "isha": "21:42"
+   }
+  },
+  {
+   "city": "Setif",
+   "lat": 36.19112,
+   "lon": 5.41373,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=36.19112&longitude=5.41373&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "05:01",
+    "sunrise": "06:27",
+    "dhuhr": "12:31",
+    "asr": "15:58",
+    "maghrib": "18:34",
+    "isha": "19:55"
+   }
+  },
+  {
+   "city": "Setif",
+   "lat": 36.19112,
+   "lon": 5.41373,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=36.19112&longitude=5.41373&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "06:13",
+    "sunrise": "07:46",
+    "dhuhr": "12:36",
+    "asr": "15:09",
+    "maghrib": "17:27",
+    "isha": "18:54"
+   }
+  },
+  {
+   "city": "Algiers",
+   "lat": 36.73225,
+   "lon": 3.08746,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=36.73225&longitude=3.08746&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "05:25",
+    "sunrise": "06:51",
+    "dhuhr": "12:55",
+    "asr": "16:21",
+    "maghrib": "18:59",
+    "isha": "20:21"
+   }
+  },
+  {
+   "city": "Algiers",
+   "lat": 36.73225,
+   "lon": 3.08746,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=36.73225&longitude=3.08746&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "03:37",
+    "sunrise": "05:29",
+    "dhuhr": "12:49",
+    "asr": "16:41",
+    "maghrib": "20:10",
+    "isha": "21:54"
+   }
+  },
+  {
+   "city": "Algiers",
+   "lat": 36.73225,
+   "lon": 3.08746,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=36.73225&longitude=3.08746&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "05:10",
+    "sunrise": "06:36",
+    "dhuhr": "12:40",
+    "asr": "16:07",
+    "maghrib": "18:43",
+    "isha": "20:05"
+   }
+  },
+  {
+   "city": "Algiers",
+   "lat": 36.73225,
+   "lon": 3.08746,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=36.73225&longitude=3.08746&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "06:23",
+    "sunrise": "07:56",
+    "dhuhr": "12:46",
+    "asr": "15:17",
+    "maghrib": "17:35",
+    "isha": "19:03"
+   }
+  },
+  {
+   "city": "Oran",
+   "lat": 35.69906,
+   "lon": -0.63588,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=35.69906&longitude=-0.63588&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "05:41",
+    "sunrise": "07:06",
+    "dhuhr": "13:10",
+    "asr": "16:36",
+    "maghrib": "19:14",
+    "isha": "20:35"
+   }
+  },
+  {
+   "city": "Oran",
+   "lat": 35.69906,
+   "lon": -0.63588,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=35.69906&longitude=-0.63588&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "03:58",
+    "sunrise": "05:47",
+    "dhuhr": "13:04",
+    "asr": "16:54",
+    "maghrib": "20:22",
+    "isha": "22:03"
+   }
+  },
+  {
+   "city": "Oran",
+   "lat": 35.69906,
+   "lon": -0.63588,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=35.69906&longitude=-0.63588&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "05:26",
+    "sunrise": "06:51",
+    "dhuhr": "12:55",
+    "asr": "16:22",
+    "maghrib": "18:58",
+    "isha": "20:18"
+   }
+  },
+  {
+   "city": "Oran",
+   "lat": 35.69906,
+   "lon": -0.63588,
+   "tz": "Africa/Algiers",
+   "method": "algeria",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 19,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=35.69906&longitude=-0.63588&method=19&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FAlgiers"
+   },
+   "times": {
+    "fajr": "06:37",
+    "sunrise": "08:08",
+    "dhuhr": "13:01",
+    "asr": "15:35",
+    "maghrib": "17:53",
+    "isha": "19:19"
+   }
+  },
+  {
+   "city": "Makkah",
+   "lat": 21.42664,
+   "lon": 39.82563,
+   "tz": "Asia/Riyadh",
+   "method": "umm_al_qura",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 4,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=21.42664&longitude=39.82563&method=4&school=0&latitudeAdjustmentMethod=1&timezonestring=Asia%2FRiyadh"
+   },
+   "times": {
+    "fajr": "05:09",
+    "sunrise": "06:25",
+    "dhuhr": "12:28",
+    "asr": "15:52",
+    "maghrib": "18:32",
+    "isha": "20:02"
+   }
+  },
+  {
+   "city": "Makkah",
+   "lat": 21.42664,
+   "lon": 39.82563,
+   "tz": "Asia/Riyadh",
+   "method": "umm_al_qura",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 4,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=21.42664&longitude=39.82563&method=4&school=0&latitudeAdjustmentMethod=1&timezonestring=Asia%2FRiyadh"
+   },
+   "times": {
+    "fajr": "04:11",
+    "sunrise": "05:39",
+    "dhuhr": "12:23",
+    "asr": "15:42",
+    "maghrib": "19:06",
+    "isha": "20:36"
+   }
+  },
+  {
+   "city": "Makkah",
+   "lat": 21.42664,
+   "lon": 39.82563,
+   "tz": "Asia/Riyadh",
+   "method": "umm_al_qura",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 4,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=21.42664&longitude=39.82563&method=4&school=0&latitudeAdjustmentMethod=1&timezonestring=Asia%2FRiyadh"
+   },
+   "times": {
+    "fajr": "04:54",
+    "sunrise": "06:10",
+    "dhuhr": "12:13",
+    "asr": "15:38",
+    "maghrib": "18:16",
+    "isha": "19:46"
+   }
+  },
+  {
+   "city": "Makkah",
+   "lat": 21.42664,
+   "lon": 39.82563,
+   "tz": "Asia/Riyadh",
+   "method": "umm_al_qura",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 4,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=21.42664&longitude=39.82563&method=4&school=0&latitudeAdjustmentMethod=1&timezonestring=Asia%2FRiyadh"
+   },
+   "times": {
+    "fajr": "05:32",
+    "sunrise": "06:54",
+    "dhuhr": "12:19",
+    "asr": "15:23",
+    "maghrib": "17:44",
+    "isha": "19:14"
+   }
+  },
+  {
+   "city": "Cairo",
+   "lat": 30.06263,
+   "lon": 31.24967,
+   "tz": "Africa/Cairo",
+   "method": "egypt",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 5,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=30.06263&longitude=31.24967&method=5&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FCairo"
+   },
+   "times": {
+    "fajr": "04:32",
+    "sunrise": "05:59",
+    "dhuhr": "12:02",
+    "asr": "15:29",
+    "maghrib": "18:06",
+    "isha": "19:24"
+   }
+  },
+  {
+   "city": "Cairo",
+   "lat": 30.06263,
+   "lon": 31.24967,
+   "tz": "Africa/Cairo",
+   "method": "egypt",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 5,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=30.06263&longitude=31.24967&method=5&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FCairo"
+   },
+   "times": {
+    "fajr": "04:08",
+    "sunrise": "05:54",
+    "dhuhr": "12:57",
+    "asr": "16:32",
+    "maghrib": "19:59",
+    "isha": "21:33"
+   }
+  },
+  {
+   "city": "Cairo",
+   "lat": 30.06263,
+   "lon": 31.24967,
+   "tz": "Africa/Cairo",
+   "method": "egypt",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 5,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=30.06263&longitude=31.24967&method=5&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FCairo"
+   },
+   "times": {
+    "fajr": "05:17",
+    "sunrise": "06:44",
+    "dhuhr": "12:47",
+    "asr": "16:15",
+    "maghrib": "18:51",
+    "isha": "20:08"
+   }
+  },
+  {
+   "city": "Cairo",
+   "lat": 30.06263,
+   "lon": 31.24967,
+   "tz": "Africa/Cairo",
+   "method": "egypt",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 5,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=30.06263&longitude=31.24967&method=5&school=0&latitudeAdjustmentMethod=1&timezonestring=Africa%2FCairo"
+   },
+   "times": {
+    "fajr": "05:14",
+    "sunrise": "06:47",
+    "dhuhr": "11:53",
+    "asr": "14:41",
+    "maghrib": "16:59",
+    "isha": "18:23"
+   }
+  },
+  {
+   "city": "Istanbul",
+   "lat": 41.01384,
+   "lon": 28.94966,
+   "tz": "Europe/Istanbul",
+   "method": "turkey",
+   "asr": "hanafi",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 13,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=41.01384&longitude=28.94966&method=13&school=1&latitudeAdjustmentMethod=1&timezonestring=Europe%2FIstanbul"
+   },
+   "times": {
+    "fajr": "05:36",
+    "sunrise": "07:01",
+    "dhuhr": "13:17",
+    "asr": "17:32",
+    "maghrib": "19:23",
+    "isha": "20:43"
+   }
+  },
+  {
+   "city": "Istanbul",
+   "lat": 41.01384,
+   "lon": 28.94966,
+   "tz": "Europe/Istanbul",
+   "method": "turkey",
+   "asr": "hanafi",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 13,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=41.01384&longitude=28.94966&method=13&school=1&latitudeAdjustmentMethod=1&timezonestring=Europe%2FIstanbul"
+   },
+   "times": {
+    "fajr": "03:24",
+    "sunrise": "05:25",
+    "dhuhr": "13:11",
+    "asr": "18:25",
+    "maghrib": "20:47",
+    "isha": "22:38"
+   }
+  },
+  {
+   "city": "Istanbul",
+   "lat": 41.01384,
+   "lon": 28.94966,
+   "tz": "Europe/Istanbul",
+   "method": "turkey",
+   "asr": "hanafi",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 13,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=41.01384&longitude=28.94966&method=13&school=1&latitudeAdjustmentMethod=1&timezonestring=Europe%2FIstanbul"
+   },
+   "times": {
+    "fajr": "05:20",
+    "sunrise": "06:45",
+    "dhuhr": "13:02",
+    "asr": "17:17",
+    "maghrib": "19:07",
+    "isha": "20:27"
+   }
+  },
+  {
+   "city": "Istanbul",
+   "lat": 41.01384,
+   "lon": 28.94966,
+   "tz": "Europe/Istanbul",
+   "method": "turkey",
+   "asr": "hanafi",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 13,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=41.01384&longitude=28.94966&method=13&school=1&latitudeAdjustmentMethod=1&timezonestring=Europe%2FIstanbul"
+   },
+   "times": {
+    "fajr": "06:46",
+    "sunrise": "08:19",
+    "dhuhr": "13:07",
+    "asr": "16:02",
+    "maghrib": "17:46",
+    "isha": "19:13"
+   }
+  },
+  {
+   "city": "London",
+   "lat": 51.50853,
+   "lon": -0.12574,
+   "tz": "Europe/London",
+   "method": "moonsighting",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 15,
+    "latitudeAdjustmentMethod": 2,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=51.50853&longitude=-0.12574&method=15&school=0&latitudeAdjustmentMethod=2&timezonestring=Europe%2FLondon"
+   },
+   "times": {
+    "fajr": "04:30",
+    "sunrise": "06:03",
+    "dhuhr": "12:08",
+    "asr": "15:24",
+    "maghrib": "18:14",
+    "isha": "19:31"
+   }
+  },
+  {
+   "city": "London",
+   "lat": 51.50853,
+   "lon": -0.12574,
+   "tz": "Europe/London",
+   "method": "moonsighting",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 15,
+    "latitudeAdjustmentMethod": 2,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=51.50853&longitude=-0.12574&method=15&school=0&latitudeAdjustmentMethod=2&timezonestring=Europe%2FLondon"
+   },
+   "times": {
+    "fajr": "02:43",
+    "sunrise": "04:43",
+    "dhuhr": "13:02",
+    "asr": "17:25",
+    "maghrib": "21:22",
+    "isha": "22:42"
+   }
+  },
+  {
+   "city": "London",
+   "lat": 51.50853,
+   "lon": -0.12574,
+   "tz": "Europe/London",
+   "method": "moonsighting",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 15,
+    "latitudeAdjustmentMethod": 2,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=51.50853&longitude=-0.12574&method=15&school=0&latitudeAdjustmentMethod=2&timezonestring=Europe%2FLondon"
+   },
+   "times": {
+    "fajr": "05:15",
+    "sunrise": "06:48",
+    "dhuhr": "12:53",
+    "asr": "16:11",
+    "maghrib": "18:57",
+    "isha": "20:14"
+   }
+  },
+  {
+   "city": "London",
+   "lat": 51.50853,
+   "lon": -0.12574,
+   "tz": "Europe/London",
+   "method": "moonsighting",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 15,
+    "latitudeAdjustmentMethod": 2,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=51.50853&longitude=-0.12574&method=15&school=0&latitudeAdjustmentMethod=2&timezonestring=Europe%2FLondon"
+   },
+   "times": {
+    "fajr": "06:22",
+    "sunrise": "08:04",
+    "dhuhr": "11:59",
+    "asr": "13:38",
+    "maghrib": "15:53",
+    "isha": "17:32"
+   }
+  },
+  {
+   "city": "Jakarta",
+   "lat": -6.21462,
+   "lon": 106.84513,
+   "tz": "Asia/Jakarta",
+   "method": "kemenag",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 20,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=-6.21462&longitude=106.84513&method=20&school=0&latitudeAdjustmentMethod=1&timezonestring=Asia%2FJakarta"
+   },
+   "times": {
+    "fajr": "04:40",
+    "sunrise": "05:57",
+    "dhuhr": "12:00",
+    "asr": "15:11",
+    "maghrib": "18:03",
+    "isha": "19:13"
+   }
+  },
+  {
+   "city": "Jakarta",
+   "lat": -6.21462,
+   "lon": 106.84513,
+   "tz": "Asia/Jakarta",
+   "method": "kemenag",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 20,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=-6.21462&longitude=106.84513&method=20&school=0&latitudeAdjustmentMethod=1&timezonestring=Asia%2FJakarta"
+   },
+   "times": {
+    "fajr": "04:38",
+    "sunrise": "06:01",
+    "dhuhr": "11:54",
+    "asr": "15:16",
+    "maghrib": "17:47",
+    "isha": "19:02"
+   }
+  },
+  {
+   "city": "Jakarta",
+   "lat": -6.21462,
+   "lon": 106.84513,
+   "tz": "Asia/Jakarta",
+   "method": "kemenag",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 20,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=-6.21462&longitude=106.84513&method=20&school=0&latitudeAdjustmentMethod=1&timezonestring=Asia%2FJakarta"
+   },
+   "times": {
+    "fajr": "04:25",
+    "sunrise": "05:42",
+    "dhuhr": "11:45",
+    "asr": "14:55",
+    "maghrib": "17:48",
+    "isha": "18:58"
+   }
+  },
+  {
+   "city": "Jakarta",
+   "lat": -6.21462,
+   "lon": 106.84513,
+   "tz": "Asia/Jakarta",
+   "method": "kemenag",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 20,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=-6.21462&longitude=106.84513&method=20&school=0&latitudeAdjustmentMethod=1&timezonestring=Asia%2FJakarta"
+   },
+   "times": {
+    "fajr": "04:11",
+    "sunrise": "05:36",
+    "dhuhr": "11:51",
+    "asr": "15:18",
+    "maghrib": "18:05",
+    "isha": "19:21"
+   }
+  },
+  {
+   "city": "Toronto",
+   "lat": 43.70011,
+   "lon": -79.4163,
+   "tz": "America/Toronto",
+   "method": "moonsighting",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 15,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=43.70011&longitude=-79.4163&method=15&school=0&latitudeAdjustmentMethod=1&timezonestring=America%2FToronto"
+   },
+   "times": {
+    "fajr": "05:50",
+    "sunrise": "07:21",
+    "dhuhr": "13:25",
+    "asr": "16:48",
+    "maghrib": "19:30",
+    "isha": "20:47"
+   }
+  },
+  {
+   "city": "Toronto",
+   "lat": 43.70011,
+   "lon": -79.4163,
+   "tz": "America/Toronto",
+   "method": "moonsighting",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 15,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=43.70011&longitude=-79.4163&method=15&school=0&latitudeAdjustmentMethod=1&timezonestring=America%2FToronto"
+   },
+   "times": {
+    "fajr": "03:43",
+    "sunrise": "05:36",
+    "dhuhr": "13:20",
+    "asr": "17:26",
+    "maghrib": "21:03",
+    "isha": "22:23"
+   }
+  },
+  {
+   "city": "Toronto",
+   "lat": 43.70011,
+   "lon": -79.4163,
+   "tz": "America/Toronto",
+   "method": "moonsighting",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 15,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=43.70011&longitude=-79.4163&method=15&school=0&latitudeAdjustmentMethod=1&timezonestring=America%2FToronto"
+   },
+   "times": {
+    "fajr": "05:35",
+    "sunrise": "07:06",
+    "dhuhr": "13:10",
+    "asr": "16:34",
+    "maghrib": "19:13",
+    "isha": "20:30"
+   }
+  },
+  {
+   "city": "Toronto",
+   "lat": 43.70011,
+   "lon": -79.4163,
+   "tz": "America/Toronto",
+   "method": "moonsighting",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 15,
+    "latitudeAdjustmentMethod": 1,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=43.70011&longitude=-79.4163&method=15&school=0&latitudeAdjustmentMethod=1&timezonestring=America%2FToronto"
+   },
+   "times": {
+    "fajr": "06:10",
+    "sunrise": "07:48",
+    "dhuhr": "12:16",
+    "asr": "14:26",
+    "maghrib": "16:44",
+    "isha": "18:19"
+   }
+  },
+  {
+   "city": "Oslo",
+   "lat": 59.91273,
+   "lon": 10.74609,
+   "tz": "Europe/Oslo",
+   "method": "mwl",
+   "asr": "standard",
+   "date": "2026-03-20",
+   "aladhan": {
+    "method": 3,
+    "latitudeAdjustmentMethod": 2,
+    "url": "https://api.aladhan.com/v1/timings/20-03-2026?latitude=59.91273&longitude=10.74609&method=3&school=0&latitudeAdjustmentMethod=2&timezonestring=Europe%2FOslo"
+   },
+   "times": {
+    "fajr": "04:38",
+    "sunrise": "06:19",
+    "dhuhr": "12:24",
+    "asr": "15:29",
+    "maghrib": "18:31",
+    "isha": "20:12"
+   }
+  },
+  {
+   "city": "Oslo",
+   "lat": 59.91273,
+   "lon": 10.74609,
+   "tz": "Europe/Oslo",
+   "method": "mwl",
+   "asr": "standard",
+   "date": "2026-06-21",
+   "aladhan": {
+    "method": 3,
+    "latitudeAdjustmentMethod": 2,
+    "url": "https://api.aladhan.com/v1/timings/21-06-2026?latitude=59.91273&longitude=10.74609&method=3&school=0&latitudeAdjustmentMethod=2&timezonestring=Europe%2FOslo"
+   },
+   "times": {
+    "fajr": "03:10",
+    "sunrise": "03:54",
+    "dhuhr": "13:19",
+    "asr": "18:00",
+    "maghrib": "22:44",
+    "isha": "23:28"
+   }
+  },
+  {
+   "city": "Oslo",
+   "lat": 59.91273,
+   "lon": 10.74609,
+   "tz": "Europe/Oslo",
+   "method": "mwl",
+   "asr": "standard",
+   "date": "2026-09-23",
+   "aladhan": {
+    "method": 3,
+    "latitudeAdjustmentMethod": 2,
+    "url": "https://api.aladhan.com/v1/timings/23-09-2026?latitude=59.91273&longitude=10.74609&method=3&school=0&latitudeAdjustmentMethod=2&timezonestring=Europe%2FOslo"
+   },
+   "times": {
+    "fajr": "05:22",
+    "sunrise": "07:03",
+    "dhuhr": "13:09",
+    "asr": "16:17",
+    "maghrib": "19:14",
+    "isha": "20:55"
+   }
+  },
+  {
+   "city": "Oslo",
+   "lat": 59.91273,
+   "lon": 10.74609,
+   "tz": "Europe/Oslo",
+   "method": "mwl",
+   "asr": "standard",
+   "date": "2026-12-21",
+   "aladhan": {
+    "method": 3,
+    "latitudeAdjustmentMethod": 2,
+    "url": "https://api.aladhan.com/v1/timings/21-12-2026?latitude=59.91273&longitude=10.74609&method=3&school=0&latitudeAdjustmentMethod=2&timezonestring=Europe%2FOslo"
+   },
+   "times": {
+    "fajr": "06:43",
+    "sunrise": "09:18",
+    "dhuhr": "12:15",
+    "asr": "13:07",
+    "maghrib": "15:12",
+    "isha": "17:47"
+   }
+  }
+ ]
+}

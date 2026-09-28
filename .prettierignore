@@ -1,0 +1,9 @@
+dist
+src-tauri/target
+src-tauri/gen
+node_modules
+Sakan
+data-pipeline/sources
+data-pipeline/cache
+assets/data
+*.md

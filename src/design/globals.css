@@ -1,0 +1,338 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunk: var(--surface-sunk);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-sage: var(--sage);
+  --color-sage-strong: var(--sage-strong);
+  --color-sage-soft: var(--sage-soft);
+  --color-sand: var(--sand);
+  --color-sand-soft: var(--sand-soft);
+  --color-ochre: var(--ochre);
+  --color-ochre-strong: var(--ochre-strong);
+  --color-ochre-soft: var(--ochre-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-on-sage: var(--on-sage);
+  --color-tod-dawn: var(--tod-dawn);
+  --color-tod-sunrise: var(--tod-sunrise);
+  --color-tod-noon: var(--tod-noon);
+  --color-tod-afternoon: var(--tod-afternoon);
+  --color-tod-sunset: var(--tod-sunset);
+  --color-tod-night: var(--tod-night);
+
+  --font-ui: var(--font-ui);
+  --font-display: var(--font-display);
+  --font-dhikr: var(--font-dhikr);
+
+  --radius-hero: var(--radius-hero);
+  --radius-panel: var(--radius-panel);
+  --radius-control: var(--radius-control);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --text-2xs: var(--text-2xs);
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-md: var(--text-md);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-hero: var(--text-hero);
+
+  --ease-out: var(--ease-out);
+}
+
+@layer base {
+  html {
+    font-size: calc(16px * var(--ui-scale));
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Arabic runs one step larger than Latin at the same role (brief §5.3). Plex Sans Arabic has a smaller
+     apparent size than Plex Sans, so the whole Arabic UI is scaled by one half-step of the 1.25 scale. */
+  html[lang='ar'] {
+    font-size: calc(17.5px * var(--ui-scale));
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
+  }
+
+  html[lang='ar'] body {
+    line-height: 1.65;
+  }
+
+  #root {
+    height: 100vh;
+  }
+
+  input,
+  textarea,
+  [contenteditable='true'],
+  .selectable {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  button {
+    cursor: default;
+    font: inherit;
+    color: inherit;
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--sage) 35%, transparent);
+  }
+
+  /* quiet scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--ink) 22%, transparent) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--ink) 20%, transparent);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: color-mix(in oklab, var(--ink) 32%, transparent);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+    font-feature-settings:
+      'tnum' 1,
+      'lnum' 1;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0;
+  }
+
+  .font-dhikr {
+    font-family: var(--font-dhikr);
+  }
+
+  /* Faint 8-point star (khatam) lattice, tinted with the ink colour via mask. Large surfaces only. */
+  .khatam {
+    position: relative;
+    isolation: isolate;
+  }
+  .khatam::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-color: var(--ink);
+    opacity: var(--pattern-opacity);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='black' stroke-width='1.1'%3E%3Cpath d='M42 25 L47 37 L59 42 L47 47 L42 59 L37 47 L25 42 L37 37 Z'/%3E%3Crect x='30' y='30' width='24' height='24' transform='rotate(45 42 42)'/%3E%3Crect x='30' y='30' width='24' height='24'/%3E%3Cpath d='M0 -17 L5 -5 L17 0 L5 5 L0 17 L-5 5 L-17 0 L-5 -5 Z M84 -17 L89 -5 L101 0 L89 5 L84 17 L79 5 L67 0 L79 -5 Z M0 67 L5 79 L17 84 L5 89 L0 101 L-5 89 L-17 84 L-5 79 Z M84 67 L89 79 L101 84 L89 89 L84 101 L79 89 L67 84 L79 79 Z'/%3E%3Cpath d='M17 0 L25 8 M0 17 L8 25 M67 0 L59 8 M84 17 L76 25 M17 84 L25 76 M0 67 L8 59 M67 84 L59 76 M84 67 L76 59'/%3E%3C/g%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='black' stroke-width='1.1'%3E%3Cpath d='M42 25 L47 37 L59 42 L47 47 L42 59 L37 47 L25 42 L37 37 Z'/%3E%3Crect x='30' y='30' width='24' height='24' transform='rotate(45 42 42)'/%3E%3Crect x='30' y='30' width='24' height='24'/%3E%3Cpath d='M0 -17 L5 -5 L17 0 L5 5 L0 17 L-5 5 L-17 0 L-5 -5 Z M84 -17 L89 -5 L101 0 L89 5 L84 17 L79 5 L67 0 L79 -5 Z M0 67 L5 79 L17 84 L5 89 L0 101 L-5 89 L-17 84 L-5 79 Z M84 67 L89 79 L101 84 L89 89 L84 101 L79 89 L67 84 L79 79 Z'/%3E%3Cpath d='M17 0 L25 8 M0 17 L8 25 M67 0 L59 8 M84 17 L76 25 M17 84 L25 76 M0 67 L8 59 M67 84 L59 76 M84 67 L76 59'/%3E%3C/g%3E%3C/svg%3E");
+    -webkit-mask-size: 84px 84px;
+    mask-size: 84px 84px;
+  }
+  :root[data-pattern='off'] .khatam::before {
+    display: none;
+  }
+
+  .drag-region {
+    -webkit-app-region: drag;
+  }
+
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Reduced motion: honoured from the OS and from the in-app setting (data-motion="reduce"). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+:root[data-motion='reduce'] *,
+:root[data-motion='reduce'] *::before,
+:root[data-motion='reduce'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+@keyframes sakan-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sakan-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sakan-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+@keyframes sakan-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes sakan-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+.animate-fade-in {
+  animation: sakan-fade-in var(--dur-slow) var(--ease-out) both;
+}
+.animate-scale-in {
+  animation: sakan-scale-in var(--dur) var(--ease-out) both;
+}
+
+/* Range slider */
+.sakan-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 22px;
+  background: transparent;
+}
+.sakan-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--sage-strong) 0 var(--pct, 50%), var(--surface-sunk) var(--pct, 50%) 100%);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
+}
+[dir='rtl'] .sakan-range::-webkit-slider-runnable-track {
+  background: linear-gradient(to left, var(--sage-strong) 0 var(--pct, 50%), var(--surface-sunk) var(--pct, 50%) 100%);
+}
+.sakan-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-md);
+  transition: transform 120ms var(--ease-out);
+}
+.sakan-range:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+.sakan-range:focus-visible {
+  outline: none;
+}
+.sakan-range:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.sakan-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-sunk);
+}
+.sakan-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--sage-strong);
+}
+.sakan-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+}
+.sakan-range:disabled {
+  opacity: 0.45;
+}
+
+@keyframes sakan-bars {
+  from {
+    transform: scaleY(0.3);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}

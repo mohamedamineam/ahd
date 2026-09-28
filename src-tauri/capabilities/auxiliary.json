@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "auxiliary",
+  "description": "Widget, tray panel, taskbar pill and adhan toast: read-only display + a few actions",
+  "windows": ["widget", "panel", "pill", "toast"],
+  "permissions": ["core:default"]
+}

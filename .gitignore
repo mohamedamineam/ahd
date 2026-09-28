@@ -1,0 +1,25 @@
+# dependencies & builds
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/schemas/
+*.tsbuildinfo
+.vite/
+coverage/
+playwright-report/
+test-results/
+
+# owner's raw deliverables (copied into assets/ and branding/ by the build)
+/Sakan/
+/*.zip
+/CLAUDE_CODE_BUILD_PROMPT.md
+
+# data pipeline caches (large downloads; checksums are committed)
+data-pipeline/cache/
+
+# editors / OS
+.DS_Store
+.idea/
+*.swp
+.env
+.env.*

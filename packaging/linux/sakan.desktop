@@ -1,0 +1,14 @@
+[Desktop Entry]
+Categories={{categories}};Utility;
+Comment={{comment}}
+Comment[ar]=أوقات الصلاة والأذان والقرآن والأذكار والقبلة
+Exec={{exec}}
+StartupWMClass={{exec}}
+Icon={{icon}}
+Name={{name}}
+Name[ar]=سَكَن
+GenericName=Prayer Times
+GenericName[ar]=أوقات الصلاة
+Keywords=prayer;salah;adhan;azan;athan;quran;qibla;adhkar;islam;muslim;صلاة;أذان;قرآن;قبلة;أذكار;
+Terminal=false
+Type=Application

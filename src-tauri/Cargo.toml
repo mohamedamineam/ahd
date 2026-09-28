@@ -1,0 +1,95 @@
+[package]
+name = "sakan"
+version = "0.1.0"
+description = "Sakan — prayer times, adhan, Quran, adhkar and qibla for the desktop"
+authors = ["Sakan contributors"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/sakanapp/sakan"
+edition = "2021"
+rust-version = "1.85"
+default-run = "sakan"
+
+[lib]
+# The `_lib` suffix avoids a name clash with the binary on Windows (cargo issue #8519).
+name = "sakan_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.7", features = [] }
+
+[features]
+default = ["updater"]
+# The in-app updater is only for GitHub-release builds. Microsoft Store (MSIX) and Flathub builds are
+# compiled with `--no-default-features` because the stores deliver updates themselves.
+updater = ["dep:tauri-plugin-updater"]
+
+[dependencies]
+tauri = { version = "2.12", features = ["tray-icon", "image-png", "rustls-tls", "protocol-asset"] }
+tauri-plugin-notification = "2.5"
+tauri-plugin-store = "2.5"
+tauri-plugin-sql = { version = "2.5", features = ["sqlite"] }
+tauri-plugin-autostart = "2.6"
+tauri-plugin-global-shortcut = "2.4"
+tauri-plugin-positioner = { version = "2.4", features = ["tray-icon"] }
+tauri-plugin-window-state = "2.5"
+tauri-plugin-dialog = "2.8"
+tauri-plugin-opener = "2.6"
+tauri-plugin-os = "2.4"
+tauri-plugin-process = "2.4"
+tauri-plugin-log = "2.10"
+tauri-plugin-updater = { version = "2.13", optional = true }
+tauri-plugin-single-instance = "2.5"
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt", "sync", "time", "macros", "fs"] }
+futures-util = "0.3"
+log = "0.4"
+thiserror = "2"
+
+# Audio: rodio + Symphonia decoders (mp3, aac/m4a, flac, ogg/vorbis, wav)
+rodio = { version = "0.22", default-features = false, features = [
+  "playback",
+  "symphonia-mp3",
+  "symphonia-aac",
+  "symphonia-isomp4",
+  "symphonia-flac",
+  "symphonia-vorbis",
+  "symphonia-ogg",
+  "symphonia-wav",
+  "symphonia-pcm",
+] }
+
+# Read-only bundled datasets (places, Quran). Same sqlx major as tauri-plugin-sql so one SQLite is linked.
+sqlx = { version = "0.8", default-features = false, features = ["sqlite", "runtime-tokio"] }
+
+# Downloads (library books, tafsir) — rustls with the ring provider, same stack as Tauri's updater.
+reqwest = { version = "0.13", default-features = false, features = ["rustls-no-provider", "stream", "http2", "charset"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12", "logging"] }
+sha2 = "0.10"
+hex = "0.4"
+infer = "0.19"
+
+# Dynamic tray icon rendering (Windows) — pure Rust rasteriser.
+tiny-skia = "0.11"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.59", features = [
+  "Win32_Foundation",
+  "Win32_Graphics_Gdi",
+  "Win32_System_Registry",
+  "Win32_UI_Shell",
+  "Win32_UI_WindowsAndMessaging",
+] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+gtk = "0.18"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true
+
+[profile.dev.package."*"]
+opt-level = 1

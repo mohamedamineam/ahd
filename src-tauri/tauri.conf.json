@@ -1,0 +1,97 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Sakan",
+  "mainBinaryName": "sakan",
+  "version": "0.1.0",
+  "identifier": "io.github.sakanapp.Sakan",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Sakan",
+        "url": "index.html",
+        "width": 1120,
+        "height": 740,
+        "minWidth": 900,
+        "minHeight": 620,
+        "center": true,
+        "decorations": false,
+        "visible": false,
+        "resizable": true,
+        "dragDropEnabled": false
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self'",
+        "script-src": "'self' 'wasm-unsafe-eval'",
+        "style-src": "'self' 'unsafe-inline'",
+        "font-src": "'self' data: asset: http://asset.localhost",
+        "img-src": "'self' data: blob: asset: http://asset.localhost https://tile.openstreetmap.org https://*.tile.openstreetmap.org https://d1.islamhouse.com",
+        "media-src": "'self' asset: http://asset.localhost",
+        "connect-src": "'self' ipc: http://ipc.localhost asset: http://asset.localhost https://nominatim.openstreetmap.org https://api3.islamhouse.com",
+        "worker-src": "'self' blob:",
+        "object-src": "'none'",
+        "frame-src": "'none'",
+        "base-uri": "'self'",
+        "form-action": "'none'"
+      },
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["$APPDATA/library/**", "$APPDATA/adhan/**", "$RESOURCE/adhan/**"]
+      },
+      "capabilities": ["main", "auxiliary"]
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "rpm", "appimage", "nsis", "msi"],
+    "publisher": "Sakan contributors",
+    "copyright": "© 2026 Sakan contributors — GPL-3.0-or-later",
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "../LICENSE",
+    "homepage": "https://github.com/sakanapp/sakan",
+    "category": "Lifestyle",
+    "shortDescription": "Prayer times, adhan, Quran, adhkar and qibla",
+    "longDescription": "Sakan is a calm, free and private desktop companion for Muslims: accurate prayer times with per-second fine-tuning, the adhan with a notification you can close while it keeps playing, a desktop widget and taskbar indicator, the Quran (Hafs and Warsh), authentic adhkar from Hisn al-Muslim, the qibla direction and a small library of free Islamic books. No ads, no accounts, no tracking.",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+    "resources": {
+      "../assets/adhan/": "adhan/",
+      "../assets/data/": "data/",
+      "../assets/sounds/": "sounds/",
+      "icons/tray/": "tray/"
+    },
+    "linux": {
+      "deb": {
+        "depends": ["libayatana-appindicator3-1"],
+        "desktopTemplate": "../packaging/linux/sakan.desktop"
+      },
+      "rpm": {
+        "depends": ["libayatana-appindicator-gtk3"],
+        "desktopTemplate": "../packaging/linux/sakan.desktop"
+      },
+      "appimage": {
+        "bundleMediaFramework": false
+      }
+    },
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper" },
+      "nsis": {
+        "languages": ["English", "Arabic"],
+        "displayLanguageSelector": true,
+        "installMode": "currentUser"
+      },
+      "wix": {
+        "language": ["en-US", "ar-SA"]
+      }
+    }
+  },
+  "plugins": {}
+}

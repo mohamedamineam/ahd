@@ -1,0 +1,494 @@
+{
+ "fetched": "2026-09-28",
+ "source": "https://api.aladhan.com/v1/timings (meta.offset per method)",
+ "methods": {
+  "MWL": {
+   "id": 3,
+   "name": "Muslim World League",
+   "params": {
+    "Fajr": 18,
+    "Isha": 17
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "ISNA": {
+   "id": 2,
+   "name": "Islamic Society of North America (ISNA)",
+   "params": {
+    "Fajr": 15,
+    "Isha": 15
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "EGYPT": {
+   "id": 5,
+   "name": "Egyptian General Authority of Survey",
+   "params": {
+    "Fajr": 19.5,
+    "Isha": 17.5
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "MAKKAH": {
+   "id": 4,
+   "name": "Umm Al-Qura University, Makkah",
+   "params": {
+    "Fajr": 18.5,
+    "Isha": "90 min"
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "KARACHI": {
+   "id": 1,
+   "name": "University of Islamic Sciences, Karachi",
+   "params": {
+    "Fajr": 18,
+    "Isha": 18
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "TEHRAN": {
+   "id": 7,
+   "name": "Institute of Geophysics, University of Tehran",
+   "params": {
+    "Fajr": 17.7,
+    "Isha": 14,
+    "Maghrib": 4.5,
+    "Midnight": "JAFARI"
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "JAFARI": {
+   "id": 0,
+   "name": "Shia Ithna-Ashari, Leva Institute, Qum",
+   "params": {
+    "Fajr": 16,
+    "Isha": 14,
+    "Maghrib": 4,
+    "Midnight": "JAFARI"
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "GULF": {
+   "id": 8,
+   "name": "Gulf Region",
+   "params": {
+    "Fajr": 19.5,
+    "Isha": "90 min"
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "KUWAIT": {
+   "id": 9,
+   "name": "Kuwait",
+   "params": {
+    "Fajr": 18,
+    "Isha": 17.5
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "QATAR": {
+   "id": 10,
+   "name": "Qatar",
+   "params": {
+    "Fajr": 18,
+    "Isha": "90 min"
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "SINGAPORE": {
+   "id": 11,
+   "name": "Majlis Ugama Islam Singapura, Singapore",
+   "params": {
+    "Fajr": 20,
+    "Isha": 18
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "FRANCE": {
+   "id": 12,
+   "name": "Union Organization Islamic de France",
+   "params": {
+    "Fajr": 12,
+    "Isha": 12
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "TURKEY": {
+   "id": 13,
+   "name": "Diyanet İşleri Başkanlığı, Turkey (experimental)",
+   "params": {
+    "Fajr": 18,
+    "Isha": 17
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": -7,
+    "Dhuhr": 5,
+    "Asr": 4,
+    "Maghrib": 7,
+    "Sunset": 7,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "RUSSIA": {
+   "id": 14,
+   "name": "Spiritual Administration of Muslims of Russia",
+   "params": {
+    "Fajr": 16,
+    "Isha": 15
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "MOONSIGHTING": {
+   "id": 15,
+   "name": "Moonsighting Committee Worldwide (Moonsighting.com)",
+   "params": {
+    "shafaq": "general"
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "NONE",
+   "midnightMode": "STANDARD"
+  },
+  "DUBAI": {
+   "id": 16,
+   "name": "Dubai (experimental)",
+   "params": {
+    "Fajr": 18.2,
+    "Isha": 18.2
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 3,
+    "Asr": 0,
+    "Maghrib": 3,
+    "Sunset": 3,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "JAKIM": {
+   "id": 17,
+   "name": "Jabatan Kemajuan Islam Malaysia (JAKIM)",
+   "params": {
+    "Fajr": 20,
+    "Isha": 18
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "TUNISIA": {
+   "id": 18,
+   "name": "Tunisia",
+   "params": {
+    "Fajr": 18,
+    "Isha": 18
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "ALGERIA": {
+   "id": 19,
+   "name": "Algeria",
+   "params": {
+    "Fajr": 18,
+    "Isha": 17
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "KEMENAG": {
+   "id": 20,
+   "name": "Kementerian Agama Republik Indonesia",
+   "params": {
+    "Fajr": 20,
+    "Isha": 18
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "MOROCCO": {
+   "id": 21,
+   "name": "Morocco",
+   "params": {
+    "Fajr": 19,
+    "Isha": 17
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 5,
+    "Asr": 0,
+    "Maghrib": 5,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "PORTUGAL": {
+   "id": 22,
+   "name": "Comunidade Islamica de Lisboa",
+   "params": {
+    "Fajr": 18,
+    "Maghrib": "3 min",
+    "Isha": "77 min"
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 5,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  },
+  "JORDAN": {
+   "id": 23,
+   "name": "Ministry of Awqaf, Islamic Affairs and Holy Places, Jordan",
+   "params": {
+    "Fajr": 18,
+    "Maghrib": "5 min",
+    "Isha": 18
+   },
+   "offset": {
+    "Imsak": 0,
+    "Fajr": 0,
+    "Sunrise": 0,
+    "Dhuhr": 0,
+    "Asr": 0,
+    "Maghrib": 0,
+    "Sunset": 0,
+    "Isha": 0,
+    "Midnight": 0
+   },
+   "latitudeAdjustmentMethod": "ANGLE_BASED",
+   "midnightMode": "STANDARD"
+  }
+ }
+}

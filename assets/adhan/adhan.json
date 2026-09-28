@@ -1,0 +1,80 @@
+{
+  "$comment": "Bundled adhan recordings supplied by the project owner. source_url and license must be confirmed by the owner before release (npm run check:release). short_end_s is the end of the first takbir, used by the Short mode.",
+  "adhans": [
+    {
+      "id": "makkah-ibrahim-almadani",
+      "name_ar": "أذان المسجد الحرام — الشيخ إبراهيم المدني",
+      "name_en": "Masjid al-Haram — Sheikh Ibrahim Al-Madani",
+      "muezzin": "Ibrahim Al-Madani",
+      "muezzin_ar": "إبراهيم المدني",
+      "file": "makkah-ibrahim-almadani.mp3",
+      "is_fajr": false,
+      "duration_s": 206.97,
+      "short_end_s": null,
+      "sha256": "2d02d57311f8308ab7d2630ac036935afce67b56026d5281f2a10b1e50c5469e",
+      "original_name": "أذان  1 رجب 1446هـ. بصوت مؤذن المسجد الحرام الشيخ ابراهيم المدني -حفظه الله-.mp3",
+      "source_url": "UNVERIFIED",
+      "license": "UNVERIFIED"
+    },
+    {
+      "id": "nasser-alqatami",
+      "name_ar": "أذان الشيخ ناصر القطامي",
+      "name_en": "Sheikh Nasser Al-Qatami",
+      "muezzin": "Nasser Al-Qatami",
+      "muezzin_ar": "ناصر القطامي",
+      "file": "nasser-alqatami.mp3",
+      "is_fajr": false,
+      "duration_s": 127.37,
+      "short_end_s": null,
+      "sha256": "4e5c55059330c57910b0ce01fff78d26e4db50dfc88aacd042a347bf9ba0a16f",
+      "original_name": "أروع ما قد تسمعه في حياتك .. أذان من الشيخ ناصر القطامي.mp3",
+      "source_url": "UNVERIFIED",
+      "license": "UNVERIFIED"
+    },
+    {
+      "id": "madinah-maghrib",
+      "name_ar": "أذان المغرب — المسجد النبوي",
+      "name_en": "Al-Masjid an-Nabawi — Maghrib",
+      "muezzin": "Muezzin of al-Masjid an-Nabawi (name to confirm)",
+      "muezzin_ar": "مؤذن المسجد النبوي (يُستكمل الاسم)",
+      "file": "madinah-maghrib.mp3",
+      "is_fajr": false,
+      "duration_s": 230.9,
+      "short_end_s": null,
+      "sha256": "cebfca67408f2603440cc9df2565ca5618386d8c6ecf3df8cc2d9a5d27033ffd",
+      "original_name": "من رحاب #المسجد_النبوي أذان #المغرب للمؤذن محمد بن.MP3",
+      "source_url": "UNVERIFIED",
+      "license": "UNVERIFIED"
+    },
+    {
+      "id": "fajr-marwan-qassas",
+      "name_ar": "أذان الفجر — محمد مروان قصاص",
+      "name_en": "Fajr — Mohammed Marwan Qassas",
+      "muezzin": "Mohammed Marwan Qassas",
+      "muezzin_ar": "محمد مروان قصاص",
+      "file": "fajr-marwan-qassas.mp3",
+      "is_fajr": true,
+      "duration_s": 307.8,
+      "short_end_s": null,
+      "sha256": "515f9c13150e2611f0b2671e924c71ca5797bbf5e097882d4d9aeacadc52bd41",
+      "original_name": "اذان الفجر بصوت المؤذن محمد مروان قصاص السبت العاشر من صفر 1443.mp3",
+      "source_url": "UNVERIFIED",
+      "license": "UNVERIFIED"
+    },
+    {
+      "id": "fajr-makkah-sheikh-almuadhinin",
+      "name_ar": "أذان الفجر المكي — شيخ المؤذنين في الحرم المكي",
+      "name_en": "Makkah Fajr — Sheikh of the muezzins of al-Masjid al-Haram",
+      "muezzin": "Sheikh of the muezzins of al-Masjid al-Haram",
+      "muezzin_ar": "شيخ المؤذنين في الحرم المكي",
+      "file": "fajr-makkah-sheikh-almuadhinin.mp3",
+      "is_fajr": true,
+      "duration_s": 248.48,
+      "short_end_s": null,
+      "sha256": "a39c862816d549711dfb330cb218696f685974a7819a44969f544cde48753615",
+      "original_name": ".. الأذان المكي بصوت شيخ المؤذنين في الحرم المكي الفجر.mp3",
+      "source_url": "UNVERIFIED",
+      "license": "UNVERIFIED"
+    }
+  ]
+}

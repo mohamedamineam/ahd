@@ -1,0 +1,456 @@
+{
+ "note": "Shared by src/features/prayer/displayState.test.ts and src-tauri/src/display.rs tests. Times are UTC.",
+ "timeline": [
+  {
+   "id": "isha",
+   "iso": "2026-09-23T19:55:30Z",
+   "at": 1790193330000,
+   "isFriday": false,
+   "date": "2026-09-23"
+  },
+  {
+   "id": "fajr",
+   "iso": "2026-09-24T05:02:10Z",
+   "at": 1790226130000,
+   "isFriday": false,
+   "date": "2026-09-24"
+  },
+  {
+   "id": "sunrise",
+   "iso": "2026-09-24T06:28:00Z",
+   "at": 1790231280000,
+   "isFriday": false,
+   "date": "2026-09-24"
+  },
+  {
+   "id": "dhuhr",
+   "iso": "2026-09-24T12:31:40Z",
+   "at": 1790253100000,
+   "isFriday": false,
+   "date": "2026-09-24"
+  },
+  {
+   "id": "asr",
+   "iso": "2026-09-24T15:58:20Z",
+   "at": 1790265500000,
+   "isFriday": false,
+   "date": "2026-09-24"
+  },
+  {
+   "id": "maghrib",
+   "iso": "2026-09-24T18:33:05Z",
+   "at": 1790274785000,
+   "isFriday": false,
+   "date": "2026-09-24"
+  },
+  {
+   "id": "isha",
+   "iso": "2026-09-24T19:54:30Z",
+   "at": 1790279670000,
+   "isFriday": false,
+   "date": "2026-09-24"
+  },
+  {
+   "id": "fajr",
+   "iso": "2026-09-25T05:03:15Z",
+   "at": 1790312595000,
+   "isFriday": true,
+   "date": "2026-09-25"
+  },
+  {
+   "id": "sunrise",
+   "iso": "2026-09-25T06:29:00Z",
+   "at": 1790317740000,
+   "isFriday": true,
+   "date": "2026-09-25"
+  },
+  {
+   "id": "dhuhr",
+   "iso": "2026-09-25T12:31:20Z",
+   "at": 1790339480000,
+   "isFriday": true,
+   "date": "2026-09-25"
+  },
+  {
+   "id": "asr",
+   "iso": "2026-09-25T15:57:00Z",
+   "at": 1790351820000,
+   "isFriday": true,
+   "date": "2026-09-25"
+  },
+  {
+   "id": "maghrib",
+   "iso": "2026-09-25T18:31:40Z",
+   "at": 1790361100000,
+   "isFriday": true,
+   "date": "2026-09-25"
+  },
+  {
+   "id": "isha",
+   "iso": "2026-09-25T19:53:00Z",
+   "at": 1790365980000,
+   "isFriday": true,
+   "date": "2026-09-25"
+  },
+  {
+   "id": "fajr",
+   "iso": "2026-09-26T05:04:20Z",
+   "at": 1790399060000,
+   "isFriday": false,
+   "date": "2026-09-26"
+  }
+ ],
+ "cases": [
+  {
+   "name": "countdown starts exactly at -30:00",
+   "now": 1790224330000,
+   "nowIso": "2026-09-24T04:32:10.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 1800,
+    "value": "−30:00"
+   }
+  },
+  {
+   "name": "one second before the threshold is still elapsed since yesterday Isha",
+   "now": 1790224329000,
+   "nowIso": "2026-09-24T04:32:09.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "isha",
+    "eventAt": 1790193330000,
+    "seconds": 30999
+   }
+  },
+  {
+   "name": "one second into the countdown shows -29:59",
+   "now": 1790224331000,
+   "nowIso": "2026-09-24T04:32:11.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 1799,
+    "value": "−29:59"
+   }
+  },
+  {
+   "name": "half a second before the prayer rounds up to -00:01",
+   "now": 1790226129500,
+   "nowIso": "2026-09-24T05:02:09.500Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 1,
+    "value": "−00:01"
+   }
+  },
+  {
+   "name": "exactly at the prayer time: elapsed +0:00 for the new prayer",
+   "now": 1790226130000,
+   "nowIso": "2026-09-24T05:02:10.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 0,
+    "value": "+00:00:00"
+   }
+  },
+  {
+   "name": "one second after the prayer",
+   "now": 1790226131000,
+   "nowIso": "2026-09-24T05:02:11.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 1,
+    "value": "+00:00:01"
+   }
+  },
+  {
+   "name": "sunrise included: countdown to sunrise",
+   "now": 1790230680000,
+   "nowIso": "2026-09-24T06:18:00.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "sunrise",
+    "eventAt": 1790231280000,
+    "seconds": 600,
+    "value": "−10:00"
+   }
+  },
+  {
+   "name": "sunrise excluded: still elapsed since Fajr before sunrise",
+   "now": 1790230680000,
+   "nowIso": "2026-09-24T06:18:00.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": false
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 4550
+   }
+  },
+  {
+   "name": "sunrise excluded: elapsed from Fajr continues after sunrise",
+   "now": 1790234880000,
+   "nowIso": "2026-09-24T07:28:00.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": false
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 8750
+   }
+  },
+  {
+   "name": "sunrise excluded: countdown to Dhuhr",
+   "now": 1790251301000,
+   "nowIso": "2026-09-24T12:01:41.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": false
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "dhuhr",
+    "eventAt": 1790253100000,
+    "seconds": 1799,
+    "value": "−29:59"
+   }
+  },
+  {
+   "name": "elapsed with hours",
+   "now": 1790269860000,
+   "nowIso": "2026-09-24T17:11:00.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "asr",
+    "eventAt": 1790265500000,
+    "seconds": 4360,
+    "value": "+01:12:40",
+    "valueShort": "+1:12"
+   }
+  },
+  {
+   "name": "after Isha: elapsed since Isha",
+   "now": 1790290470000,
+   "nowIso": "2026-09-24T22:54:30.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "isha",
+    "eventAt": 1790279670000,
+    "seconds": 10800
+   }
+  },
+  {
+   "name": "after midnight: prev is yesterday Isha",
+   "now": 1790294400000,
+   "nowIso": "2026-09-25T00:00:00.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "isha",
+    "eventAt": 1790279670000,
+    "seconds": 14730
+   }
+  },
+  {
+   "name": "after Isha: countdown to tomorrow Fajr",
+   "now": 1790311695000,
+   "nowIso": "2026-09-25T04:48:15.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "fajr",
+    "eventAt": 1790312595000,
+    "seconds": 900,
+    "value": "−15:00"
+   }
+  },
+  {
+   "name": "Friday Dhuhr is flagged",
+   "now": 1790339780000,
+   "nowIso": "2026-09-25T12:36:20.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "dhuhr",
+    "eventAt": 1790339480000,
+    "seconds": 300,
+    "isFriday": true
+   }
+  },
+  {
+   "name": "threshold 5: exactly five minutes before",
+   "now": 1790265200000,
+   "nowIso": "2026-09-24T15:53:20.000Z",
+   "settings": {
+    "thresholdMinutes": 5,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "asr",
+    "eventAt": 1790265500000,
+    "seconds": 300,
+    "value": "−05:00"
+   }
+  },
+  {
+   "name": "threshold 5: five minutes and one second before",
+   "now": 1790265199000,
+   "nowIso": "2026-09-24T15:53:19.000Z",
+   "settings": {
+    "thresholdMinutes": 5,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "dhuhr",
+    "eventAt": 1790253100000,
+    "seconds": 12099
+   }
+  },
+  {
+   "name": "threshold 120: long countdown format",
+   "now": 1790267586000,
+   "nowIso": "2026-09-24T16:33:06.000Z",
+   "settings": {
+    "thresholdMinutes": 120,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "maghrib",
+    "eventAt": 1790274785000,
+    "seconds": 7199,
+    "value": "−1:59:59",
+    "longCountdown": true
+   }
+  },
+  {
+   "name": "threshold 120: under an hour keeps h:mm:ss",
+   "now": 1790272986000,
+   "nowIso": "2026-09-24T18:03:06.000Z",
+   "settings": {
+    "thresholdMinutes": 120,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "maghrib",
+    "eventAt": 1790274785000,
+    "seconds": 1799,
+    "value": "−0:29:59",
+    "longCountdown": true
+   }
+  },
+  {
+   "name": "threshold 120: exactly two hours before",
+   "now": 1790267585000,
+   "nowIso": "2026-09-24T16:33:05.000Z",
+   "settings": {
+    "thresholdMinutes": 120,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "maghrib",
+    "eventAt": 1790274785000,
+    "seconds": 7200
+   }
+  },
+  {
+   "name": "threshold 120: two hours and one second before",
+   "now": 1790267584000,
+   "nowIso": "2026-09-24T16:33:04.000Z",
+   "settings": {
+    "thresholdMinutes": 120,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "asr",
+    "eventAt": 1790265500000,
+    "seconds": 2084
+   }
+  },
+  {
+   "name": "before the first known event: no state",
+   "now": 1790193329000,
+   "nowIso": "2026-09-23T19:55:29.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": null
+  },
+  {
+   "name": "after the last known event: no state",
+   "now": 1790399061000,
+   "nowIso": "2026-09-26T05:04:21.000Z",
+   "settings": {
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": null
+  }
+ ]
+}

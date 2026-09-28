@@ -1,0 +1,120 @@
+/* Sakan design tokens — "Sage & Linen" (light, default) and "Sage & Night" (dark).
+   Values are the design brief's exact colours. Other palettes and custom colours are generated at runtime
+   by src/design/palette.ts in OKLCH (same lightness per role, clamped chroma) and written over these
+   variables on <html>, so these are also the no-JS fallback. */
+
+:root {
+  color-scheme: light;
+  --bg: #ece7db;
+  --surface: #f5f2ea;
+  --surface-raised: #faf8f3;
+  --surface-sunk: #e3dccb;
+  --line: #d4cbb7;
+  --line-soft: #e0d8c6;
+  --ink: #26302a;
+  --ink-muted: #5d665e;
+  --ink-faint: #7f877f;
+  --sage: #6f8a74;
+  --sage-strong: #4e6754;
+  --sage-soft: #dce3d8;
+  --sand: #b9a780;
+  --sand-soft: #e8dfcb;
+  --ochre: #a8864f;
+  --ochre-strong: #7e6333;
+  --ochre-soft: #efe3cc;
+  --danger: #9c5f55;
+  --danger-soft: #f1dfda;
+  --focus-ring: #6f8a74;
+  --on-sage: #f7f5ef;
+
+  /* time-of-day tints (accents only) */
+  --tod-dawn: #9aa6b8;
+  --tod-sunrise: #c9b48e;
+  --tod-noon: #bdb79a;
+  --tod-afternoon: #b7a37e;
+  --tod-sunset: #b08e7a;
+  --tod-night: #6e7890;
+
+  --shadow-color: 38 34 24;
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-color) / 0.06), 0 1px 1px rgb(var(--shadow-color) / 0.04);
+  --shadow-md: 0 6px 18px -6px rgb(var(--shadow-color) / 0.16), 0 2px 4px rgb(var(--shadow-color) / 0.05);
+  --shadow-lg: 0 24px 48px -16px rgb(var(--shadow-color) / 0.24), 0 4px 10px rgb(var(--shadow-color) / 0.06);
+  --pattern-opacity: 0.045;
+
+  --radius-hero: 20px;
+  --radius-panel: 14px;
+  --radius-control: 10px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --dur-slow: 420ms;
+
+  --font-ui: 'IBM Plex Sans', 'IBM Plex Sans Arabic', system-ui, 'Segoe UI', sans-serif;
+  --font-display: 'Reem Kufi', 'IBM Plex Sans Arabic', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-dhikr: 'Amiri', 'IBM Plex Sans Arabic', serif;
+
+  /* Major-third type scale: 12 / 14 / 16 / 20 / 25 / 31 / 39 / 61 */
+  --text-2xs: 0.75rem;
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5625rem;
+  --text-xl: 1.9375rem;
+  --text-2xl: 2.4375rem;
+  --text-hero: 3.8125rem;
+
+  --ui-scale: 1;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #131915;
+  --surface: #1a221d;
+  --surface-raised: #1f2822;
+  --surface-sunk: #0f1411;
+  --line: #2c3630;
+  --line-soft: #242d27;
+  --ink: #e6e1d4;
+  --ink-muted: #9fa79d;
+  --ink-faint: #798178;
+  --sage: #8ea993;
+  --sage-strong: #b5c8b7;
+  --sage-soft: #22302a;
+  --sand: #cbbb97;
+  --sand-soft: #2a2a21;
+  --ochre: #c7a56a;
+  --ochre-strong: #dcc08b;
+  --ochre-soft: #2e2819;
+  --danger: #c98276;
+  --danger-soft: #33211e;
+  --focus-ring: #8ea993;
+  --on-sage: #121813;
+
+  --tod-dawn: #8793a6;
+  --tod-sunrise: #b9a47e;
+  --tod-noon: #ada88c;
+  --tod-afternoon: #a79470;
+  --tod-sunset: #a0806d;
+  --tod-night: #7b86a0;
+
+  --shadow-color: 0 0 0;
+  --shadow-sm: 0 1px 2px rgb(var(--shadow-color) / 0.3);
+  --shadow-md: 0 8px 20px -8px rgb(var(--shadow-color) / 0.55), 0 2px 4px rgb(var(--shadow-color) / 0.25);
+  --shadow-lg: 0 28px 56px -18px rgb(var(--shadow-color) / 0.7), 0 4px 10px rgb(var(--shadow-color) / 0.3);
+  --pattern-opacity: 0.035;
+}
+
+/* Mark dome gradient per theme (pearl dome on dark surfaces) */
+:root {
+  --mark-dome-a: #a9c3ac;
+  --mark-dome-b: #6e9179;
+  --mark-dome-c: #34543f;
+}
+:root[data-theme='dark'] {
+  --mark-dome-a: #f6f1e3;
+  --mark-dome-b: #d2ddcb;
+  --mark-dome-c: #98b19d;
+}
