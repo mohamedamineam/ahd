@@ -100,8 +100,8 @@ fn size_of(label: &str, cfg: &WindowsConfig) -> (f64, f64) {
         // room for the stop button that appears while the adhan plays
         WIDGET if cfg.main_widget.size == "L" => (300.0, 448.0),
         WIDGET => (300.0, 372.0),
-        // wide enough for the longest prayer name, a timer with seconds and the stop button
-        MINI => (248.0, 48.0),
+        // snug: the longest prayer name and a timer with seconds, with a small space between them
+        MINI => (226.0, 48.0),
         PANEL => (300.0, 440.0),
         PILL => (164.0, 34.0),
         TOAST => (400.0, f64::from(TOAST_HEIGHT.load(Ordering::Relaxed))),

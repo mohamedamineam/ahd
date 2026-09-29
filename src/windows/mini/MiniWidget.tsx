@@ -19,23 +19,26 @@ export default function MiniWidget() {
       <div
         data-tauri-drag-region={!locked || undefined}
         onDoubleClick={() => void api.showMain()}
-        className="relative flex h-full w-full items-center gap-2.5 overflow-hidden rounded-full border border-line-soft ps-3.5 pe-4 shadow-md"
+        className="relative flex h-full w-full items-center justify-between gap-3 overflow-hidden rounded-full border border-line-soft ps-3.5 pe-4 shadow-md"
         style={{ background: `color-mix(in oklab, var(--surface) ${Math.round(cfg.opacity * 100)}%, transparent)` }}
       >
-        {playing ? (
-          // while the adhan plays, the stop button takes the dot's place (nothing else has to shrink)
-          <button type="button" aria-label="stop" onClick={() => void api.stopAdhan()} className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sage-strong text-on-sage">
-            <span className="h-2 w-2 rounded-[2px] bg-current" />
-          </button>
-        ) : (
-          <span className={clsx('h-2.5 w-2.5 shrink-0 rounded-full', countdown ? 'bg-ochre' : 'bg-sage-strong')} style={countdown ? { animation: 'ahd-breathe 2s ease-in-out infinite' } : undefined} />
-        )}
-        {cfg.showName ? (
-          <span className="font-display shrink-0 whitespace-nowrap text-[1rem] leading-none text-ink" data-tauri-drag-region={!locked || undefined}>
-            {label(state?.event)}
-          </span>
-        ) : null}
-        <bdi dir="ltr" className={clsx('tabular ms-auto shrink-0 whitespace-nowrap text-[1rem] leading-none font-medium', countdown ? 'text-ochre-strong' : 'text-sage-strong')} data-tauri-drag-region={!locked || undefined}>
+        {/* the prayer (with its dot) on one side, the timer on the other; any spare room stays between them */}
+        <span className="flex min-w-0 items-center gap-2.5" data-tauri-drag-region={!locked || undefined}>
+          {playing ? (
+            // while the adhan plays, the stop button takes the dot's place (nothing else has to shrink)
+            <button type="button" aria-label="stop" onClick={() => void api.stopAdhan()} className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sage-strong text-on-sage">
+              <span className="h-2 w-2 rounded-[2px] bg-current" />
+            </button>
+          ) : (
+            <span className={clsx('h-2.5 w-2.5 shrink-0 rounded-full', countdown ? 'bg-ochre' : 'bg-sage-strong')} style={countdown ? { animation: 'ahd-breathe 2s ease-in-out infinite' } : undefined} />
+          )}
+          {cfg.showName ? (
+            <span className="font-display whitespace-nowrap text-[1rem] leading-none text-ink" data-tauri-drag-region={!locked || undefined}>
+              {label(state?.event)}
+            </span>
+          ) : null}
+        </span>
+        <bdi dir="ltr" className={clsx('tabular shrink-0 whitespace-nowrap text-[1rem] leading-none font-medium', countdown ? 'text-ochre-strong' : 'text-sage-strong')} data-tauri-drag-region={!locked || undefined}>
           {value({ seconds: cfg.seconds })}
         </bdi>
         <span className="absolute inset-x-4 bottom-0 h-[2px] rounded-full bg-line-soft">
