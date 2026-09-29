@@ -201,6 +201,27 @@ fn clamp_to_screen<R: Runtime>(app: &AppHandle<R>, pos: (i32, i32), size: (i32, 
 
 // ------------------------------------------------------------------ creation
 
+/// Runs work that may create a window where that cannot deadlock.
+///
+/// On Windows, WebView2 creates a window asynchronously on the main thread. Building one *from* the main thread —
+/// synchronous commands and tray/menu handlers all run there — waits for a step that can never run, and the whole
+/// app freezes (nothing responds, not even Quit). There the work goes to a worker thread, which waits while the
+/// main thread builds the window; a lock keeps two calls from creating the same window at once. GTK must be used
+/// from the main thread, so elsewhere the work runs in place.
+pub fn with_windows<R: Runtime>(app: &AppHandle<R>, work: impl FnOnce(&AppHandle<R>) + Send + 'static) {
+    #[cfg(windows)]
+    {
+        static LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+        let app = app.clone();
+        std::thread::spawn(move || {
+            let _guard = LOCK.lock().unwrap_or_else(|e| e.into_inner());
+            work(&app);
+        });
+    }
+    #[cfg(not(windows))]
+    work(app);
+}
+
 fn build<R: Runtime>(app: &AppHandle<R>, label: &str, cfg: &WindowsConfig) -> tauri::Result<WebviewWindow<R>> {
     if let Some(w) = app.get_webview_window(label) {
         return Ok(w);
@@ -347,15 +368,18 @@ pub fn precreate_panel<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
 }
 
 pub fn toggle_panel<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
-    if let Ok(w) = build(app, PANEL, cfg) {
-        if w.is_visible().unwrap_or(false) {
-            let _ = w.hide();
-        } else {
-            let _ = place_default(&w, PANEL, cfg);
-            let _ = w.show();
-            let _ = w.set_focus();
+    let cfg = cfg.clone();
+    with_windows(app, move |app| {
+        if let Ok(w) = build(app, PANEL, &cfg) {
+            if w.is_visible().unwrap_or(false) {
+                let _ = w.hide();
+            } else {
+                let _ = place_default(&w, PANEL, &cfg);
+                let _ = w.show();
+                let _ = w.set_focus();
+            }
         }
-    }
+    });
 }
 
 pub fn show_toast<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig, payload: &impl Serialize) {
@@ -366,15 +390,16 @@ pub fn show_toast<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig, payload: 
         *t = Some(value.clone());
     }
     TOAST_HEIGHT.store(TOAST_COMPACT, Ordering::Relaxed);
-    match build(app, TOAST, cfg) {
+    let cfg = cfg.clone();
+    with_windows(app, move |app| match build(app, TOAST, &cfg) {
         Ok(w) => {
-            resize_fixed(&w, TOAST, cfg);
-            let _ = place_default(&w, TOAST, cfg);
+            resize_fixed(&w, TOAST, &cfg);
+            let _ = place_default(&w, TOAST, &cfg);
             let _ = app.emit_to(TOAST, "ahd://toast", value);
             let _ = w.show();
         }
         Err(e) => log::error!("toast: {e}"),
-    }
+    });
 }
 
 fn resize_fixed<R: Runtime>(w: &WebviewWindow<R>, label: &str, cfg: &WindowsConfig) {

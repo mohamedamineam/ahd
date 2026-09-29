@@ -165,7 +165,8 @@ pub fn apply_windows(app: AppHandle<Wry>, state: State<'_, AppState>, config: Wi
     if let Ok(mut c) = state.config.write() {
         *c = config.clone();
     }
-    windows::apply(&app, &config);
+    let cfg = config.clone();
+    windows::with_windows(&app, move |app| windows::apply(app, &cfg));
     crate::tray::set_visible(&state, !(cfg!(windows) && config.indicator.enabled && config.indicator.hide_tray_icon));
     apply_autostart(&app, config.start_with_system);
     if changed_shortcut || state.shortcut.lock().map(|s| s.is_none()).unwrap_or(true) {
