@@ -69,11 +69,13 @@ jobs:
           args: ${{ matrix.args }}
 
   checksums:
-    name: SHA256SUMS
+    name: Stable names and SHA256SUMS
     needs: build
     runs-on: ubuntu-24.04
     steps:
-      - name: Checksums of all release files
+      # Copies with version-free names, so the website can link to
+      # https://github.com/<owner>/ahd/releases/latest/download/<name> (a direct download of the newest release).
+      - name: Stable file names and checksums
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
@@ -81,7 +83,12 @@ jobs:
         run: |
           mkdir assets && cd assets
           gh release download "$TAG" --repo "$REPO" --pattern '*' --skip-existing
-          rm -f SHA256SUMS
+          rm -f SHA256SUMS Ahd-windows-* Ahd-linux-*
+          cp *_x64-setup.exe Ahd-windows-x64-setup.exe
+          cp *_x64_en-US.msi Ahd-windows-x64.msi
+          cp *_amd64.deb Ahd-linux-amd64.deb
+          cp *.x86_64.rpm Ahd-linux-x86_64.rpm
+          cp *_amd64.AppImage Ahd-linux-x86_64.AppImage
           sha256sum * > SHA256SUMS
           cat SHA256SUMS
-          gh release upload "$TAG" SHA256SUMS --repo "$REPO" --clobber
+          gh release upload "$TAG" Ahd-windows-* Ahd-linux-* SHA256SUMS --repo "$REPO" --clobber

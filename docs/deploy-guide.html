@@ -172,9 +172,9 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
       <div class="prose">
         <ol>
           <li>Open <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a> and create a free account.</li>
-          <li><b>Choose the username carefully.</b> It becomes part of the app ID and of every link: <code>io.github.USERNAME.Ahd</code> and <code>github.com/USERNAME/ahd</code>. Short, lowercase, and without dashes is simplest (Flathub turns a dash into an underscore in the ID).</li>
+          <li><b>Choose the username carefully.</b> It becomes part of the app ID and of every link: <code>io.github.mohamedamineam.Ahd</code> and <code>github.com/mohamedamineam/ahd</code>. Short, lowercase, and without dashes is simplest (Flathub turns a dash into an underscore in the ID).</li>
           <li>Turn on two-factor authentication: profile picture → <b>Settings</b> → <b>Password and authentication</b>. GitHub asks for it anyway before you can publish code.</li>
-          <li><b>Send the username to Claude.</b> The project currently uses the placeholder <code>ahdapp</code>; it has to be replaced everywhere (app ID, links, store listing, catalogue address) before the first release.</li>
+          <li>Done: the project now uses the username <code>mohamedamineam</code> everywhere (app ID <code>io.github.mohamedamineam.Ahd</code>, links, catalogue address).</li>
         </ol>
       </div>
     </section>
@@ -190,7 +190,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
       <div class="cmd"><div class="bar"><span>Terminal · create the repository and upload</span><button type="button" data-copy>Copy</button></div><pre>cd "/media/iamiinne/SSD 2/Ahd"
 gh repo create ahd --public --source=. --remote=origin --push</pre></div>
       <div class="prose">
-        <p>After this, <code>github.com/USERNAME/ahd</code> shows the project. Two optional touches on the repository page:</p>
+        <p>After this, <code>github.com/mohamedamineam/ahd</code> shows the project. Two optional touches on the repository page:</p>
         <ul>
           <li><b>Settings → General → Social preview</b>: upload <code>branding/png/github-social-preview-1280x640.png</code>.</li>
           <li><b>About</b> (gear icon on the right): add a short description and the topics <code>prayer-times</code>, <code>islam</code>, <code>quran</code>.</li>
@@ -201,12 +201,12 @@ gh repo create ahd --public --source=. --remote=origin --push</pre></div>
 
     <section class="step" id="before">
       <div class="head"><span class="num">3</span><h2>Before the first release</h2></div>
-      <div class="callout warn"><span class="t">The release build stops until this is done</span><p>For each of the five adhan recordings, the project must record where it comes from and that it may be shared (<code>assets/adhan/adhan.json</code>, fields <code>source_url</code> and <code>license</code>, now marked UNVERIFIED). Send Claude the details and they will be filled in. Publishing recordings without permission can get the app removed from stores.</p></div>
+      <div class="callout info"><span class="t">Adhan recordings: recorded</span><p>The five recordings are listed as public YouTube uploads that you state are shared freely, with each muezzin named (<code>assets/adhan/adhan.json</code>). The release check now passes.</p></div>
       <div class="prose">
         <ul>
           <li><b>Books on archive.org</b> (Sahih al-Bukhari, الرحيق المختوم): their pages do not state a licence. The app only downloads them from archive.org when a user asks, but please confirm you are comfortable listing them.</li>
           <li><b>Version number</b>: <code>0.1.0</code> for the first release. Claude updates it in all the files that carry it.</li>
-          <li><b>Privacy policy link</b>, needed by the stores: <code>https://github.com/USERNAME/ahd/blob/main/docs/PRIVACY.md</code>.</li>
+          <li><b>Privacy policy link</b>, needed by the stores: <code>https://github.com/mohamedamineam/ahd/blob/main/docs/PRIVACY.md</code>.</li>
         </ul>
       </div>
     </section>
@@ -262,9 +262,9 @@ npm run tauri build
       <div class="prose">
         <p>Flathub apps appear in the software centres of Linux Mint, Fedora, Ubuntu (with Flatpak) and others. Its rules that matter here:</p>
         <ul>
-          <li>Open-source apps are <b>built from source</b> by Flathub, offline. The recipe (manifest) is ready at <code>packaging/flatpak/io.github.ahdapp.Ahd.yml</code>; two lists of dependencies are generated for each release.</li>
-          <li>The repository <code>github.com/USERNAME/ahd</code> must exist and match the app ID.</li>
-          <li>The app description file must validate (it does: <code>packaging/linux/io.github.ahdapp.Ahd.metainfo.xml</code>).</li>
+          <li>Open-source apps are <b>built from source</b> by Flathub, offline. The recipe (manifest) is ready at <code>packaging/flatpak/io.github.mohamedamineam.Ahd.yml</code>; two lists of dependencies are generated for each release.</li>
+          <li>The repository <code>github.com/mohamedamineam/ahd</code> must exist and match the app ID.</li>
+          <li>The app description file must validate (it does: <code>packaging/linux/io.github.mohamedamineam.Ahd.metainfo.xml</code>).</li>
         </ul>
         <ol>
           <li>Publish the first GitHub release (step 4).</li>
@@ -338,8 +338,8 @@ node scripts/export-logos.ts</pre></div>
       <div class="prose"><p>Ticks are saved in this browser only.</p></div>
       <div class="checklist" id="checklist">
         <label><input type="checkbox" id="c-account"><span>GitHub account created, two-factor authentication on</span></label>
-        <label><input type="checkbox" id="c-username"><span>Username sent to Claude (replaces <code>ahdapp</code>)</span></label>
-        <label><input type="checkbox" id="c-adhan"><span>Source and permission of the five adhan recordings sent to Claude</span></label>
+        <label><input type="checkbox" id="c-username"><span>Username set in the project (<code>mohamedamineam</code>)</span></label>
+        <label><input type="checkbox" id="c-adhan" checked><span>Source of the five adhan recordings recorded</span></label>
         <label><input type="checkbox" id="c-books"><span>Confirmed the two archive.org books may stay in the library</span></label>
         <label><input type="checkbox" id="c-push"><span>Code uploaded with <code>gh repo create … --push</code></span></label>
         <label><input type="checkbox" id="c-release"><span>Tag <code>v0.1.0</code> pushed, draft release tested and published</span></label>

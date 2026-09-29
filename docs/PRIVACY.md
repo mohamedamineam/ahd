@@ -34,4 +34,4 @@ online or open the online map, and then only as described above.
 
 ## Contact
 
-Report privacy concerns at https://github.com/ahdapp/ahd/issues.
+Report privacy concerns at https://github.com/mohamedamineam/ahd/issues.

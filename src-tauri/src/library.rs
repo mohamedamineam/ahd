@@ -57,7 +57,7 @@ pub async fn download<R: Runtime>(app: &AppHandle<R>, id: &str, url: &str, forma
     let dest = dir(app)?.join(format!("{id}.{ext}"));
     let tmp = dest.with_extension(format!("{ext}.part"));
     let client = reqwest::Client::builder()
-        .user_agent(format!("Ahd/{} (https://github.com/ahdapp/ahd)", app.package_info().version))
+        .user_agent(format!("Ahd/{} (https://github.com/mohamedamineam/ahd)", app.package_info().version))
         .redirect(reqwest::redirect::Policy::custom(|attempt| {
             if attempt.previous().len() > 5 {
                 attempt.error("too many redirects")

@@ -1,0 +1,10 @@
+# Cloudflare Pages project for the Ahd website (see README.md).
+name = "ahd"
+pages_build_output_dir = "public"
+compatibility_date = "2026-07-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ahd-comments"
+# printed by: npx wrangler d1 create ahd-comments
+database_id = "6f1c2a4e-5b7d-4e9a-8c3f-2d1e0b9a7c65"

@@ -3,7 +3,7 @@
   "productName": "Ahd",
   "mainBinaryName": "ahd",
   "version": "0.1.0",
-  "identifier": "io.github.ahdapp.Ahd",
+  "identifier": "io.github.mohamedamineam.Ahd",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -70,7 +70,7 @@
     "copyright": "© 2026 Ahd contributors — GPL-3.0-or-later",
     "license": "GPL-3.0-or-later",
     "licenseFile": "../LICENSE",
-    "homepage": "https://github.com/ahdapp/ahd",
+    "homepage": "https://github.com/mohamedamineam/ahd",
     "category": "Lifestyle",
     "shortDescription": "Prayer times, adhan, Quran, adhkar and qibla",
     "longDescription": "Ahd is a calm, free and private desktop companion for Muslims: accurate prayer times with per-second fine-tuning, the adhan with a notification you can close while it keeps playing, a desktop widget and taskbar indicator, the Quran (Hafs and Warsh), authentic adhkar from Hisn al-Muslim, the qibla direction and a small library of free Islamic books. No ads, no accounts, no tracking.",
@@ -89,9 +89,6 @@
     },
     "linux": {
       "deb": {
-        "depends": [
-          "libayatana-appindicator3-1"
-        ],
         "desktopTemplate": "../packaging/linux/ahd.desktop"
       },
       "rpm": {

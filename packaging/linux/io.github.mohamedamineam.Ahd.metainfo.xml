@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- AppStream metadata (Flathub, GNOME Software, KDE Discover). Validate: appstreamcli validate - -->
 <component type="desktop-application">
-  <id>io.github.ahdapp.Ahd</id>
+  <id>io.github.mohamedamineam.Ahd</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
 
@@ -10,7 +10,7 @@
   <summary>Prayer times, adhan, Quran, adhkar and qibla</summary>
   <summary xml:lang="ar">مواقيت الصلاة والأذان والقرآن والأذكار والقبلة</summary>
 
-  <developer id="io.github.ahdapp">
+  <developer id="io.github.mohamedamineam">
     <name>Ahd contributors</name>
   </developer>
 
@@ -45,7 +45,7 @@
     </ul>
   </description>
 
-  <launchable type="desktop-id">io.github.ahdapp.Ahd.desktop</launchable>
+  <launchable type="desktop-id">io.github.mohamedamineam.Ahd.desktop</launchable>
   <provides>
     <binary>ahd</binary>
   </provides>
@@ -70,9 +70,9 @@
     <keyword xml:lang="ar">أذكار</keyword>
   </keywords>
 
-  <url type="homepage">https://github.com/ahdapp/ahd</url>
-  <url type="bugtracker">https://github.com/ahdapp/ahd/issues</url>
-  <url type="vcs-browser">https://github.com/ahdapp/ahd</url>
+  <url type="homepage">https://github.com/mohamedamineam/ahd</url>
+  <url type="bugtracker">https://github.com/mohamedamineam/ahd/issues</url>
+  <url type="vcs-browser">https://github.com/mohamedamineam/ahd</url>
 
   <branding>
     <color type="primary" scheme_preference="light">#dfe8dc</color>
@@ -82,15 +82,15 @@
   <screenshots>
     <screenshot type="default">
       <caption>Prayer times with the sun's path</caption>
-      <image>https://raw.githubusercontent.com/ahdapp/ahd/main/docs/screenshots/store-home-en-light.png</image>
+      <image>https://raw.githubusercontent.com/mohamedamineam/ahd/main/docs/screenshots/store-home-en-light.png</image>
     </screenshot>
     <screenshot>
       <caption>The Quran in the Hafs and Warsh narrations</caption>
-      <image>https://raw.githubusercontent.com/ahdapp/ahd/main/docs/screenshots/store-quran-ar-light.png</image>
+      <image>https://raw.githubusercontent.com/mohamedamineam/ahd/main/docs/screenshots/store-quran-ar-light.png</image>
     </screenshot>
     <screenshot>
       <caption>Adhkar with counters</caption>
-      <image>https://raw.githubusercontent.com/ahdapp/ahd/main/docs/screenshots/store-adhkar-ar-dark.png</image>
+      <image>https://raw.githubusercontent.com/mohamedamineam/ahd/main/docs/screenshots/store-adhkar-ar-dark.png</image>
     </screenshot>
   </screenshots>
 

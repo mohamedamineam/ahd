@@ -49,8 +49,8 @@ files from the Google Fonts repository (pinned commits, sha256 in data-pipeline/
 
 ## Adhan recordings
 
-Five recordings supplied by the project owner (see assets/adhan/adhan.json). Source and licence of each are
-still to be confirmed by the owner before release.
+Five recordings supplied by the project owner from public YouTube uploads (muezzin named for each in
+assets/adhan/adhan.json). The owner states that adhan recordings are shared freely.
 
 ## Software
 

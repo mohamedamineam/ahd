@@ -9,7 +9,7 @@ import attributions from '../../../../../docs/ATTRIBUTIONS.md?raw';
 import privacy from '../../../../../docs/PRIVACY.md?raw';
 import pkg from '../../../../../package.json';
 
-const REPO = 'https://github.com/ahdapp/ahd';
+const REPO = 'https://github.com/mohamedamineam/ahd';
 
 async function openUrl(url: string) {
   if (IS_TAURI) {

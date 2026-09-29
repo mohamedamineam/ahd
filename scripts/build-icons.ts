@@ -211,10 +211,10 @@ for (const size of [16, 20, 24, 32, 48, 64]) {
 render(squareGlyph('#FFFFFF'), p('src-tauri/icons/notification-glyph-96.png'), 96);
 
 // ---- Flathub / freedesktop
-save('packaging/flatpak/icons/scalable/io.github.ahdapp.Ahd.svg', appIcon);
-save('packaging/flatpak/icons/symbolic/io.github.ahdapp.Ahd-symbolic.svg', squareGlyph('#bebebe', 16 * 12, 6));
+save('packaging/flatpak/icons/scalable/io.github.mohamedamineam.Ahd.svg', appIcon);
+save('packaging/flatpak/icons/symbolic/io.github.mohamedamineam.Ahd-symbolic.svg', squareGlyph('#bebebe', 16 * 12, 6));
 for (const size of [128, 256, 512]) {
-  render(appIcon, p(`packaging/flatpak/icons/${size}x${size}/io.github.ahdapp.Ahd.png`), size);
+  render(appIcon, p(`packaging/flatpak/icons/${size}x${size}/io.github.mohamedamineam.Ahd.png`), size);
 }
 
 // ---- Microsoft Store wide tile + splash (square tiles come from `tauri icon`)

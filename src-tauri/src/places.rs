@@ -75,7 +75,7 @@ impl Places {
             pool: OnceCell::new(),
             last_online: Mutex::new(None),
             cache: Mutex::new(HashMap::new()),
-            user_agent: format!("Ahd/{version} (https://github.com/ahdapp/ahd)"),
+            user_agent: format!("Ahd/{version} (https://github.com/mohamedamineam/ahd)"),
         }
     }
 

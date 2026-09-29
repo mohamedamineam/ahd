@@ -4,12 +4,11 @@ Decisions only the project owner can make. Nothing here blocks local testing.
 
 ## Before the first public release
 
-1. **Adhan recordings** — for each file in `assets/adhan/adhan.json`, the source URL and licence are
-   `UNVERIFIED`. Please add where each recording comes from and confirm it may be redistributed. The release
-   workflow stops until this is done (`npm run check:release`).
-2. **GitHub account** — the app ID `io.github.ahdapp.Ahd`, the update/catalog URLs and the metainfo use the
-   placeholder account `ahdapp`. Tell us the real GitHub user or organisation and everything will be renamed.
-3. **Windows code signing** — choose SignPath (free for open source), Azure Trusted Signing, or ship unsigned
+1. **Adhan recordings** — supplied by the owner from public YouTube uploads; the owner states adhan recordings
+   are shared freely (recorded in `assets/adhan/adhan.json`). If a muezzin or channel asks, replace that recording.
+2. **GitHub account** — `mohamedamineam`; the app ID is `io.github.mohamedamineam.Ahd` (data under the old
+   placeholder ID is moved automatically on first start).
+3. **Windows code signing** (Microsoft Store postponed by the owner) — choose SignPath (free for open source), Azure Trusted Signing, or ship unsigned
    (SmartScreen warnings).
 4. **Updater** — the GitHub build can check for updates (feature `updater`, off by default). It needs a signing
    key pair generated and kept by the maintainer (`npm run tauri signer generate`).

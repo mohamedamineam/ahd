@@ -3,7 +3,7 @@
  * exactly as given — never edited. Cross-checked the same day against alsunna.net/hadith/657
  * («العهدُ الذي بيننا وبينهم الصلاةُ، فمَن تركها فقد كفرَ» — Ahmad 22937, al-Tirmidhi 2621, al-Nasa'i 463,
  * Ibn Majah 1079; Sahih al-Jami' 4143): same words; that copy adds two vowel marks (فمَن، كفرَ).
- * See docs/CONTENT_SOURCES.md.
+ * See docs/ATTRIBUTIONS.md.
  */
 export const AHD_HADITH = {
   intro: 'قال رسول الله صلى الله عليه وسلم:',

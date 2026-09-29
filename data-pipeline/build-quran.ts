@@ -22,7 +22,7 @@ const TANZIL_META = 'https://tanzil.net/res/text/metadata/quran-data.xml';
 async function fetchCached(url: string, file: string): Promise<string> {
   const p = join(cache, file);
   if (!existsSync(p)) {
-    const res = await fetch(url, { headers: { 'User-Agent': 'Ahd-data-pipeline/0.1 (https://github.com/ahdapp/ahd)' } });
+    const res = await fetch(url, { headers: { 'User-Agent': 'Ahd-data-pipeline/0.1 (https://github.com/mohamedamineam/ahd)' } });
     if (!res.ok) throw new Error(`${res.status} ${url}`);
     writeFileSync(p, Buffer.from(await res.arrayBuffer()));
   }

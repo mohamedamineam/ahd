@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>عهد — مواقيت الصلاة لويندوز ولينكس</title>
+<meta name="description" content="عهد: تطبيق مجاني لمواقيت الصلاة والأذان والقرآن الكريم والأذكار والقبلة على ويندوز ولينكس، يعمل دون إنترنت ويحفظ خصوصيتك.">
+<meta property="og:title" content="عهد — Ahd">
+<meta property="og:description" content="Prayer times, adhan, Quran, adhkar and qibla for Windows and Linux. Free, offline and private.">
+<meta property="og:image" content="/assets/img/og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2c523d">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/changa-arabic-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<div class="pattern" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Ahd">
+      <img class="logo-light" src="/assets/img/logo.svg" alt="">
+      <img class="logo-dark" src="/assets/img/logo-dark.svg" alt="">
+      <b data-t="brand">عهد</b>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#features" data-t="navFeatures">المزايا</a>
+      <a href="#download" data-t="navDownload">التنزيل</a>
+      <a href="#requirements" data-t="navReq">المتطلبات</a>
+      <a href="#feedback" data-t="navFeedback">رأيك</a>
+    </nav>
+    <button class="lang" type="button" id="lang" aria-label="Language">English</button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow" data-t="eyebrow">مجاني ومفتوح المصدر · ويندوز ولينكس</span>
+        <h1><span data-t="h1a">رفيقك الهادئ</span> <span class="accent" data-t="h1b">لمواقيت الصلاة</span></h1>
+        <p class="lede" data-t="lede">مواقيت دقيقة حتى الثانية، وأذان لا يفوتك، والقرآن الكريم والأذكار والقبلة، في تطبيق واحد يعمل دون إنترنت ويحفظ خصوصيتك.</p>
+        <div class="cta">
+          <a class="btn primary" id="primary-dl" href="/download/Ahd-windows-x64-setup.exe" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+            <span id="primary-label" data-t="dlWindows">تنزيل لويندوز</span>
+          </a>
+          <a class="btn ghost" href="#download" data-t="allDownloads">كل خيارات التنزيل</a>
+        </div>
+        <p class="meta"><span data-t="version">الإصدار 0.1.0 · مجاني وبلا إعلانات</span></p>
+      </div>
+
+      <div class="stage" id="stage">
+        <svg class="arc" viewBox="0 0 1000 420" aria-hidden="true">
+          <defs>
+            <linearGradient id="arcGrad" x1="0" x2="1"><stop offset="0" stop-color="#6f9a80"/><stop offset=".5" stop-color="#c9a15a"/><stop offset="1" stop-color="#6f9a80"/></linearGradient>
+            <radialGradient id="sunGrad"><stop offset="0" stop-color="#fff4d6"/><stop offset=".6" stop-color="#e9c77e"/><stop offset="1" stop-color="#c99a4b"/></radialGradient>
+          </defs>
+          <path id="sunPath" class="path" d="M60 380 C 220 40, 780 40, 940 380"/>
+          <circle class="sun" r="16">
+            <animateMotion dur="26s" repeatCount="indefinite" rotate="0" keyPoints="0;1;0" keyTimes="0;0.5;1" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1"><mpath href="#sunPath"/></animateMotion>
+          </circle>
+        </svg>
+        <div class="window" id="window">
+          <div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+          <img id="hero-shot" src="/assets/img/home-ar.webp" width="1440" height="900" alt="Ahd main window: today's prayers along the sun's path">
+        </div>
+        <div class="pill" aria-hidden="true">
+          <span class="name"><span class="dot"></span><span data-t="pillName">العصر</span></span>
+          <span class="time bdi" id="pill-time">+1:12:08</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="hadith wrap" lang="ar" dir="rtl">
+    <p data-reveal><span>قال رسول الله صلى الله عليه وسلم:</span> <span class="text">«العهدُ الذي بيننا وبينهم الصلاةُ، فمن تركها فقد كفر»</span> <span>رواه الترمذي والنسائي وابن ماجه.</span></p>
+  </div>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="kicker" data-t="featKicker">المزايا</span>
+        <h2 data-t="featTitle">كل ما تحتاجه للصلاة، في مكان واحد</h2>
+        <p data-t="featLede">صمم عهد ليبقى هادئا في الخلفية، ويذكرك بكل صلاة في وقتها.</p>
+      </div>
+      <div class="features">
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 17.5h18M5.5 17.5a6.5 6.5 0 0 1 13 0"/><circle cx="15.8" cy="11.9" r="1.7" fill="currentColor" stroke="none"/></svg></span>
+          <h3 data-t="f1t">مواقيت دقيقة</h3>
+          <p data-t="f1d">لأي مدينة في العالم دون إنترنت، بكل طرق الحساب المعروفة، مع ضبط كل صلاة بالثواني لتطابق مسجدك أو الجدول الرسمي.</p>
+        </article>
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h4l5 4V6L8 10H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg></span>
+          <h3 data-t="f2t">الأذان في وقته</h3>
+          <p data-t="f2d">أذان خاص بالفجر، وتنبيه يمكن إغلاقه دون أن يتوقف الأذان، واختصار لإيقافه، ثم دعاء ما بعد الأذان.</p>
+        </article>
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2.5"/><rect x="12" y="7" width="6" height="4" rx="1.2"/><path d="M8 21h8"/></svg></span>
+          <h3 data-t="f3t">على سطح المكتب</h3>
+          <p data-t="f3d">أداة رئيسية وأداة مصغرة تبقى فوق التطبيقات، والمؤقت بجانب الساعة في شريط المهام.</p>
+        </article>
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></svg></span>
+          <h3 data-t="f4t">القرآن الكريم</h3>
+          <p data-t="f4d">بروايتي حفص وورش، بخط مجمع الملك فهد، مع البحث والعلامات وحفظ موضع القراءة.</p>
+        </article>
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="6" r="1.6"/><circle cx="17.2" cy="8.8" r="1.6"/><circle cx="17.2" cy="15.2" r="1.6"/><circle cx="12" cy="18" r="1.6"/><circle cx="6.8" cy="15.2" r="1.6"/><circle cx="6.8" cy="8.8" r="1.6"/></svg></span>
+          <h3 data-t="f5t">الأذكار</h3>
+          <p data-t="f5d">أذكار الصباح والمساء وغيرها من حصن المسلم، مع عداد وتذكيرات.</p>
+        </article>
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8z"/></svg></span>
+          <h3 data-t="f6t">القبلة</h3>
+          <p data-t="f6d">اتجاه القبلة من موقعك، والأوقات التي تكون فيها الشمس على خط القبلة، وأيام تعامد الشمس على الكعبة.</p>
+        </article>
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 4h3v16H5zM10 4h3v16h-3z"/><path d="m15 5 3-.8 3.5 15-3 .8z"/></svg></span>
+          <h3 data-t="f7t">مكتبة</h3>
+          <p data-t="f7d">كتب مجانية مثل صحيح البخاري والرحيق المختوم، يتم تنزيلها عند طلبك وتقرأ داخل التطبيق.</p>
+        </article>
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4" stroke-linecap="round"/></svg></span>
+          <h3 data-t="f8t">خصوصيتك محفوظة</h3>
+          <p data-t="f8d">بلا حسابات ولا إعلانات ولا تتبع، وكل بياناتك تبقى على جهازك.</p>
+        </article>
+        <article class="feature" data-reveal>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.5 3.5 5.5 3.5 8.5s-1 6-3.5 8.5c-2.5-2.5-3.5-5.5-3.5-8.5s1-6 3.5-8.5z"/></svg></span>
+          <h3 data-t="f9t">بالعربية والإنجليزية</h3>
+          <p data-t="f9d">واجهة كاملة باللغتين، مع مظهر فاتح وداكن.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="shots">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="kicker" data-t="shotsKicker">لمحة من التطبيق</span>
+        <h2 data-t="shotsTitle">واجهة هادئة ومريحة للعين</h2>
+      </div>
+      <div class="shots">
+        <figure class="shot" data-reveal><img src="/assets/img/quran-ar.webp" width="1440" height="900" loading="lazy" alt=""><figcaption data-t="shot1">المصحف بروايتي حفص وورش</figcaption></figure>
+        <figure class="shot" data-reveal><img src="/assets/img/adhkar-ar.webp" width="1440" height="900" loading="lazy" alt=""><figcaption data-t="shot2">الأذكار مع العداد، بالمظهر الداكن</figcaption></figure>
+        <figure class="shot" data-reveal><img src="/assets/img/home-en.webp" width="1440" height="900" loading="lazy" alt=""><figcaption data-t="shot3">الواجهة الإنجليزية</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="download">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="kicker" data-t="dlKicker">التنزيل</span>
+        <h2 data-t="dlTitle">نزل عهد مجانا</h2>
+        <p data-t="dlLede">اختر نظامك. يبدأ التنزيل مباشرة.</p>
+      </div>
+      <div class="dl">
+        <div class="card featured" id="card-windows" data-reveal>
+          <div class="title">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10.5 4.5v7H3zM11.5 4.3 21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>
+            <h3 data-t="winTitle">ويندوز</h3>
+          </div>
+          <p data-t="winDesc">مثبت عادي لا يحتاج صلاحيات المسؤول. ويندوز 10 و11 (64 بت).</p>
+          <div class="links">
+            <a class="btn primary" href="/download/Ahd-windows-x64-setup.exe" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-t="winBtn">تنزيل المثبت (.exe)</span></a>
+            <a class="btn ghost small" href="/download/Ahd-windows-x64.msi" download data-t="winMsi">حزمة MSI</a>
+          </div>
+          <p class="note" data-t="winNote">قد يظهر ويندوز رسالة «Windows protected your PC» لأن التطبيق جديد وغير موقع رقميا بعد: اضغط «More info» ثم «Run anyway».</p>
+        </div>
+
+        <div class="card" id="card-linux" data-reveal>
+          <div class="title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="m7 9 3 3-3 3M12.5 15H17"/></svg>
+            <h3 data-t="linTitle">لينكس</h3>
+          </div>
+          <div class="tabs" role="tablist" aria-label="Linux">
+            <button role="tab" type="button" aria-selected="true" aria-controls="pane-deb" id="tab-deb" data-t="tabDeb">أوبونتو · مينت · ديبيان</button>
+            <button role="tab" type="button" aria-selected="false" aria-controls="pane-rpm" id="tab-rpm" data-t="tabRpm">فيدورا</button>
+            <button role="tab" type="button" aria-selected="false" aria-controls="pane-app" id="tab-app" data-t="tabApp">AppImage</button>
+          </div>
+          <div class="pane" id="pane-deb" role="tabpanel" aria-labelledby="tab-deb">
+            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="wget -O ahd.deb {origin}/download/Ahd-linux-amd64.deb&#10;sudo apt install ./ahd.deb"></pre></div>
+            <div class="links"><a class="btn ghost small" href="/download/Ahd-linux-amd64.deb" download data-t="getDeb">تنزيل ملف .deb</a></div>
+          </div>
+          <div class="pane" id="pane-rpm" role="tabpanel" aria-labelledby="tab-rpm" hidden>
+            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="sudo dnf install {origin}/download/Ahd-linux-x86_64.rpm"></pre></div>
+            <div class="links"><a class="btn ghost small" href="/download/Ahd-linux-x86_64.rpm" download data-t="getRpm">تنزيل ملف .rpm</a></div>
+          </div>
+          <div class="pane" id="pane-app" role="tabpanel" aria-labelledby="tab-app" hidden>
+            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="wget -O Ahd.AppImage {origin}/download/Ahd-linux-x86_64.AppImage&#10;chmod +x Ahd.AppImage&#10;./Ahd.AppImage"></pre></div>
+            <div class="links"><a class="btn ghost small" href="/download/Ahd-linux-x86_64.AppImage" download data-t="getApp">تنزيل ملف AppImage</a></div>
+          </div>
+          <p class="small-print" data-t="linAfter">بعد التثبيت ستجد «عهد» في قائمة التطبيقات.</p>
+        </div>
+      </div>
+      <p class="small-print" data-reveal><a href="/download/SHA256SUMS" data-t="sums">بصمات SHA-256 للتحقق من الملفات</a> · <a href="https://github.com/mohamedamineam/ahd" rel="noopener" data-t="source">الشيفرة المصدرية</a></p>
+    </div>
+  </section>
+
+  <section class="block" id="requirements">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="kicker" data-t="reqKicker">المتطلبات</span>
+        <h2 data-t="reqTitle">متطلبات التشغيل</h2>
+      </div>
+      <div class="req">
+        <div class="card" data-reveal>
+          <h3 data-t="reqWin">ويندوز</h3>
+          <ul>
+            <li><span class="ok" data-t="reqWin1a">ويندوز 10 أو 11</span> <span data-t="reqWin1b">(64 بت).</span></li>
+            <li data-t="reqWin2">يثبت المثبت محرك WebView2 من مايكروسوفت تلقائيا إن لم يكن موجودا، ويحتاج ذلك اتصالا بالإنترنت أثناء التثبيت فقط.</li>
+            <li><span class="no" data-t="reqWin3a">ويندوز 7 و8 غير مدعومين:</span> <span data-t="reqWin3b">أوقفت مايكروسوفت دعم محرك WebView2 لهما، وأدوات البناء الحديثة لم تعد تدعمهما.</span></li>
+          </ul>
+        </div>
+        <div class="card" data-reveal>
+          <h3 data-t="reqLin">لينكس</h3>
+          <ul>
+            <li data-t="reqLin1">توزيعة حديثة 64 بت: أوبونتو 22.04 أو أحدث، لينكس مينت 21 أو أحدث، ديبيان 12، فيدورا 39 أو أحدث.</li>
+            <li data-t="reqLin2">أسطح المكتب: Cinnamon، MATE، GNOME (مع إضافة AppIndicator)، KDE، Xfce.</li>
+          </ul>
+        </div>
+        <div class="card" data-reveal>
+          <h3 data-t="reqAll">للجميع</h3>
+          <ul>
+            <li data-t="reqAll1">نحو 70 ميغابايت على القرص.</li>
+            <li data-t="reqAll2">لا يحتاج إنترنت إلا لميزات اختيارية: البحث عن الأحياء، والخريطة، وتنزيل الكتب.</li>
+            <li data-t="reqAll3">مكبر صوت أو سماعة لسماع الأذان.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="feedback">
+    <div class="wrap fb">
+      <div class="head" data-reveal>
+        <span class="kicker" data-t="fbKicker">رأيك</span>
+        <h2 data-t="fbTitle">شاركنا رأيك</h2>
+        <p data-t="fbLede">اقتراح، أو مشكلة، أو كلمة شكر؟ تصل رسالتك إلى المطور مباشرة ولا تنشر على الموقع.</p>
+      </div>
+      <form class="card" id="fb-form" novalidate data-reveal>
+        <div class="kinds" role="radiogroup" aria-label="Type">
+          <label><input type="radio" name="kind" value="suggestion" checked><span data-t="kSuggestion">اقتراح</span></label>
+          <label><input type="radio" name="kind" value="problem"><span data-t="kProblem">مشكلة</span></label>
+          <label><input type="radio" name="kind" value="thanks"><span data-t="kThanks">شكر</span></label>
+        </div>
+        <div class="row2">
+          <div class="field"><label for="fb-name" data-t="fName">الاسم (اختياري)</label><input type="text" id="fb-name" name="name" maxlength="80" autocomplete="name"></div>
+          <div class="field"><label for="fb-email" data-t="fEmail">البريد الإلكتروني (اختياري، إن أردت ردا)</label><input type="email" id="fb-email" name="email" maxlength="120" autocomplete="email" dir="ltr"></div>
+        </div>
+        <div class="field"><label for="fb-message" data-t="fMessage">رسالتك</label><textarea id="fb-message" name="message" maxlength="2000" required></textarea></div>
+        <div class="hp" aria-hidden="true"><label for="fb-website">Website</label><input type="text" id="fb-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="cta">
+          <button class="btn primary" type="submit" id="fb-send"><span data-t="fSend">إرسال</span></button>
+          <p class="status" id="fb-status" role="status" aria-live="polite"></p>
+        </div>
+        <p class="small-print" data-t="fPrivacy">نحفظ ما تكتبه فقط، ولا نستعمل بريدك إلا للرد عليك.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span data-t="footer">عهد — مجاني ومفتوح المصدر برخصة GPL-3.0</span>
+    <nav>
+      <a href="https://github.com/mohamedamineam/ahd" rel="noopener" data-t="source">الشيفرة المصدرية</a>
+      <a href="https://github.com/mohamedamineam/ahd/blob/main/docs/PRIVACY.md" rel="noopener" data-t="privacy">الخصوصية</a>
+      <a href="https://github.com/mohamedamineam/ahd/releases" rel="noopener" data-t="releases">كل الإصدارات</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

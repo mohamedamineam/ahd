@@ -3,7 +3,7 @@
 # cargo-sources.json) made with flatpak-builder-tools from package-lock.json and src-tauri/Cargo.lock.
 # In the Flathub repository, also add https://github.com/flathub/shared-modules as the "shared-modules" submodule.
 # Not yet test-built: run flatpak-builder as described in docs/RELEASE_LINUX.md before submitting.
-id: io.github.ahdapp.Ahd
+id: io.github.mohamedamineam.Ahd
 runtime: org.gnome.Platform
 runtime-version: '49'
 sdk: org.gnome.Sdk
@@ -39,7 +39,7 @@ modules:
         npm_config_offline: 'true'
     sources:
       - type: git
-        url: https://github.com/ahdapp/ahd.git
+        url: https://github.com/mohamedamineam/ahd.git
         tag: v0.1.0
       - node-sources.json
       - cargo-sources.json
@@ -53,11 +53,11 @@ modules:
       - mkdir -p /app/lib/Ahd
       - cp -a assets/adhan assets/data assets/sounds /app/lib/Ahd/
       - cp -a src-tauri/icons/tray /app/lib/Ahd/tray
-      - install -Dm644 packaging/linux/io.github.ahdapp.Ahd.metainfo.xml /app/share/metainfo/io.github.ahdapp.Ahd.metainfo.xml
+      - install -Dm644 packaging/linux/io.github.mohamedamineam.Ahd.metainfo.xml /app/share/metainfo/io.github.mohamedamineam.Ahd.metainfo.xml
       - >-
         sed -e 's/{{categories}}/Utility;/' -e 's/{{comment}}/Prayer times, adhan, Quran, adhkar and qibla/' -e 's/{{exec}}/ahd/g'
-        -e 's/{{icon}}/io.github.ahdapp.Ahd/' -e 's/{{name}}/Ahd/' packaging/linux/ahd.desktop > io.github.ahdapp.Ahd.desktop
-      - install -Dm644 io.github.ahdapp.Ahd.desktop /app/share/applications/io.github.ahdapp.Ahd.desktop
-      - for s in 128x128 256x256 512x512; do install -Dm644 packaging/flatpak/icons/$s/io.github.ahdapp.Ahd.png /app/share/icons/hicolor/$s/apps/io.github.ahdapp.Ahd.png; done
-      - install -Dm644 packaging/flatpak/icons/scalable/io.github.ahdapp.Ahd.svg /app/share/icons/hicolor/scalable/apps/io.github.ahdapp.Ahd.svg
-      - install -Dm644 packaging/flatpak/icons/symbolic/io.github.ahdapp.Ahd-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.ahdapp.Ahd-symbolic.svg
+        -e 's/{{icon}}/io.github.mohamedamineam.Ahd/' -e 's/{{name}}/Ahd/' packaging/linux/ahd.desktop > io.github.mohamedamineam.Ahd.desktop
+      - install -Dm644 io.github.mohamedamineam.Ahd.desktop /app/share/applications/io.github.mohamedamineam.Ahd.desktop
+      - for s in 128x128 256x256 512x512; do install -Dm644 packaging/flatpak/icons/$s/io.github.mohamedamineam.Ahd.png /app/share/icons/hicolor/$s/apps/io.github.mohamedamineam.Ahd.png; done
+      - install -Dm644 packaging/flatpak/icons/scalable/io.github.mohamedamineam.Ahd.svg /app/share/icons/hicolor/scalable/apps/io.github.mohamedamineam.Ahd.svg
+      - install -Dm644 packaging/flatpak/icons/symbolic/io.github.mohamedamineam.Ahd-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.mohamedamineam.Ahd-symbolic.svg

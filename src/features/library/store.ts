@@ -37,7 +37,7 @@ export interface Catalog {
 /** Same allow-list as the downloader in src-tauri/src/library.rs. */
 const ALLOWED = ['https://d1.islamhouse.com/', 'https://upload.wikimedia.org/', 'https://archive.org/download/'];
 
-const REMOTE_CATALOG = 'https://raw.githubusercontent.com/ahdapp/ahd/main/src/content/library/catalog.json';
+const REMOTE_CATALOG = 'https://raw.githubusercontent.com/mohamedamineam/ahd/main/src/content/library/catalog.json';
 
 interface LibraryState {
   catalog: Catalog;

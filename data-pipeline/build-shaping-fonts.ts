@@ -10,7 +10,7 @@ import { join } from 'node:path';
 
 const root = join(import.meta.dirname, '..');
 const out = join(root, 'public/fonts');
-const UA = { 'User-Agent': 'Ahd-data-pipeline/0.1 (https://github.com/ahdapp/ahd)' };
+const UA = { 'User-Agent': 'Ahd-data-pipeline/0.1 (https://github.com/mohamedamineam/ahd)' };
 
 const FONTS = [
   { file: 'Amiri-Regular.ttf', commit: 'fffdadf0f0c9cc1ec8b407063424a8bfbee05611', path: 'ofl/amiri/Amiri-Regular.ttf' },

@@ -31,7 +31,42 @@ pub fn x11_compat_flag() -> Option<PathBuf> {
     let base = std::env::var_os("XDG_CONFIG_HOME")
         .map(PathBuf::from)
         .or_else(|| std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".config")))?;
-    Some(base.join("io.github.ahdapp.Ahd").join("x11-compat"))
+    Some(base.join("io.github.mohamedamineam.Ahd").join("x11-compat"))
+}
+
+/// The app ID was a placeholder (io.github.ahdapp.Ahd) before the project had its GitHub account. Move data kept
+/// under the old ID (settings, database, adhan imports, library, WebView storage) so nothing is lost. Runs first in
+/// main, before any window or plugin opens those folders.
+pub fn migrate_app_id() {
+    const OLD: &str = "io.github.ahdapp.Ahd";
+    const NEW: &str = "io.github.mohamedamineam.Ahd";
+    for base in app_base_dirs() {
+        let (old, new) = (base.join(OLD), base.join(NEW));
+        if old.is_dir() && !new.exists() {
+            if let Err(e) = std::fs::rename(&old, &new) {
+                eprintln!("ahd: could not move {} to {}: {e}", old.display(), new.display());
+            }
+        }
+    }
+}
+
+fn app_base_dirs() -> Vec<PathBuf> {
+    let env = |k: &str| std::env::var_os(k).filter(|v| !v.is_empty()).map(PathBuf::from);
+    #[cfg(target_os = "linux")]
+    {
+        let home = env("HOME");
+        let or_home = |k: &str, rel: &str| env(k).or_else(|| home.as_ref().map(|h| h.join(rel)));
+        [or_home("XDG_CONFIG_HOME", ".config"), or_home("XDG_DATA_HOME", ".local/share"), or_home("XDG_CACHE_HOME", ".cache")].into_iter().flatten().collect()
+    }
+    #[cfg(windows)]
+    {
+        [env("APPDATA"), env("LOCALAPPDATA")].into_iter().flatten().collect()
+    }
+    #[cfg(not(any(target_os = "linux", windows)))]
+    {
+        let _ = env;
+        Vec::new()
+    }
 }
 
 /// Linux environment, set at the very start of main (before GTK and WebKit start):

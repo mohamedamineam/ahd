@@ -1,0 +1,9 @@
+# Direct downloads: always the newest published GitHub release (the release workflow uploads these stable names).
+/download/Ahd-windows-x64-setup.exe  https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-windows-x64-setup.exe  302
+/download/Ahd-windows-x64.msi        https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-windows-x64.msi        302
+/download/Ahd-linux-amd64.deb        https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-linux-amd64.deb        302
+/download/Ahd-linux-x86_64.rpm       https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-linux-x86_64.rpm       302
+/download/Ahd-linux-x86_64.AppImage  https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-linux-x86_64.AppImage  302
+/download/SHA256SUMS                 https://github.com/mohamedamineam/ahd/releases/latest/download/SHA256SUMS                 302
+/download/windows                    /download/Ahd-windows-x64-setup.exe  302
+/download/linux                      /#download  302

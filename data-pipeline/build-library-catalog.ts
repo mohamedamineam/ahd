@@ -8,7 +8,7 @@ import { join } from 'node:path';
 
 const root = join(import.meta.dirname, '..');
 const API = 'https://api3.islamhouse.com/v3/paV29H2gm56kvLPy'; // public key published in the official API docs
-const UA = { 'User-Agent': 'Ahd-data-pipeline/0.1 (https://github.com/ahdapp/ahd)' };
+const UA = { 'User-Agent': 'Ahd-data-pipeline/0.1 (https://github.com/mohamedamineam/ahd)' };
 
 type Category = 'tafsir' | 'sirah' | 'aqidah' | 'tazkiyah' | 'hadith' | 'fiqh' | 'adhkar';
 
