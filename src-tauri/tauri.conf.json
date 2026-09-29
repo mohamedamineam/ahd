@@ -84,7 +84,6 @@
     "resources": {
       "../assets/adhan/": "adhan/",
       "../assets/data/": "data/",
-      "../assets/sounds/": "sounds/",
       "icons/tray/": "tray/"
     },
     "linux": {

@@ -2,6 +2,8 @@
 
 A calm, free and private desktop companion for prayer times, for Windows and Linux.
 
+**Website and downloads: <https://3ahd.pages.dev>**
+
 <p dir="rtl" lang="ar">رفيق هادئ ومجاني يحفظ خصوصيتك لمواقيت الصلاة على حاسوبك، لنظامي ويندوز ولينكس.</p>
 
 > قال رسول الله صلى الله عليه وسلم: "العهدُ الذي بيننا وبينهم الصلاةُ، فمن تركها فقد كفر" رواه الترمذي والنسائي وابن ماجه.
@@ -17,7 +19,8 @@ A calm, free and private desktop companion for prayer times, for Windows and Lin
 - **Quran** in the Hafs and Warsh narrations, King Fahd Complex text and fonts, five bookmarks and last-read position.
 - **Adhkar** from Hisn al-Muslim with counters, focus mode and reminders.
 - **Qibla** by the sun, with the days the sun passes over the Kaaba.
-- **Library** of free books from IslamHouse, downloaded only when you ask.
+- **Library** of free books from IslamHouse and archive.org (including Sahih al-Bukhari and «الرحيق المختوم»),
+  downloaded only when you ask.
 - Arabic and English, right to left, light and dark themes. No accounts, no ads, no tracking.
 
 <div dir="rtl" lang="ar">
@@ -31,15 +34,18 @@ A calm, free and private desktop companion for prayer times, for Windows and Lin
 - **القرآن الكريم** بروايتي حفص وورش، بنص مجمع الملك فهد وخطوطه، مع خمس علامات وموضع آخر قراءة.
 - **الأذكار** من حصن المسلم، مع العداد ووضع التركيز والتذكيرات.
 - **القبلة** بالشمس، وأيام تعامد الشمس على الكعبة.
-- **مكتبة** من الكتب المجانية من دار الإسلام، لا يتم تنزيلها إلا عند طلبك.
+- **مكتبة** من الكتب المجانية من دار الإسلام وأرشيف الإنترنت (منها صحيح البخاري والرحيق المختوم)، لا يتم تنزيلها إلا عند طلبك.
 - بلا حسابات ولا إعلانات ولا تتبع.
 
 </div>
 
 ## Install
 
-- **Linux**: `.deb`, `.rpm` or `.AppImage` from the Releases page; Flathub (planned).
-- **Windows**: the installer from the Releases page; Microsoft Store (planned).
+Download from **<https://3ahd.pages.dev>** (direct download of the latest release) or the
+[Releases page](https://github.com/mohamedamineam/ahd/releases/latest).
+
+- **Windows 10 or 11 (64-bit)**: `Ahd-windows-x64-setup.exe` (or the `.msi`).
+- **Linux (64-bit)**: `.deb` (Ubuntu, Debian, Mint), `.rpm` (Fedora, openSUSE) or `.AppImage` (any distribution).
 
 Verify downloads with `SHA256SUMS` from the same release.
 

@@ -49,9 +49,9 @@ modules:
       # tauri/custom-protocol: serve the built frontend from the binary (what `tauri build` enables)
       - cargo build --release --offline --manifest-path src-tauri/Cargo.toml --features tauri/custom-protocol
       - install -Dm755 src-tauri/target/release/ahd /app/bin/ahd
-      # bundled resources (adhan recordings, offline places, sounds, tray icons): Tauri looks in ../lib/<product>
+      # bundled resources (adhan recordings, offline places, tray icons): Tauri looks in ../lib/<product>
       - mkdir -p /app/lib/Ahd
-      - cp -a assets/adhan assets/data assets/sounds /app/lib/Ahd/
+      - cp -a assets/adhan assets/data /app/lib/Ahd/
       - cp -a src-tauri/icons/tray /app/lib/Ahd/tray
       - install -Dm644 packaging/linux/io.github.mohamedamineam.Ahd.metainfo.xml /app/share/metainfo/io.github.mohamedamineam.Ahd.metainfo.xml
       - >-
