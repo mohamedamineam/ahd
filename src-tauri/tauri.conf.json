@@ -110,7 +110,10 @@
           "Arabic"
         ],
         "displayLanguageSelector": true,
-        "installMode": "currentUser"
+        "installMode": "currentUser",
+        "installerIcon": "icons/icon.ico",
+        "sidebarImage": "icons/installer/sidebar.bmp",
+        "headerImage": "icons/installer/header.bmp"
       },
       "wix": {
         "language": [
