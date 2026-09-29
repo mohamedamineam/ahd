@@ -7,6 +7,9 @@ export const SETTINGS_VERSION = 1;
 
 export type AdhanMode = 'full' | 'short' | 'tone' | 'silent' | 'off';
 
+/** Where a widget lives: on the desktop behind windows, or floating above all apps. */
+export type WidgetLayer = 'desktop' | 'top';
+
 export interface PrayerNotify {
   mode: AdhanMode;
   /** adhan sound id (built-in `builtin:<id>` or `custom:<id>`) */
@@ -97,13 +100,24 @@ export interface Settings {
     quranPaper: 'parchment' | 'sepia' | 'dark' | 'auto';
   };
   widgets: {
-    desktop: {
+    /** The main desktop widget: current state large, all times, dates, progress ring. */
+    main: {
       enabled: boolean;
-      size: 'S' | 'M' | 'L';
+      size: 'M' | 'L'; // L adds dates and tomorrow's Fajr
+      layer: WidgetLayer;
       opacity: number; // 0.6 … 1
       locked: boolean;
       seconds: boolean;
-      pinDesktopLayer: boolean; // Windows, experimental
+      pinDesktopLayer: boolean; // Windows, experimental (only when layer = desktop)
+    };
+    /** The very small widget: prayer name and timer only. */
+    mini: {
+      enabled: boolean;
+      layer: WidgetLayer;
+      opacity: number;
+      locked: boolean;
+      seconds: boolean;
+      showName: boolean;
     };
     indicator: {
       enabled: boolean;
@@ -208,7 +222,8 @@ export function defaultSettings(lang: Lang = 'ar'): Settings {
       quranPaper: 'auto',
     },
     widgets: {
-      desktop: { enabled: false, size: 'M', opacity: 1, locked: false, seconds: true, pinDesktopLayer: false },
+      main: { enabled: false, size: 'M', layer: 'desktop', opacity: 1, locked: false, seconds: true, pinDesktopLayer: false },
+      mini: { enabled: false, layer: 'top', opacity: 0.96, locked: false, seconds: true, showName: true },
       indicator: {
         enabled: false,
         dynamicTrayIcon: true,

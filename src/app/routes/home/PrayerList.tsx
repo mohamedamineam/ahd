@@ -48,7 +48,7 @@ export function PrayerList({
           <li
             key={p}
             className={clsx(
-              'group relative flex h-[46px] items-center gap-3 rounded-[10px] ps-4 pe-1.5 transition-colors',
+              'group relative flex h-[44px] items-center gap-3 rounded-[10px] ps-4 pe-1.5 transition-colors',
               isCurrent && 'bg-sage-soft',
               isNext && countdown && 'bg-ochre-soft',
               !isCurrent && !(isNext && countdown) && 'hover:bg-[color-mix(in_oklab,var(--ink)_4%,transparent)]',

@@ -176,7 +176,7 @@ export function Slider({ value, onChange, min, max, step = 1, label, format, cla
     <div className={clsx('flex items-center gap-3', className)}>
       <input
         type="range"
-        className="sakan-range flex-1"
+        className="ahd-range flex-1"
         min={min}
         max={max}
         step={step}

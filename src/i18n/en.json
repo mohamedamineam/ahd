@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Sakan",
+    "name": "Ahd",
     "tagline": "A calm companion for prayer times",
     "loading": "Loading…"
   },
@@ -52,7 +52,9 @@
     "saved": "Saved",
     "error": "Something went wrong",
     "notAvailable": "Not available",
-    "unknown": "Unknown"
+    "unknown": "Unknown",
+    "minUnit": "min",
+    "secUnit": "s"
   },
   "nav": {
     "label": "Main navigation",
@@ -125,7 +127,7 @@
     "officialSource": "Official timetable",
     "degraded": "Some times cannot be calculated normally at this latitude today; the nearest valid day is used.",
     "noLocationTitle": "Where do you pray?",
-    "noLocationBody": "Choose your city so Sakan can calculate today’s prayer times.",
+    "noLocationBody": "Choose your city so Ahd can calculate today’s prayer times.",
     "chooseLocation": "Choose location",
     "locations": "Saved locations",
     "addLocation": "Add a location",
@@ -153,7 +155,7 @@
     "offset": "Offset",
     "knowOfficial": "I know the official time",
     "officialTime": "Official time for {{prayer}} today",
-    "officialHint": "Type the time from your mosque or ministry; Sakan computes the offset in seconds.",
+    "officialHint": "Type the time from your mosque or ministry; Ahd computes the offset in seconds.",
     "applyOfficial": "Use this time",
     "invalidTime": "Enter a time like 18:41 or 18:41:30",
     "resetRow": "Reset",
@@ -164,7 +166,7 @@
     "stepOf": "Step {{n}} of {{total}}",
     "skip": "Skip",
     "language": {
-      "title": "Welcome to Sakan",
+      "title": "Welcome to Ahd",
       "subtitle": "Choose the language of the app. You can change it later."
     },
     "location": {
@@ -202,22 +204,25 @@
     },
     "theme": {
       "title": "Choose a look",
-      "subtitle": "Sakan follows your system by default."
+      "subtitle": "Ahd follows your system by default."
     },
     "widgets": {
       "title": "On your desktop",
       "subtitle": "Keep the time of prayer in view.",
-      "desktop": "Show the desktop widget",
-      "desktopHint": "All times, time elapsed and remaining",
       "indicator": "Show the prayer indicator in the taskbar or top panel",
       "indicatorHint": "Current or next prayer and its time",
       "gnomeTitle": "Your desktop may hide tray icons",
-      "gnomeBody": "On GNOME, install the “AppIndicator and KStatusNotifierItem Support” extension to see Sakan in the top bar.",
-      "gnomeLink": "Open the extension page"
+      "gnomeBody": "On GNOME, install the “AppIndicator and KStatusNotifierItem Support” extension to see Ahd in the top bar.",
+      "gnomeLink": "Open the extension page",
+      "main": "Show the main widget",
+      "mainHint": "All times, time elapsed and remaining",
+      "mini": "Show the mini widget",
+      "miniHint": "Only the prayer and its timer — tiny and discreet",
+      "onTop": "Keep it above all apps"
     },
     "adhan": {
       "title": "Adhan and notifications",
-      "subtitle": "Sakan plays the adhan at each prayer time, even when its window is closed.",
+      "subtitle": "Ahd plays the adhan at each prayer time, even when its window is closed.",
       "adhan": "Adhan",
       "fajr": "Fajr adhan",
       "fajrHint": "With «الصلاة خير من النوم»",
@@ -227,15 +232,15 @@
     },
     "startup": {
       "title": "Always on time",
-      "subtitle": "Sakan works quietly in the background.",
-      "startWithSystem": "Start Sakan when I log in",
+      "subtitle": "Ahd works quietly in the background.",
+      "startWithSystem": "Start Ahd when I log in",
       "keepInTray": "Keep running in the tray when the window is closed",
       "keepInTrayHint": "Needed for the adhan to play when the window is closed."
     },
     "done": {
       "title": "All set",
-      "body": "Sakan will call the adhan at each prayer time. You can change everything later in Settings.",
-      "finish": "Open Sakan"
+      "body": "Ahd will call the adhan at each prayer time. You can change everything later in Settings.",
+      "finish": "Open Ahd"
     }
   },
   "timetable": {
@@ -279,8 +284,8 @@
       "languageDesc": "The language of the whole app, including widgets and notifications.",
       "digits": "Digits",
       "digitsDesc": "How numbers are written everywhere.",
-      "digitsLatn": "Western (0 1 2 3)",
-      "digitsArab": "Arabic-Indic (٠ ١ ٢ ٣)",
+      "digitsLatn": "Western (0123)",
+      "digitsArab": "Arabic-Indic (٠١٢٣)",
       "timeFormat": "Time format",
       "timeFormatDesc": "24-hour or 12-hour clock.",
       "h24": "24-hour",
@@ -291,9 +296,9 @@
       "egypt": "Egypt & Gulf (يناير، فبراير…)",
       "levant": "Levant & Iraq (كانون الثاني، شباط…)",
       "startWithSystem": "Start with the system",
-      "startWithSystemDesc": "Open Sakan in the background when you log in.",
+      "startWithSystemDesc": "Open Ahd in the background when you log in.",
       "keepInTray": "Keep running in the tray",
-      "keepInTrayDesc": "Closing the window keeps Sakan running so the adhan still plays.",
+      "keepInTrayDesc": "Closing the window keeps Ahd running so the adhan still plays.",
       "checkUpdates": "Check for updates",
       "checkUpdatesDesc": "Look for a new version on GitHub once a day.",
       "storeUpdates": "Updates are delivered by your app store."
@@ -368,7 +373,15 @@
       "jumuahLabelDesc": "Label Dhuhr as Jumuʿah every Friday.",
       "days_one": "{{count}} day",
       "days_other": "{{count}} days",
-      "minutesAfter": "min after Maghrib"
+      "minutesAfter": "min after Maghrib",
+      "importErrors": {
+        "missingColumn": "this column is missing from the header",
+        "badDate": "the date must be written as YYYY-MM-DD",
+        "badTime": "the time must be written as HH:MM or HH:MM:SS",
+        "duplicateDate": "this date appears twice",
+        "empty": "the file is empty",
+        "badJson": "the JSON is not valid"
+      }
     },
     "timer": {
       "threshold": "Switch to countdown",
@@ -400,14 +413,14 @@
       "builtin": "Built-in",
       "customLabel": "Your adhan",
       "addCustom": "Add custom adhan…",
-      "addCustomDesc": "MP3, OGG, FLAC, WAV or M4A, up to 30 MB. The file is copied into Sakan.",
+      "addCustomDesc": "MP3, OGG, FLAC, WAV or M4A, up to 30 MB. The file is copied into Ahd.",
       "isFajr": "This is a Fajr adhan",
       "shortEnd": "Short version ends at",
       "shortEndDesc": "Used by the “Short” mode (mm:ss).",
       "duration": "Duration {{time}}",
       "fajrBadge": "Fajr",
       "shortcut": "Stop-adhan shortcut",
-      "shortcutDesc": "Works everywhere, even when Sakan is hidden.",
+      "shortcutDesc": "Works everywhere, even when Ahd is hidden.",
       "recordShortcut": "Record",
       "recording": "Press the keys…",
       "shortcutDisabled": "Disabled",
@@ -422,7 +435,7 @@
       "fullscreen": "Mute when a full-screen app is active",
       "fullscreenDesc": "For presentations and films. The notification is still shown.",
       "dnd": "Respect Do Not Disturb / Focus assist",
-      "dndDesc": "The adhan is important, so this is off by default: when on, Sakan stays silent while your system is in Do Not Disturb.",
+      "dndDesc": "The adhan is important, so this is off by default: when on, Ahd stays silent while your system is in Do Not Disturb.",
       "missed": "Play a missed adhan",
       "missedDesc": "If the computer wakes up this many minutes after a prayer, still play the adhan. Later, only a quiet notification is shown.",
       "test": "Test adhan now",
@@ -487,12 +500,9 @@
       "quranPaperDesc": "Colour of the mushaf pages."
     },
     "widgets": {
-      "desktop": "Desktop widget",
-      "desktopDesc": "Prayer times and the timer on your desktop.",
       "size": "Size",
-      "sizeS": "Small",
-      "sizeM": "Medium",
-      "sizeL": "Large",
+      "sizeM": "Standard",
+      "sizeL": "Large, with dates",
       "opacity": "Opacity",
       "lock": "Lock position",
       "lockDesc": "Prevent moving the widget by accident.",
@@ -520,15 +530,24 @@
       "hideTray": "Hide the tray icon",
       "hideTrayDesc": "Only possible while the taskbar indicator is on.",
       "wayland": "Wayland session detected",
-      "waylandDesc": "On Wayland, apps cannot place their own windows, so the widget may appear in the middle of the screen. Compatibility mode runs Sakan through XWayland for full positioning (text may look slightly blurry with fractional scaling).",
+      "waylandDesc": "On Wayland, apps cannot place their own windows, so the widget may appear in the middle of the screen. Compatibility mode runs Ahd through XWayland for full positioning (text may look slightly blurry with fractional scaling).",
       "waylandCompat": "Compatibility mode (XWayland)",
-      "restartNeeded": "Sakan will restart to apply this.",
+      "restartNeeded": "Ahd will restart to apply this.",
       "noTray": "No tray support detected",
-      "noTrayDesc": "Your desktop does not show tray icons. On GNOME install the “AppIndicator and KStatusNotifierItem Support” extension."
+      "noTrayDesc": "Your desktop does not show tray icons. On GNOME install the “AppIndicator and KStatusNotifierItem Support” extension.",
+      "main": "Main widget",
+      "mainDesc": "Prayer times and the timer, always in view.",
+      "mini": "Mini widget",
+      "miniDesc": "A tiny floating label with the current or next prayer and its timer.",
+      "layer": "Position",
+      "layerDesc": "Behind your windows like a desktop widget, or floating above all apps.",
+      "layerDesktop": "On the desktop",
+      "layerTop": "Above all apps",
+      "showName": "Show the prayer name"
     },
     "privacy": {
       "network": "Network features",
-      "networkDesc": "Sakan works fully offline. Each online feature can be turned off.",
+      "networkDesc": "Ahd works fully offline. Each online feature can be turned off.",
       "placeSearch": "Online place search (OpenStreetMap)",
       "mapTiles": "Map tiles (OpenStreetMap)",
       "library": "Library downloads (IslamHouse)",
@@ -537,9 +556,9 @@
       "export": "Export settings and data",
       "exportDesc": "Save everything to a JSON file.",
       "import": "Import settings and data",
-      "importDesc": "Restore from a file exported by Sakan.",
+      "importDesc": "Restore from a file exported by Ahd.",
       "imported": "Settings imported",
-      "resetApp": "Reset Sakan",
+      "resetApp": "Reset Ahd",
       "resetAppDesc": "Erase all settings and data and start again.",
       "resetConfirm": "This erases all settings, locations, bookmarks and downloads. Continue?",
       "noTelemetry": "No accounts, no analytics, no ads. Your location stays on this computer."
@@ -554,8 +573,59 @@
       "report": "Report a problem",
       "logs": "Open logs folder",
       "credits": "Credits",
-      "verseRef": "At-Tawbah 9:103",
-      "nameMeaning": "Sakan (سَكَن) means tranquillity."
+      "nameMeaning": "The name Ahd (عهد, “covenant”) comes from the hadith:"
+    },
+    "quran": {
+      "riwaya": "Default riwaya",
+      "riwayaDesc": "The recitation used when the reader opens.",
+      "hafs": "Hafs from ʿAsim",
+      "warsh": "Warsh from Nafiʿ",
+      "fontSize": "Text size",
+      "layout": "Page layout",
+      "layoutAuto": "Automatic",
+      "layoutSingle": "One page",
+      "layoutSpread": "Two pages",
+      "arrows": "Arrow keys",
+      "arrowsDesc": "In a printed mushaf the next page is on the left.",
+      "arrowsMushaf": "Left arrow: next page",
+      "arrowsBook": "Right arrow: next page",
+      "theme": "Reading theme",
+      "themeAuto": "Follow the app",
+      "parchment": "Parchment",
+      "sepia": "Sepia",
+      "tafsir": "Tafsir",
+      "tafsirDesc": "Downloaded on demand and shown beside the text.",
+      "bookmarks": "Bookmarks",
+      "bookmarksDesc": "Five named bookmarks.",
+      "noBookmarks": "No bookmarks yet.",
+      "clearLastRead": "Forget the last-read position"
+    },
+    "adhkarSettings": {
+      "notifications": "Adhkar notifications",
+      "notificationsDesc": "The same switch as at the top of the Adhkar page.",
+      "morning": "Morning adhkar",
+      "evening": "Evening adhkar",
+      "sleep": "Adhkar before sleep",
+      "afterSalah": "Adhkar after each prayer",
+      "periodic": "A gentle reminder to remember Allah",
+      "periodicDesc": "Shows one short dhikr from the collection, between Fajr and Isha.",
+      "anchor": "Time",
+      "anchorFixed": "At a fixed time",
+      "afterPrayer": "After {{prayer}}",
+      "offset": "Minutes after",
+      "every": "Every",
+      "fontSize": "Text size",
+      "autoAdvance": "Move to the next dhikr when a count is complete",
+      "counterAnimation": "Counter animation"
+    },
+    "library": {
+      "downloads": "Downloaded books",
+      "downloadsDesc": "Books are stored in the app data folder.",
+      "none": "No downloads yet.",
+      "total": "Total: {{size}}",
+      "refresh": "Refresh the catalogue",
+      "refreshDesc": "Get the latest list of books from the project repository.",
+      "folder": "Download folder"
     }
   },
   "notify": {
@@ -577,23 +647,24 @@
     "adhkarPeriodic": "A moment of remembrance",
     "missedTitle": "{{prayer}}",
     "missedBody": "{{prayer}} time started {{ago}} ago",
-    "testTitle": "Sakan",
+    "testTitle": "Ahd",
     "testBody": "Notifications are working."
   },
   "tray": {
-    "open": "Open Sakan",
+    "open": "Open Ahd",
     "showPanel": "Show prayer panel",
     "stopAdhan": "Stop adhan",
     "quit": "Quit",
     "settings": "Settings",
-    "widget": "Desktop widget",
+    "widget": "Main widget",
     "indicator": "Taskbar indicator",
-    "next": "next"
+    "next": "next",
+    "miniWidget": "Mini widget"
   },
   "toast": {
     "stop": "Stop adhan",
     "close": "Close",
-    "openApp": "Open Sakan",
+    "openApp": "Open Ahd",
     "dua": "Dua after the adhan",
     "stopHint": "S",
     "ended": "The adhan has ended"
@@ -601,7 +672,7 @@
   "widget": {
     "elapsed": "elapsed",
     "remaining": "remaining",
-    "openApp": "Double-click to open Sakan"
+    "openApp": "Double-click to open Ahd"
   },
   "panel": {
     "openApp": "Open app",

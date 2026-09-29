@@ -1,4 +1,4 @@
-/* Sakan design tokens — "Sage & Linen" (light, default) and "Sage & Night" (dark).
+/* Ahd design tokens — "Sage & Linen" (light, default) and "Sage & Night" (dark).
    Values are the design brief's exact colours. Other palettes and custom colours are generated at runtime
    by src/design/palette.ts in OKLCH (same lightness per role, clamped chroma) and written over these
    variables on <html>, so these are also the no-JS fallback. */
@@ -117,4 +117,13 @@
   --mark-dome-a: #f6f1e3;
   --mark-dome-b: #d2ddcb;
   --mark-dome-c: #98b19d;
+}
+
+/* The name hadith inscription on Home: light grey, calligraphic */
+:root {
+  --hadith: #9ba199;
+  --font-hadith: 'Aref Ruqaa', 'Amiri', serif;
+}
+:root[data-theme='dark'] {
+  --hadith: #8f968e;
 }

@@ -50,7 +50,7 @@ for (const lang of langs) {
       ...extra,
     };
     await ctx.addInitScript((s) => {
-      localStorage.setItem('sakan:settings', JSON.stringify(s));
+      localStorage.setItem('ahd:settings', JSON.stringify(s));
     }, settings);
     const page = await ctx.newPage();
     page.on('pageerror', (e) => console.error(`[pageerror] ${e.message}`));

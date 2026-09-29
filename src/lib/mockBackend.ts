@@ -10,7 +10,7 @@ import type { Place } from '@/features/prayer/types';
 
 type Handler = (payload: unknown) => void;
 const handlers = new Map<string, Set<Handler>>();
-const channel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('sakan-mock') : null;
+const channel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('ahd-mock') : null;
 
 channel?.addEventListener('message', (e: MessageEvent<{ event: string; payload: unknown }>) => {
   handlers.get(e.data.event)?.forEach((h) => h(e.data.payload));
@@ -38,7 +38,7 @@ export const mockNow = () => base + (Date.now() - t0) * SPEED;
 function scheduleTick() {
   const delay = 1000 - (Date.now() % 1000) + 5;
   setTimeout(() => {
-    void emit('sakan://tick', { now: mockNow() });
+    void emit('ahd://tick', { now: mockNow() });
     checkFire();
     scheduleTick();
   }, delay);
@@ -58,7 +58,7 @@ function checkFire() {
     fired.add(ev.key);
     if (now - ev.at > 3 * 60_000) continue;
     if (ev.kind === 'adhan') {
-      void emit('sakan://adhan', { key: ev.key, prayer: ev.prayer, at: ev.at, mode: ev.audio?.kind ?? 'silent', missed: false });
+      void emit('ahd://adhan', { key: ev.key, prayer: ev.prayer, at: ev.at, mode: ev.audio?.kind ?? 'silent', missed: false });
       if (ev.audio && ev.audio.kind === 'adhan') void play(ev.audio.sound, ev.audio.volume, 'adhan', ev.prayer);
     }
   }
@@ -100,7 +100,7 @@ let audioState: AudioState = { playing: false, kind: null, prayer: null, sound: 
 
 function setAudioState(s: AudioState) {
   audioState = s;
-  void emit('sakan://audio', s);
+  void emit('ahd://audio', s);
 }
 
 async function play(sound: string, volume: number, kind: 'adhan' | 'preview' | 'tone', prayer: string | null = null) {
@@ -174,7 +174,7 @@ export async function invoke<T>(cmd: string, args: Record<string, unknown> = {})
   switch (cmd) {
     case 'set_schedule':
       schedule = args.payload as SchedulePayload;
-      void emit('sakan://schedule', schedule);
+      void emit('ahd://schedule', schedule);
       return undefined as T;
     case 'get_schedule':
       return schedule as T;
@@ -190,7 +190,7 @@ export async function invoke<T>(cmd: string, args: Record<string, unknown> = {})
       return undefined as T;
     case 'test_adhan': {
       const now = mockNow();
-      void emit('sakan://adhan', { key: `test:${now}`, prayer: args.prayer, at: now, mode: 'full', missed: false });
+      void emit('ahd://adhan', { key: `test:${now}`, prayer: args.prayer, at: now, mode: 'full', missed: false });
       await play(builtins[0]!.id, 0.8, 'adhan', String(args.prayer));
       return undefined as T;
     }

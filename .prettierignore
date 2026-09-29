@@ -2,7 +2,7 @@ dist
 src-tauri/target
 src-tauri/gen
 node_modules
-Sakan
+Ahd
 data-pipeline/sources
 data-pipeline/cache
 assets/data

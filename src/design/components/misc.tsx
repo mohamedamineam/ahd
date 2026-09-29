@@ -139,7 +139,7 @@ export function Skeleton({ className }: { className?: string }) {
       style={{
         background: 'linear-gradient(90deg, var(--surface-sunk) 0%, var(--surface) 50%, var(--surface-sunk) 100%)',
         backgroundSize: '200% 100%',
-        animation: 'sakan-shimmer 1.6s linear infinite',
+        animation: 'ahd-shimmer 1.6s linear infinite',
       }}
     />
   );

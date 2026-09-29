@@ -2,7 +2,7 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useSettings, useS } from '@/features/settings/store';
-import { startPrayerStore, startScheduleSync, usePrayer } from '@/features/prayer/store';
+import { startPrayerStore, startScheduleSync } from '@/features/prayer/store';
 import { EV, listen } from '@/lib/bridge';
 import { Toaster } from '@/design/components';
 import { TitleBar } from './shell/TitleBar';
@@ -89,9 +89,7 @@ export default function App() {
   useEffect(() => {
     void startMain().then(() => setBooted(true));
   }, []);
-  const engineReady = usePrayer((s) => s.engine !== null);
-  const hasLocation = useS((s) => s.location.current !== null);
-  if (!ready || !booted || (hasLocation && !engineReady)) return null;
+  if (!ready || !booted) return null;
   return (
     <QueryClientProvider client={queryClient}>
       <HashRouter>

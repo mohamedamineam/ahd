@@ -43,7 +43,7 @@ function Item({ to, label, Icon, end }: { to: string; label: string; Icon: (p: I
 export function NavRail() {
   const { t } = useTranslation();
   return (
-    <nav aria-label={t('nav.label')} className="flex w-[84px] shrink-0 flex-col items-center gap-1 border-e border-line-soft bg-bg px-2 py-3">
+    <nav aria-label={t('nav.label')} className="flex w-[84px] shrink-0 flex-col items-center gap-1 border-e border-line-soft bg-bg px-2 py-3 print:hidden">
       {ITEMS.map((it) => (
         <Item key={it.key} to={it.to} end={it.end} label={t(`nav.${it.key}`)} Icon={it.Icon} />
       ))}

@@ -15,6 +15,7 @@ import { SunPathDial, useDisplay } from './SunPathDial';
 import { PrayerList } from './PrayerList';
 import { FineTuneSheet } from './FineTuneSheet';
 import { MihrabCard } from './MihrabCard';
+import { HadithInscription } from './HadithInscription';
 
 function NightStrip({ date }: { date: string }) {
   const f = useFmt();
@@ -96,8 +97,11 @@ function HomeContent({
   return (
     <div className="mx-auto flex w-full max-w-[1080px] flex-col gap-3 px-6 pt-4 pb-6">
       <MihrabCard>
-        <div className="px-8 pt-9 pb-1">
-          <SunPathDial engine={engine} now={now} />
+        <div className="px-8 pt-7 pb-0.5">
+          <HadithInscription className="mx-auto max-w-[900px]" />
+          <div className="mx-auto -mt-2 max-w-[830px]">
+            <SunPathDial engine={engine} now={now} />
+          </div>
         </div>
       </MihrabCard>
 

@@ -7,7 +7,7 @@ import type { OfficialTimetable } from '@/features/prayer/engine';
 import type { Place, PrayerId, PrayerOffsets } from '@/features/prayer/types';
 import { ZERO_OFFSETS } from '@/features/prayer/types';
 
-export const DB_URL = 'sqlite:sakan.db';
+export const DB_URL = 'sqlite:ahd.db';
 
 export interface SavedLocation {
   id: string;
@@ -91,7 +91,7 @@ function sqlBackend(): Promise<Backend> {
 
 // ------------------------------------------------------------------ browser emulation
 
-const LS_KEY = 'sakan:db';
+const LS_KEY = 'ahd:db';
 type Tables = {
   locations: SavedLocation[];
   offsets: Record<string, PrayerOffsets>;

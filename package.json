@@ -1,8 +1,8 @@
 {
-  "name": "sakan",
+  "name": "ahd",
   "private": true,
   "version": "0.1.0",
-  "description": "Sakan — a calm prayer-times companion for the desktop: adhan, widget, Quran, adhkar and qibla.",
+  "description": "Ahd — a calm prayer-times companion for the desktop: adhan, widget, Quran, adhkar and qibla.",
   "license": "GPL-3.0-or-later",
   "type": "module",
   "engines": {
@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@fontsource/amiri": "^5.3.0",
+    "@fontsource/aref-ruqaa": "^5.3.0",
     "@fontsource/ibm-plex-sans": "^5.3.0",
     "@fontsource/ibm-plex-sans-arabic": "^5.3.0",
     "@fontsource/reem-kufi": "^5.3.0",

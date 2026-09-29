@@ -12,7 +12,7 @@ function devAssets(): Plugin {
   const root = fileURLToPath(new URL('./assets', import.meta.url));
   const types: Record<string, string> = { '.mp3': 'audio/mpeg', '.json': 'application/json', '.ogg': 'audio/ogg', '.wav': 'audio/wav' };
   return {
-    name: 'sakan-dev-assets',
+    name: 'ahd-dev-assets',
     apply: 'serve',
     configureServer(server) {
       server.middlewares.use('/__assets', (req, res, next) => {
@@ -45,7 +45,7 @@ export default defineConfig({
       ignored: [
         fileURLToPath(new URL('./src-tauri', import.meta.url)) + '/**',
         fileURLToPath(new URL('./data-pipeline', import.meta.url)) + '/**',
-        fileURLToPath(new URL('./Sakan', import.meta.url)) + '/**',
+        fileURLToPath(new URL('./Ahd', import.meta.url)) + '/**',
       ],
     },
   },

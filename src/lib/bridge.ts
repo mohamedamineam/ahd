@@ -31,15 +31,15 @@ export function windowKind(): WindowKind {
 // ------------------------------------------------------------------ events
 
 export const EV = {
-  tick: 'sakan://tick',
-  audio: 'sakan://audio',
-  adhan: 'sakan://adhan',
-  navigate: 'sakan://navigate',
-  settings: 'sakan://settings-changed',
-  schedule: 'sakan://schedule',
-  toast: 'sakan://toast',
-  shortcut: 'sakan://shortcut',
-  offsetsChanged: 'sakan://offsets-changed',
+  tick: 'ahd://tick',
+  audio: 'ahd://audio',
+  adhan: 'ahd://adhan',
+  navigate: 'ahd://navigate',
+  settings: 'ahd://settings-changed',
+  schedule: 'ahd://schedule',
+  toast: 'ahd://toast',
+  shortcut: 'ahd://shortcut',
+  offsetsChanged: 'ahd://offsets-changed',
 } as const;
 
 export interface AudioState {

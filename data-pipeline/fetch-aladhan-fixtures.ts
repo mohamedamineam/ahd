@@ -44,7 +44,7 @@ for (const c of cities) {
       `https://api.aladhan.com/v1/timings/${d}-${m}-${y}?latitude=${c.lat}&longitude=${c.lon}` +
       `&method=${c.aladhanMethod}&school=${c.school}&latitudeAdjustmentMethod=${latAdj(c.lat)}` +
       `&timezonestring=${encodeURIComponent(c.tz)}`;
-    const res = await fetch(url, { headers: { 'User-Agent': 'Sakan-dev/0.1 (test fixtures)' } });
+    const res = await fetch(url, { headers: { 'User-Agent': 'Ahd-dev/0.1 (test fixtures)' } });
     if (!res.ok) throw new Error(`${res.status} for ${url}`);
     const json = (await res.json()) as { data: { timings: Record<string, string>; meta: unknown } };
     const t = json.data.timings;

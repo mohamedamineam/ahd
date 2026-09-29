@@ -10,7 +10,7 @@ playwright-report/
 test-results/
 
 # owner's raw deliverables (copied into assets/ and branding/ by the build)
-/Sakan/
+/Ahd/
 /*.zip
 /CLAUDE_CODE_BUILD_PROMPT.md
 

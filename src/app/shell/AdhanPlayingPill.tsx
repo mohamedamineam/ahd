@@ -27,7 +27,7 @@ function Bars() {
         <span
           key={i}
           className="w-[3px] rounded-full bg-current"
-          style={{ height: '100%', animation: `sakan-bars 1s ${i * 0.15}s ease-in-out infinite alternate`, transformOrigin: 'bottom' }}
+          style={{ height: '100%', animation: `ahd-bars 1s ${i * 0.15}s ease-in-out infinite alternate`, transformOrigin: 'bottom' }}
         />
       ))}
     </span>

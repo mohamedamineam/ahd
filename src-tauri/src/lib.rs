@@ -29,5 +29,5 @@ pub fn run() {
             Ok(())
         })
         .run(tauri::generate_context!())
-        .expect("error while running Sakan");
+        .expect("error while running Ahd");
 }

@@ -1,17 +1,17 @@
 [package]
-name = "sakan"
+name = "ahd"
 version = "0.1.0"
-description = "Sakan — prayer times, adhan, Quran, adhkar and qibla for the desktop"
-authors = ["Sakan contributors"]
+description = "Ahd — prayer times, adhan, Quran, adhkar and qibla for the desktop"
+authors = ["Ahd contributors"]
 license = "GPL-3.0-or-later"
-repository = "https://github.com/sakanapp/sakan"
+repository = "https://github.com/ahdapp/ahd"
 edition = "2021"
 rust-version = "1.85"
-default-run = "sakan"
+default-run = "ahd"
 
 [lib]
 # The `_lib` suffix avoids a name clash with the binary on Windows (cargo issue #8519).
-name = "sakan_lib"
+name = "ahd_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

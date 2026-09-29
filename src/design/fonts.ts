@@ -17,3 +17,5 @@ import '@fontsource/reem-kufi/latin-600.css';
 import '@fontsource/amiri/arabic-400.css';
 import '@fontsource/amiri/arabic-700.css';
 import '@fontsource/amiri/latin-400.css';
+import '@fontsource/aref-ruqaa/arabic-400.css';
+import '@fontsource/aref-ruqaa/arabic-700.css';

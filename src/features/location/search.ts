@@ -34,7 +34,7 @@ const onlineCache = new Map<string, Place[]>();
 /**
  * OpenStreetMap Nominatim, on explicit submit only (no type-ahead, per its usage policy), max 1 request
  * per second, results cached. In the app the request goes through Rust so it carries an identifying
- * User-Agent (`Sakan/<version> (<repo>)`), which a webview cannot set.
+ * User-Agent (`Ahd/<version> (<repo>)`), which a webview cannot set.
  */
 export async function searchOnline(query: string, lang: Lang): Promise<Place[]> {
   const q = query.trim();

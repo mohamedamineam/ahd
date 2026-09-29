@@ -150,7 +150,7 @@ export function SunPathDial({ engine, now }: { engine: PrayerEngine; now: number
             stroke="var(--ochre)"
             strokeWidth="4"
             strokeLinecap="round"
-            style={{ animation: 'sakan-breathe 2.4s ease-in-out infinite' }}
+            style={{ animation: 'ahd-breathe 2.4s ease-in-out infinite' }}
           />
         ) : null}
 
@@ -173,7 +173,7 @@ export function SunPathDial({ engine, now }: { engine: PrayerEngine; now: number
           return (
             <g key={tk.id}>
               {isPrev && arrival ? (
-                <circle cx={p.x} cy={p.y} r="12" fill="none" stroke="var(--sage)" strokeWidth="2" style={{ transformBox: 'fill-box', transformOrigin: 'center', animation: 'sakan-glow 1.8s ease-out 2' }} />
+                <circle cx={p.x} cy={p.y} r="12" fill="none" stroke="var(--sage)" strokeWidth="2" style={{ transformBox: 'fill-box', transformOrigin: 'center', animation: 'ahd-glow 1.8s ease-out 2' }} />
               ) : null}
               <circle
                 cx={p.x}

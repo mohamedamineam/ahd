@@ -9,7 +9,7 @@ import { hijriBaseDate } from '@/features/prayer/dates';
 import { weekdayName } from '@/lib/format';
 import { IconWinClose, IconWinMaximize, IconWinMinimize, IconWinRestore } from '@/design/icons';
 import { useS } from '@/features/settings/store';
-import { SakanMark } from '@/design/brand/SakanMark';
+import { AhdMark } from '@/design/brand/AhdMark';
 import { LocationSwitcher } from './LocationSwitcher';
 
 function WindowControls() {
@@ -79,10 +79,10 @@ export function TitleBar({ minimal = false }: { minimal?: boolean }) {
   return (
     <header
       data-tauri-drag-region
-      className="drag-region relative z-20 flex h-[52px] shrink-0 items-center gap-3 border-b border-line-soft bg-bg ps-4 pe-2"
+      className="drag-region relative z-20 flex h-[52px] shrink-0 items-center gap-3 border-b border-line-soft bg-bg ps-4 pe-2 print:hidden"
     >
       <div className="flex items-center gap-2.5" data-tauri-drag-region>
-        <SakanMark size={24} />
+        <AhdMark size={24} />
         <span className="font-display text-[1.0625rem] leading-none text-ink" data-tauri-drag-region>
           {t('app.name')}
         </span>

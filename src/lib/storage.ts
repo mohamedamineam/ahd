@@ -4,7 +4,7 @@
  */
 import { IS_TAURI } from './bridge';
 
-const LS_PREFIX = 'sakan:';
+const LS_PREFIX = 'ahd:';
 
 type StoreLike = {
   get<T>(key: string): Promise<T | undefined>;
