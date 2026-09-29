@@ -1,7 +1,7 @@
 {
   "name": "ahd",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ahd — a calm prayer-times companion for the desktop: adhan, widget, Quran, adhkar and qibla.",
   "license": "GPL-3.0-or-later",
   "type": "module",
