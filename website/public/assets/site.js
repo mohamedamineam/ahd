@@ -9,7 +9,7 @@
       brand: 'عهد', navFeatures: 'المزايا', navDownload: 'التنزيل', navReq: 'المتطلبات', navFeedback: 'رأيك',
       eyebrow: 'مجاني ومفتوح المصدر · ويندوز ولينكس', h1a: 'رفيقك الهادئ', h1b: 'لمواقيت الصلاة',
       lede: 'مواقيت دقيقة حتى الثانية، وأذان لا يفوتك، والقرآن الكريم والأذكار والقبلة، في تطبيق واحد يعمل دون إنترنت ويحفظ خصوصيتك.',
-      dlWindows: 'تنزيل لويندوز', dlLinux: 'تنزيل للينكس', allDownloads: 'كل خيارات التنزيل', version: 'الإصدار 0.1.0 · مجاني وبلا إعلانات', pillName: 'العصر',
+      dlWindows: 'تنزيل لويندوز', dlLinux: 'تنزيل للينكس', allDownloads: 'كل خيارات التنزيل', version: 'بلا إعلانات ولا حسابات ولا تتبع', pillName: 'العصر',
       featKicker: 'المزايا', featTitle: 'كل ما تحتاجه للصلاة، في مكان واحد', featLede: 'صمم عهد ليبقى هادئا في الخلفية، ويذكرك بكل صلاة في وقتها.',
       f1t: 'مواقيت دقيقة', f1d: 'لأي مدينة في العالم دون إنترنت، بكل طرق الحساب المعروفة، مع ضبط كل صلاة بالثواني لتطابق مسجدك أو الجدول الرسمي.',
       f2t: 'الأذان في وقته', f2d: 'أذان خاص بالفجر، وتنبيه يمكن إغلاقه دون أن يتوقف الأذان، واختصار لإيقافه، ثم دعاء ما بعد الأذان.',
@@ -25,7 +25,8 @@
       dlKicker: 'التنزيل', dlTitle: 'نزل عهد مجانا', dlLede: 'اختر نظامك. يبدأ التنزيل مباشرة.',
       winTitle: 'ويندوز', winDesc: 'مثبت عادي لا يحتاج صلاحيات المسؤول. ويندوز 10 و11 (64 بت).', winBtn: 'تنزيل المثبت (.exe)', winMsi: 'حزمة MSI',
       winNote: 'قد يظهر ويندوز رسالة «Windows protected your PC» لأن التطبيق جديد وغير موقع رقميا بعد: اضغط «More info» ثم «Run anyway».',
-      linTitle: 'لينكس', tabDeb: 'أوبونتو · مينت · ديبيان', tabRpm: 'فيدورا', tabApp: 'AppImage', copy: 'نسخ', copied: 'تم النسخ',
+      linTitle: 'لينكس', tabDeb: 'أوبونتو · مينت', tabRpm: 'فيدورا', tabApp: 'AppImage', copy: 'نسخ',
+      hintDeb: 'لأوبونتو ولينكس مينت وديبيان والتوزيعات المبنية عليها.', hintRpm: 'لفيدورا والتوزيعات التي تستخدم dnf.', hintApp: 'ملف واحد يعمل على أي توزيعة دون تثبيت.', copied: 'تم النسخ',
       getDeb: 'تنزيل ملف .deb', getRpm: 'تنزيل ملف .rpm', getApp: 'تنزيل ملف AppImage', linAfter: 'بعد التثبيت ستجد «عهد» في قائمة التطبيقات.',
       sums: 'بصمات SHA-256 للتحقق من الملفات', source: 'الشيفرة المصدرية',
       reqKicker: 'المتطلبات', reqTitle: 'متطلبات التشغيل', reqWin: 'ويندوز', reqWin1a: 'ويندوز 10 أو 11', reqWin1b: '(64 بت).',
@@ -46,7 +47,7 @@
       brand: 'Ahd', navFeatures: 'Features', navDownload: 'Download', navReq: 'Requirements', navFeedback: 'Feedback',
       eyebrow: 'Free and open source · Windows and Linux', h1a: 'A calm companion', h1b: 'for prayer times',
       lede: 'Prayer times accurate to the second, an adhan you won’t miss, the Quran, adhkar and the qibla, in one app that works offline and respects your privacy.',
-      dlWindows: 'Download for Windows', dlLinux: 'Download for Linux', allDownloads: 'All downloads', version: 'Version 0.1.0 · free, no ads', pillName: 'Asr',
+      dlWindows: 'Download for Windows', dlLinux: 'Download for Linux', allDownloads: 'All downloads', version: 'No ads, no accounts, no tracking', pillName: 'Asr',
       featKicker: 'Features', featTitle: 'Everything for your prayers, in one place', featLede: 'Ahd stays quietly in the background and reminds you of every prayer on time.',
       f1t: 'Accurate times', f1d: 'For any city in the world, offline, with every common calculation method, and per-second fine-tuning of each prayer to match your mosque or the official timetable.',
       f2t: 'The adhan on time', f2d: 'A separate Fajr adhan, an alert you can close while the adhan keeps playing, a shortcut to stop it, then the dua after the adhan.',
@@ -62,7 +63,8 @@
       dlKicker: 'Download', dlTitle: 'Get Ahd for free', dlLede: 'Choose your system. The download starts right away.',
       winTitle: 'Windows', winDesc: 'A normal installer, no administrator rights needed. Windows 10 and 11 (64-bit).', winBtn: 'Download installer (.exe)', winMsi: 'MSI package',
       winNote: 'Windows may show “Windows protected your PC” because the app is new and not yet digitally signed: click “More info”, then “Run anyway”.',
-      linTitle: 'Linux', tabDeb: 'Ubuntu · Mint · Debian', tabRpm: 'Fedora', tabApp: 'AppImage', copy: 'Copy', copied: 'Copied',
+      linTitle: 'Linux', tabDeb: 'Ubuntu · Mint', tabRpm: 'Fedora', tabApp: 'AppImage', copy: 'Copy',
+      hintDeb: 'For Ubuntu, Linux Mint, Debian and distributions based on them.', hintRpm: 'For Fedora and other distributions that use dnf.', hintApp: 'A single file that runs on any distribution, no installation needed.', copied: 'Copied',
       getDeb: 'Download .deb file', getRpm: 'Download .rpm file', getApp: 'Download AppImage', linAfter: 'After installing, find Ahd in your applications menu.',
       sums: 'SHA-256 checksums to verify the files', source: 'Source code',
       reqKicker: 'Requirements', reqTitle: 'System requirements', reqWin: 'Windows', reqWin1a: 'Windows 10 or 11', reqWin1b: '(64-bit).',
@@ -82,7 +84,8 @@
   };
 
   var lang = 'ar';
-  try { lang = localStorage.getItem('ahd-lang') || ((navigator.language || '').toLowerCase().indexOf('ar') === 0 ? 'ar' : 'en'); } catch (e) { /* storage blocked */ }
+  // Arabic first; English only when the visitor chose it with the language button
+  try { lang = localStorage.getItem('ahd-lang') || 'ar'; } catch (e) { /* storage blocked */ }
   if (!T[lang]) lang = 'ar';
 
   var os = /Windows/i.test(navigator.userAgent) ? 'windows' : /Linux/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent) ? 'linux' : 'windows';
@@ -120,13 +123,27 @@
   // Linux commands with this site's own address
   document.querySelectorAll('[data-cmd]').forEach(function (pre) {
     var cmd = pre.getAttribute('data-cmd').split('{origin}').join(location.origin);
-    cmd.split('\n').forEach(function (line, i) {
-      if (i) pre.appendChild(document.createTextNode('\n'));
+    cmd.split('\n').forEach(function (line) {
+      var row = document.createElement('span');
+      row.className = 'ln';
       var p = document.createElement('span');
       p.className = 'p';
       p.textContent = '$ ';
-      pre.appendChild(p);
-      pre.appendChild(document.createTextNode(line));
+      row.appendChild(p);
+      // on narrow screens a line wraps only at a space or after a "/" (never inside a file name)
+      line.split(/(\s+|\/+)/).forEach(function (part) {
+        if (!part) return;
+        if (/^\s+$/.test(part) || /^\/+$/.test(part)) {
+          row.appendChild(document.createTextNode(part));
+          if (part === '/') row.appendChild(document.createElement('wbr'));
+        } else {
+          var w = document.createElement('span');
+          w.className = 'w';
+          w.textContent = part;
+          row.appendChild(w);
+        }
+      });
+      pre.appendChild(row);
     });
     pre.setAttribute('data-text', cmd);
   });

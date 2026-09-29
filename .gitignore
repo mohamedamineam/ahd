@@ -12,7 +12,7 @@ test-results/
 # owner's raw deliverables (copied into assets/ and branding/ by the build)
 /Ahd/
 /*.zip
-/CLAUDE_CODE_BUILD_PROMPT.md
+/*_PROMPT.md
 
 # data pipeline caches (large downloads; checksums are committed)
 data-pipeline/cache/

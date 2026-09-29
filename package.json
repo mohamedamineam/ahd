@@ -22,6 +22,7 @@
     "screenshots": "node scripts/screenshots.mjs",
     "check:adhan": "node scripts/check-adhan.ts",
     "check:release": "node scripts/check-adhan.ts --release",
+    "release": "node scripts/release.ts",
     "icons": "node scripts/build-icons.ts",
     "data:cities": "node data-pipeline/build-cities.ts",
     "data:adhkar": "node data-pipeline/build-adhkar.ts",

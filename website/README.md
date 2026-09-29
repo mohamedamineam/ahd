@@ -38,7 +38,8 @@ npx wrangler pages secret put HASH_SALT --project-name 3ahd   # optional: any lo
 If the name `ahd` is taken on pages.dev, use another project name (e.g. `ahd-app`) in both commands and in
 `wrangler.toml`. A custom domain can be added later in the Cloudflare dashboard (Pages → the project → Custom domains).
 
-To update the site later: `npx wrangler pages deploy`.
+To update the site later: `npx wrangler pages deploy`. Browsers keep `assets/` for a week, so after changing `site.css` or `site.js`,
+raise the `?v=` number where `index.html` loads them.
 
 ## Reading the comments (secure)
 

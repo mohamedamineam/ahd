@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/changa-arabic-600-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css">
-<script src="/assets/site.js" defer></script>
+<link rel="stylesheet" href="/assets/site.css?v=3">
+<script src="/assets/site.js?v=3" defer></script>
 </head>
 <body>
 <div class="pattern" aria-hidden="true"></div>
@@ -52,7 +52,7 @@
           </a>
           <a class="btn ghost" href="#download" data-t="allDownloads">كل خيارات التنزيل</a>
         </div>
-        <p class="meta"><span data-t="version">الإصدار 0.1.0 · مجاني وبلا إعلانات</span></p>
+        <p class="meta"><span data-t="version">بلا إعلانات ولا حسابات ولا تتبع</span></p>
       </div>
 
       <div class="stage" id="stage">
@@ -180,23 +180,27 @@
             <h3 data-t="linTitle">لينكس</h3>
           </div>
           <div class="tabs" role="tablist" aria-label="Linux">
-            <button role="tab" type="button" aria-selected="true" aria-controls="pane-deb" id="tab-deb" data-t="tabDeb">أوبونتو · مينت · ديبيان</button>
+            <button role="tab" type="button" aria-selected="true" aria-controls="pane-deb" id="tab-deb" data-t="tabDeb">أوبونتو · مينت</button>
             <button role="tab" type="button" aria-selected="false" aria-controls="pane-rpm" id="tab-rpm" data-t="tabRpm">فيدورا</button>
             <button role="tab" type="button" aria-selected="false" aria-controls="pane-app" id="tab-app" data-t="tabApp">AppImage</button>
           </div>
           <div class="pane" id="pane-deb" role="tabpanel" aria-labelledby="tab-deb">
+            <p class="hint" data-t="hintDeb">لأوبونتو ولينكس مينت وديبيان والتوزيعات المبنية عليها.</p>
             <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="wget -O ahd.deb {origin}/download/Ahd-linux-amd64.deb&#10;sudo apt install ./ahd.deb"></pre></div>
             <div class="links"><a class="btn ghost small" href="/download/Ahd-linux-amd64.deb" download data-t="getDeb">تنزيل ملف .deb</a></div>
+            <p class="hint after" data-t="linAfter">بعد التثبيت ستجد «عهد» في قائمة التطبيقات.</p>
           </div>
           <div class="pane" id="pane-rpm" role="tabpanel" aria-labelledby="tab-rpm" hidden>
+            <p class="hint" data-t="hintRpm">لفيدورا والتوزيعات التي تستخدم dnf.</p>
             <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="sudo dnf install {origin}/download/Ahd-linux-x86_64.rpm"></pre></div>
             <div class="links"><a class="btn ghost small" href="/download/Ahd-linux-x86_64.rpm" download data-t="getRpm">تنزيل ملف .rpm</a></div>
+            <p class="hint after" data-t="linAfter">بعد التثبيت ستجد «عهد» في قائمة التطبيقات.</p>
           </div>
           <div class="pane" id="pane-app" role="tabpanel" aria-labelledby="tab-app" hidden>
+            <p class="hint" data-t="hintApp">ملف واحد يعمل على أي توزيعة دون تثبيت.</p>
             <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="wget -O Ahd.AppImage {origin}/download/Ahd-linux-x86_64.AppImage&#10;chmod +x Ahd.AppImage&#10;./Ahd.AppImage"></pre></div>
             <div class="links"><a class="btn ghost small" href="/download/Ahd-linux-x86_64.AppImage" download data-t="getApp">تنزيل ملف AppImage</a></div>
           </div>
-          <p class="small-print" data-t="linAfter">بعد التثبيت ستجد «عهد» في قائمة التطبيقات.</p>
         </div>
       </div>
       <p class="small-print" data-reveal><a href="/download/SHA256SUMS" data-t="sums">بصمات SHA-256 للتحقق من الملفات</a> · <a href="https://github.com/mohamedamineam/ahd" rel="noopener" data-t="source">الشيفرة المصدرية</a></p>

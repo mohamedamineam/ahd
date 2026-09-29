@@ -1,10 +1,10 @@
 name: Release
 
-# Push a tag like v0.1.0 to build installers into a draft GitHub release. Review the draft, then publish it.
+# `node scripts/release.ts 0.2.0` pushes the tag v0.2.0; this workflow then builds the installers into a draft
+# GitHub release. Review the draft, then publish it on the Releases page.
 on:
   push:
     tags: ['v*']
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -63,16 +63,19 @@ jobs:
         with:
           tagName: ${{ github.ref_name }}
           releaseName: Ahd ${{ github.ref_name }}
-          releaseBody: Installers for Linux and Windows. Verify downloads with SHA256SUMS.
+          releaseBody: Installers for Windows and Linux. The notes are added when all files are ready.
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
 
   checksums:
-    name: Stable names and SHA256SUMS
+    name: Stable names, SHA256SUMS and notes
     needs: build
     runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: .github
       # Copies with version-free names, so the website can link to
       # https://github.com/<owner>/ahd/releases/latest/download/<name> (a direct download of the newest release).
       - name: Stable file names and checksums
@@ -81,7 +84,7 @@ jobs:
           REPO: ${{ github.repository }}
           TAG: ${{ github.ref_name }}
         run: |
-          mkdir assets && cd assets
+          mkdir "$RUNNER_TEMP/assets" && cd "$RUNNER_TEMP/assets"
           gh release download "$TAG" --repo "$REPO" --pattern '*' --skip-existing
           rm -f SHA256SUMS Ahd-windows-* Ahd-linux-*
           cp *_x64-setup.exe Ahd-windows-x64-setup.exe
@@ -92,3 +95,4 @@ jobs:
           sha256sum * > SHA256SUMS
           cat SHA256SUMS
           gh release upload "$TAG" Ahd-windows-* Ahd-linux-* SHA256SUMS --repo "$REPO" --clobber
+          gh release edit "$TAG" --repo "$REPO" --notes-file "$GITHUB_WORKSPACE/.github/release-notes.md"
