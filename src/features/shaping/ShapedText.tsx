@@ -24,8 +24,10 @@ interface Props {
   onSegmentClick?: (key: string) => void;
   /** lay out only once scrolled near the viewport (long lists) */
   lazy?: boolean;
-  /** scale a single line down so it fits the width (e.g. the calligraphic basmala) */
+  /** scale a single line down so it fits the width (e.g. the calligraphic basmala) … */
   fit?: boolean;
+  /** … but not below this size (px): wrap onto more lines instead */
+  minFit?: number;
   /** shown with the browser's own text rendering if shaping cannot run */
   fallbackClassName?: string;
   className?: string;
@@ -148,7 +150,7 @@ export function useShapedWidth(fontId: ShapingFontId, segments: ShapedSegment[],
  * Arabic text shaped with HarfBuzz and drawn as SVG (see engine.ts for why). The real text stays in the DOM for
  * screen readers; the drawing is hidden from them.
  */
-export function ShapedText({ font: fontId, text, segments: segs, size, lineHeight = 1.9, justify, align = 'start', lastAlign, wordSpacing, maxLines, selected, onSegmentClick, lazy = false, fit = false, fallbackClassName, className, style }: Props) {
+export function ShapedText({ font: fontId, text, segments: segs, size, lineHeight = 1.9, justify, align = 'start', lastAlign, wordSpacing, maxLines, selected, onSegmentClick, lazy = false, fit = false, minFit = 0, fallbackClassName, className, style }: Props) {
   const segments = useMemo<ShapedSegment[]>(() => segs ?? [{ key: '0', text: text ?? '' }], [segs, text]);
   const { font, error } = useShapingFont(fontId);
   const { ref, width, visible } = useWidth(lazy);
@@ -158,10 +160,10 @@ export function ShapedText({ font: fontId, text, segments: segs, size, lineHeigh
     let px = size;
     if (fit) {
       const natural = layoutText(font, segments, { size, width: 1e7, lineHeight }).natural;
-      if (natural > width) px = ((size * width) / natural) * 0.995;
+      if (natural > width) px = Math.max(minFit, ((size * width) / natural) * 0.995);
     }
     return layoutText(font, segments, { size: px, width, lineHeight, justify, align, lastAlign, wordSpacing, maxLines });
-  }, [font, width, visible, fit, segments, size, lineHeight, justify, align, lastAlign, wordSpacing, maxLines]);
+  }, [font, width, visible, fit, minFit, segments, size, lineHeight, justify, align, lastAlign, wordSpacing, maxLines]);
   const plain = segments.map((s) => s.text).join(' ');
 
   if (error)

@@ -8,15 +8,23 @@ export type MonthStyle = 'maghreb' | 'egypt' | 'levant';
 
 const ARABIC_INDIC = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
+/**
+ * Keep a number with its unit or sign together, left to right, inside Arabic text (LRI … PDI): without it
+ * "107.0°" shows as "°107.0" and "2.8 MB" as "MB 2.8".
+ */
+export function ltr(s: string): string {
+  return `\u2066${s}\u2069`;
+}
+
 /** Replace Western digits with Arabic-Indic digits when requested. */
 export function toDigits(s: string, digits: Digits): string {
   if (digits === 'latn') return s;
   return s.replace(/[0-9]/g, (c) => ARABIC_INDIC[c.charCodeAt(0) - 48]!);
 }
 
-/** Parse either digit system back to a number (used by time inputs). */
+/** Parse any digit system (Western, Arabic-Indic, Eastern Arabic-Indic) back to Western digits. */
 export function fromDigits(s: string): string {
-  return s.replace(/[٠-٩]/g, (c) => String(c.charCodeAt(0) - 0x0660));
+  return s.replace(/[٠-٩]/g, (c) => String(c.charCodeAt(0) - 0x0660)).replace(/[۰-۹]/g, (c) => String(c.charCodeAt(0) - 0x06f0));
 }
 
 export interface TimeOpts {
@@ -27,6 +35,44 @@ export interface TimeOpts {
 }
 
 const pad2 = (n: number) => (n < 10 ? `0${n}` : String(n));
+
+/** A wall-clock "HH:MM" (24 h) shown in the user's format: "21:30", "9:30 م", "9:30 PM". */
+export function formatHHMM(hhmm: string, o: Omit<TimeOpts, 'seconds'>): string {
+  const m = /^(\d{1,2}):(\d{2})$/.exec(hhmm);
+  if (!m) return hhmm;
+  const h = Number(m[1]);
+  const min = m[2]!;
+  const s = o.format === '24h' ? `${pad2(h)}:${min}` : `${h % 12 === 0 ? 12 : h % 12}:${min} ${o.lang === 'ar' ? (h < 12 ? 'ص' : 'م') : h < 12 ? 'AM' : 'PM'}`;
+  return toDigits(s, o.digits);
+}
+
+/**
+ * Read a typed time back to "HH:MM" (24 h). Accepts both digit systems and "21:30", "2130", "9:30", "9.30", "9",
+ * with an optional AM/PM or ص/م. Returns null when it is not a valid time.
+ */
+export function parseHHMM(input: string): string | null {
+  const s = fromDigits(input).trim().toLowerCase().replace(/\s+/g, ' ');
+  const pm = /\b(pm|p\.m\.)|م/.test(s);
+  const am = /\b(am|a\.m\.)|ص/.test(s);
+  const t = s.replace(/[^0-9:.٫]/g, '').replace(/[.٫]/g, ':');
+  let h: number;
+  let m: number;
+  const parts = /^(\d{1,2}):(\d{1,2})$/.exec(t);
+  if (parts) {
+    h = Number(parts[1]);
+    m = Number(parts[2]);
+  } else if (/^\d{1,4}$/.test(t)) {
+    const n = t.length <= 2 ? Number(t) * 100 : Number(t);
+    h = Math.floor(n / 100);
+    m = n % 100;
+  } else return null;
+  if (pm || am) {
+    if (h < 1 || h > 12) return null;
+    h = (h % 12) + (pm ? 12 : 0);
+  }
+  if (h > 23 || m > 59) return null;
+  return `${pad2(h)}:${pad2(m)}`;
+}
 
 export function formatTime(epochMs: number, zone: string, o: TimeOpts): string {
   if (!Number.isFinite(epochMs)) return '—';

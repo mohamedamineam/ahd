@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicU32, Ordering};
 use tauri::{AppHandle, Emitter, LogicalPosition, Manager, PhysicalPosition, Runtime, WebviewUrl, WebviewWindow, WebviewWindowBuilder, WindowEvent};
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
@@ -88,16 +89,22 @@ pub const PANEL: &str = "panel";
 pub const PILL: &str = "pill";
 pub const TOAST: &str = "toast";
 
+/// Height of the adhan window: compact while the adhan plays, taller once the dua after the adhan is shown
+/// (the page measures itself and calls `fit_toast`).
+const TOAST_COMPACT: u32 = 168;
+static TOAST_HEIGHT: AtomicU32 = AtomicU32::new(TOAST_COMPACT);
+
 /// Logical sizes.
 fn size_of(label: &str, cfg: &WindowsConfig) -> (f64, f64) {
     match label {
         // room for the stop button that appears while the adhan plays
         WIDGET if cfg.main_widget.size == "L" => (300.0, 448.0),
         WIDGET => (300.0, 372.0),
-        MINI => (210.0, 48.0),
+        // wide enough for the longest prayer name, a timer with seconds and the stop button
+        MINI => (248.0, 48.0),
         PANEL => (300.0, 440.0),
         PILL => (164.0, 34.0),
-        TOAST => (380.0, 168.0),
+        TOAST => (400.0, f64::from(TOAST_HEIGHT.load(Ordering::Relaxed))),
         _ => (300.0, 300.0),
     }
 }
@@ -131,7 +138,8 @@ pub fn forget_position<R: Runtime>(app: &AppHandle<R>, label: &str) {
         let _ = fs::write(p, serde_json::to_string(&all).unwrap_or_default());
     }
     if let Some(w) = app.get_webview_window(label) {
-        let _ = place_default(&w, label);
+        let cfg = app.state::<crate::state::AppState>().config.read().map(|c| c.clone()).unwrap_or_default();
+        let _ = place_default(&w, label, &cfg);
     }
 }
 
@@ -144,24 +152,34 @@ fn work_area<R: Runtime>(app: &AppHandle<R>) -> Option<(i32, i32, u32, u32, f64,
     Some((wa.position.x, wa.position.y, wa.size.width, wa.size.height, m.scale_factor(), panel_top))
 }
 
-fn place_default<R: Runtime>(w: &WebviewWindow<R>, label: &str) -> tauri::Result<()> {
+/// Size of a window in physical pixels. Computed from its fixed logical size: right after creation the real
+/// size is not known yet on X11 (it reads as 1×1), which put new widgets almost entirely off screen.
+fn physical_size(label: &str, cfg: &WindowsConfig, scale: f64) -> (i32, i32) {
+    let (w, h) = size_of(label, cfg);
+    ((w * scale).round() as i32, (h * scale).round() as i32)
+}
+
+fn place_default<R: Runtime>(w: &WebviewWindow<R>, label: &str, cfg: &WindowsConfig) -> tauri::Result<()> {
     let app = w.app_handle();
     let Some((x, y, ww, wh, scale, panel_top)) = work_area(app) else { return Ok(()) };
-    let size = w.outer_size()?;
-    let (sw, sh) = (size.width as i32, size.height as i32);
+    let (sw, sh) = physical_size(label, cfg, scale);
     let margin = (20.0 * scale) as i32;
     let right = x + ww as i32 - sw - margin;
+    let bottom = y + wh as i32 - sh - margin;
     let pos = match label {
         WIDGET => PhysicalPosition::new(right, y + margin),
-        MINI => PhysicalPosition::new(right, y + margin + (380.0 * scale) as i32),
-        PANEL => {
-            if panel_top {
-                PhysicalPosition::new(right, y + margin / 2)
-            } else {
-                PhysicalPosition::new(right, y + wh as i32 - sh - margin / 2)
-            }
+        MINI => PhysicalPosition::new(right, y + margin + (400.0 * scale) as i32),
+        PANEL => PhysicalPosition::new(right, if panel_top { y + margin / 2 } else { y + wh as i32 - sh - margin / 2 }),
+        TOAST => {
+            // Arabic: bottom-left corner (brief §10.3); "auto" follows the panel (top panel → top)
+            let left = x + margin;
+            let top = match cfg.toast_position.as_str() {
+                "top-end" => true,
+                "bottom-end" => false,
+                _ => panel_top,
+            };
+            PhysicalPosition::new(if cfg.lang == "ar" { left } else { right }, if top { y + margin } else { bottom })
         }
-        TOAST => PhysicalPosition::new(right, if panel_top { y + margin } else { y + wh as i32 - sh - margin }),
         _ => PhysicalPosition::new(right, y + margin),
     };
     w.set_position(pos)
@@ -242,13 +260,14 @@ fn build<R: Runtime>(app: &AppHandle<R>, label: &str, cfg: &WindowsConfig) -> ta
 
     // position: saved (widgets/pill) or default
     let saved = load_positions(app).get(label).copied();
-    let size = win.outer_size().map(|s| (s.width as i32, s.height as i32)).unwrap_or((w as i32, h as i32));
+    let scale = work_area(app).map(|a| a.4).unwrap_or(1.0);
+    let size = physical_size(label, cfg, scale);
     match saved.and_then(|p| clamp_to_screen(app, p, size)) {
         Some((x, y)) if label == WIDGET || label == MINI || label == PILL => {
             let _ = win.set_position(PhysicalPosition::new(x, y));
         }
         _ => {
-            let _ = place_default(&win, label);
+            let _ = place_default(&win, label, cfg);
         }
     }
 
@@ -317,9 +336,9 @@ fn place_pill<R: Runtime>(app: &AppHandle<R>, w: &WebviewWindow<R>) {
         };
         let _ = w.set_position(PhysicalPosition::new(x, y));
     } else {
-        let _ = place_default(w, PILL);
+        let cfg = app.state::<crate::state::AppState>().config.read().map(|c| c.clone()).unwrap_or_default();
+        let _ = place_default(w, PILL, &cfg);
     }
-    let _ = app;
 }
 
 /// Pre-create the tray panel hidden so it opens instantly (brief §11.4).
@@ -332,7 +351,7 @@ pub fn toggle_panel<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
         if w.is_visible().unwrap_or(false) {
             let _ = w.hide();
         } else {
-            let _ = place_default(&w, PANEL);
+            let _ = place_default(&w, PANEL, cfg);
             let _ = w.show();
             let _ = w.set_focus();
         }
@@ -340,28 +359,40 @@ pub fn toggle_panel<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
 }
 
 pub fn show_toast<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig, payload: &impl Serialize) {
+    // Kept for the toast window to fetch on load: when it is created for this adhan, its page is not listening
+    // yet and would miss the event (the toast then showed no prayer, time or dua).
+    let value = serde_json::to_value(payload).unwrap_or_default();
+    if let Ok(mut t) = app.state::<crate::state::AppState>().toast.lock() {
+        *t = Some(value.clone());
+    }
+    TOAST_HEIGHT.store(TOAST_COMPACT, Ordering::Relaxed);
     match build(app, TOAST, cfg) {
         Ok(w) => {
-            // RTL: the toast sits in the bottom-left corner (brief §10.3)
-            let _ = place_default(&w, TOAST);
-            if cfg.lang == "ar" {
-                if let Some((x, _, _, _, scale, _)) = work_area(app) {
-                    if let Ok(p) = w.outer_position() {
-                        let _ = w.set_position(PhysicalPosition::new(x + (20.0 * scale) as i32, p.y));
-                    }
-                }
-            }
-            if cfg.toast_position == "top-end" {
-                if let Some((_, y, _, _, scale, _)) = work_area(app) {
-                    if let Ok(p) = w.outer_position() {
-                        let _ = w.set_position(PhysicalPosition::new(p.x, y + (20.0 * scale) as i32));
-                    }
-                }
-            }
-            let _ = app.emit_to(TOAST, "ahd://toast", payload);
+            resize_fixed(&w, TOAST, cfg);
+            let _ = place_default(&w, TOAST, cfg);
+            let _ = app.emit_to(TOAST, "ahd://toast", value);
             let _ = w.show();
         }
         Err(e) => log::error!("toast: {e}"),
+    }
+}
+
+fn resize_fixed<R: Runtime>(w: &WebviewWindow<R>, label: &str, cfg: &WindowsConfig) {
+    let (sw, sh) = size_of(label, cfg);
+    let _ = w.set_min_size(Some(tauri::LogicalSize::new(sw, sh)));
+    let _ = w.set_max_size(Some(tauri::LogicalSize::new(sw, sh)));
+    let _ = w.set_size(tauri::LogicalSize::new(sw, sh));
+}
+
+/// The adhan window grows to fit the dua after the adhan, keeping its corner of the screen.
+pub fn fit_toast<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig, height: f64) {
+    let h = height.clamp(120.0, 460.0).round() as u32;
+    if TOAST_HEIGHT.swap(h, Ordering::Relaxed) == h {
+        return;
+    }
+    if let Some(w) = app.get_webview_window(TOAST) {
+        resize_fixed(&w, TOAST, cfg);
+        let _ = place_default(&w, TOAST, cfg);
     }
 }
 

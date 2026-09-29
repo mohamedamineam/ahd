@@ -12,15 +12,25 @@ SignPath (free for open-source projects) or Azure Trusted Signing are the usual 
 
 ## Microsoft Store
 
-The Store accepts the installer as a "MSI or EXE app":
+Registration in Partner Center (storedeveloper.microsoft.com) is free for individual developers since September 2025
+(ID and selfie check). Two ways to submit:
 
-1. Build with the Store overlay, which bundles WebView2 so installation needs no download (a Store requirement):
-   `npm run tauri build -- --bundles nsis --config src-tauri/tauri.microsoftstore.conf.json`
-2. Upload the installer to a permanent HTTPS URL (the GitHub release asset works) — the Store downloads it
-   from there, so its content must never change for that version.
-3. In Partner Center: new product → "EXE or MSI app", installer URL, silent install switch `/S`, architecture x64,
-   the privacy policy URL (docs/PRIVACY.md on GitHub), screenshots from docs/screenshots, and the store logos
-   from packaging/msix/Assets.
+**MSIX (recommended — no certificate needed).** The Store re-signs MSIX packages with Microsoft's certificate and
+delivers updates itself. Tauri does not build MSIX, so on a Windows PC convert the NSIS installer with the free
+**MSIX Packaging Tool** (from the Store): "Application package" → installer `Ahd_x.y.z_x64-setup.exe` with the
+argument `/S` → package name, publisher (`CN=…`) and display name exactly as shown in Partner Center → Product
+identity → create the `.msix` and upload it in the submission. The app detects MSIX and hides its own update check.
+Check "Start with Windows" on the converted package: MSIX needs a startup task in its manifest for that.
+
+**EXE/MSI link.** The Store downloads your installer from a permanent HTTPS URL (a GitHub release asset works) and
+installs it silently (`/S` for the NSIS installer, `/quiet` for the MSI). The installer must be Authenticode-signed with
+a certificate from a CA in the Microsoft Trusted Root Program (self-signed is rejected) — e.g. SignPath (free for
+open source) or Azure Trusted Signing. Build it with the WebView2 offline installer:
+`npm run tauri build -- --bundles nsis --config src-tauri/tauri.microsoftstore.conf.json`. The Store does not update
+EXE/MSI apps, so this build also needs the in-app updater (`--features updater`, with the maintainer's signing key).
+
+For both: privacy policy URL (docs/PRIVACY.md on GitHub), age rating questionnaire, screenshots
+(docs/screenshots), store art (branding/png/store-box-art-1080.png, store-poster-720x1080.png, app-icon-300.png).
 
 Windows code (tray, taskbar pill, widgets on the desktop layer, toast placement) is type-checked on every CI run
 (`cargo clippy` on windows-latest) but has not yet been run on a Windows machine; see docs/QA_CHECKLIST.md.

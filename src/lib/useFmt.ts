@@ -4,7 +4,7 @@ import { useS } from '@/features/settings/store';
 import { toHijri } from '@/features/prayer/hijri';
 import { labelKey } from '@/features/prayer/displayState';
 import type { PrayerId } from '@/features/prayer/types';
-import { formatGregorian, formatHijri, formatTime, hms, toDigits } from './format';
+import { formatGregorian, formatHHMM, formatHijri, formatTime, hms, ltr, toDigits } from './format';
 
 export function useFmt() {
   const { t } = useTranslation();
@@ -49,10 +49,12 @@ export function useFmt() {
     [lang, digits, monthStyle],
   );
   const num = useCallback((v: number | string) => toDigits(String(v), digits), [digits]);
+  /** a wall-clock "HH:MM" in the user's time format */
+  const clock = useCallback((hhmm: string) => formatHHMM(hhmm, { lang, digits, format: timeFormat }), [lang, digits, timeFormat]);
   const prayer = useCallback((id: PrayerId, isFriday = false) => t(`prayers.${labelKey({ id, isFriday }, jumuah)}`), [t, jumuah]);
 
   return useMemo(
-    () => ({ t, lang, digits, time, duration, durationLong, hijri, gregorian, num, prayer, dir: lang === 'ar' ? 'rtl' : 'ltr' }),
-    [t, lang, digits, time, duration, durationLong, hijri, gregorian, num, prayer],
+    () => ({ t, lang, digits, time, duration, durationLong, hijri, gregorian, num, clock, ltr, prayer, dir: lang === 'ar' ? 'rtl' : 'ltr' }),
+    [t, lang, digits, time, duration, durationLong, hijri, gregorian, num, clock, prayer],
   );
 }

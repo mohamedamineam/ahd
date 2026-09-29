@@ -41,6 +41,12 @@ which record every download's checksum in data-pipeline/checksums.json.
 Interface fonts come from the @fontsource packages. Amiri and Aref Ruqaa are also bundled as complete TrueType
 files from the Google Fonts repository (pinned commits, sha256 in data-pipeline/checksums.json) for text shaping.
 
+## Library
+
+- **IslamHouse** (islamhouse.com) — books offered for free distribution; downloaded on request, unchanged.
+- **Internet Archive** (archive.org) — Sahih al-Bukhari and «الرحيق المختوم» (Qatar Awqaf edition), downloaded on
+  request from their archive.org pages; rights as stated by each item (see docs/OPEN_QUESTIONS.md).
+
 ## Adhan recordings
 
 Five recordings supplied by the project owner (see assets/adhan/adhan.json). Source and licence of each are

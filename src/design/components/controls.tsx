@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useId, useRef, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import clsx from 'clsx';
-import { IconCheck, IconMinus, IconPlus } from '../icons';
+import { fromDigits, parseHHMM } from '@/lib/format';
+import { IconCheck, IconClock, IconMinus, IconPlus } from '../icons';
 
 /* ------------------------------------------------------------------ Toggle */
 
@@ -279,28 +280,126 @@ export interface NumberFieldProps {
   suffix?: string;
   placeholder?: string;
   className?: string;
+  /** −/+ buttons (default on) */
+  stepper?: boolean;
 }
 
-export function NumberField({ value, onChange, min, max, step = 1, label, suffix, placeholder, className }: NumberFieldProps) {
+export function NumberField({ value, onChange, min, max, step = 1, label, suffix, placeholder, className, stepper = true }: NumberFieldProps) {
+  // The typed text is kept until Enter/blur: clamping on every key press made numbers impossible to type
+  // (typing "30" with a minimum of 5 turned the "3" into "5").
+  const [draft, setDraft] = useState<string | null>(null);
+  const decimals = (String(step).split('.')[1] ?? '').length;
+  const fit = (v: number) => Number(Math.min(max ?? Infinity, Math.max(min ?? -Infinity, v)).toFixed(decimals));
+  const commit = (raw: string) => {
+    setDraft(null);
+    const text = fromDigits(raw).trim().replace(/[٫,]/g, '.').replace(/[−–]/g, '-');
+    if (text === '') return onChange(null);
+    const v = Number(text);
+    if (Number.isFinite(v)) onChange(fit(v));
+  };
+  const bump = (dir: 1 | -1) => {
+    setDraft(null);
+    onChange(fit((value ?? min ?? 0) + dir * step));
+  };
+  const btn = 'inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] text-ink-muted transition-colors hover:bg-[color-mix(in_oklab,var(--ink)_8%,transparent)] hover:text-ink disabled:opacity-35';
+  const symbol = !!suffix && /^[°%]$/.test(suffix);
   return (
-    <label className={clsx('inline-flex h-10 items-center gap-2 rounded-control border border-line bg-surface-raised px-3 focus-within:border-sage', className)}>
-      <span className="sr-only">{label}</span>
+    <div className={clsx('inline-flex h-10 items-center gap-0.5 rounded-control border border-line bg-surface-raised px-1 focus-within:border-sage', className)}>
+      {stepper ? (
+        <button type="button" tabIndex={-1} aria-label={`${label} −`} className={btn} disabled={value !== null && min !== undefined && value <= min} onClick={() => bump(-1)}>
+          <IconMinus size={15} />
+        </button>
+      ) : null}
+      {/* a symbol (°, %) belongs to the number, left to right; a word (دقيقة) reads after it in the text direction */}
+      <span dir={symbol ? 'ltr' : undefined} className="inline-flex min-w-0 items-center">
+        <input
+          type="text"
+          inputMode="decimal"
+          dir="ltr"
+          aria-label={label}
+          className="tabular w-12 min-w-0 bg-transparent text-center text-ink outline-none placeholder:text-ink-faint"
+          value={draft ?? (value === null ? '' : String(value))}
+          placeholder={placeholder}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={(e) => commit(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') commit(e.currentTarget.value);
+            else if (e.key === 'Escape') setDraft(null);
+            else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+              e.preventDefault();
+              bump(e.key === 'ArrowUp' ? 1 : -1);
+            }
+          }}
+        />
+        {suffix ? <span className={clsx('text-[0.875rem] text-ink-muted', symbol ? 'ps-0.5 pe-1' : 'pe-1')}>{suffix}</span> : null}
+      </span>
+      {stepper ? (
+        <button type="button" tabIndex={-1} aria-label={`${label} +`} className={btn} disabled={value !== null && max !== undefined && value >= max} onClick={() => bump(1)}>
+          <IconPlus size={15} />
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ Time field */
+
+export interface TimeFieldProps {
+  /** "HH:MM", 24 h */
+  value: string;
+  onChange: (hhmm: string) => void;
+  label: string;
+  /** how the time is shown when not editing (the user's 12/24 h format and digits) */
+  format: (hhmm: string) => string;
+  className?: string;
+}
+
+/**
+ * A time of day that follows the app's own time format. The browser's time input ignores it (it showed
+ * "09:00 AM" with a 24-hour setting) and looks different in every engine.
+ */
+export function TimeField({ value, onChange, label, format, className }: TimeFieldProps) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const shift = (minutes: number) => {
+    const [h, m] = value.split(':').map(Number);
+    const total = ((((h ?? 0) * 60 + (m ?? 0) + minutes) % 1440) + 1440) % 1440;
+    onChange(`${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`);
+  };
+  const commit = (raw: string) => {
+    const v = parseHHMM(raw);
+    if (v) onChange(v);
+    setDraft(null);
+  };
+  return (
+    <div className={clsx('inline-flex h-10 items-center gap-2 rounded-control border border-line bg-surface-raised px-3 focus-within:border-sage', className)}>
+      <IconClock size={16} className="shrink-0 text-ink-faint" />
       <input
-        type="number"
-        inputMode="decimal"
-        className="tabular w-16 bg-transparent text-ink outline-none placeholder:text-ink-faint"
-        value={value ?? ''}
-        placeholder={placeholder}
-        min={min}
-        max={max}
-        step={step}
-        onChange={(e) => {
-          const v = e.target.value === '' ? null : Number(e.target.value);
-          if (v === null || Number.isFinite(v)) onChange(v === null ? null : Math.min(max ?? Infinity, Math.max(min ?? -Infinity, v)));
+        type="text"
+        inputMode="numeric"
+        dir="ltr"
+        aria-label={label}
+        className="tabular w-24 min-w-0 bg-transparent text-ink outline-none"
+        value={draft ?? format(value)}
+        onFocus={(e) => {
+          setDraft(value);
+          const el = e.currentTarget;
+          requestAnimationFrame(() => el.select());
+        }}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={(e) => commit(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') e.currentTarget.blur();
+          else if (e.key === 'Escape') {
+            setDraft(value);
+            e.currentTarget.blur();
+          } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            shift(e.key === 'ArrowUp' ? 5 : -5);
+            setDraft(null);
+          }
         }}
       />
-      {suffix ? <span className="text-[0.875rem] text-ink-muted">{suffix}</span> : null}
-    </label>
+    </div>
   );
 }
 

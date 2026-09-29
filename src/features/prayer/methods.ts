@@ -1,3 +1,4 @@
+import { CalculationMethod } from 'adhan';
 import type { AsrMethod } from './types';
 
 /**
@@ -203,17 +204,42 @@ const COUNTRY_METHOD: Record<string, MethodId> = {
   PT: 'portugal',
 };
 
-const HANAFI_COUNTRIES = new Set(['PK', 'IN', 'BD', 'AF', 'TR', 'KZ', 'UZ', 'TM', 'KG', 'TJ', 'AZ']);
-
 export function defaultMethodFor(country: string | undefined): MethodId {
   return (country && COUNTRY_METHOD[country.toUpperCase()]) || 'mwl';
 }
 
-export function defaultAsrFor(country: string | undefined): AsrMethod {
-  return country && HANAFI_COUNTRIES.has(country.toUpperCase()) ? 'hanafi' : 'standard';
+/** Asr always follows the majority (Jumhur) opinion (owner's decision); kept as a function for existing callers. */
+export function defaultAsrFor(_country?: string | undefined): AsrMethod {
+  return 'standard';
 }
 
 /** Countries where onboarding asks the user to choose between two common conventions. */
 export const COUNTRY_METHOD_CHOICES: Record<string, MethodId[]> = {
   FR: ['france_uoif', 'mwl', 'france_15', 'france_18'],
 };
+
+export interface MethodSummary {
+  fajrAngle: number;
+  /** Isha by angle, or … */
+  ishaAngle: number | null;
+  /** … a fixed number of minutes after Maghrib */
+  ishaInterval: number | null;
+  /** fixed offsets in minutes, non-zero only */
+  adjustments: [string, number][];
+}
+
+/** The twilight angles and offsets a method uses, for display (the same values the engine uses). */
+export function methodSummary(id: MethodId): MethodSummary {
+  const def = METHODS[id];
+  const p = def.adhanBase ? CalculationMethod[def.adhanBase]() : null;
+  const fajrAngle = p ? p.fajrAngle : (def.fajrAngle ?? 18);
+  const interval = p ? p.ishaInterval : (def.ishaInterval ?? 0);
+  const ishaAngle = p ? p.ishaAngle : (def.ishaAngle ?? 0);
+  const adj: Record<string, number> = { ...(p ? p.methodAdjustments : {}), ...(def.adjustments ?? {}) };
+  return {
+    fajrAngle,
+    ishaAngle: interval > 0 ? null : ishaAngle,
+    ishaInterval: interval > 0 ? interval : null,
+    adjustments: Object.entries(adj).filter(([, v]) => v !== 0),
+  };
+}

@@ -231,6 +231,21 @@ export async function invoke<T>(cmd: string, args: Record<string, unknown> = {})
       return (args.shortcut ?? null) as T;
     case 'read_import_file':
       throw new Error('File import is only available in the desktop app.');
+    case 'toast_payload': {
+      // browser preview of the adhan window
+      const ar = (localStorage.getItem('ahd:settings') ?? '').includes('"language":"ar"');
+      return {
+        prayer: 'maghrib',
+        prayerLabel: ar ? 'المغرب' : 'Maghrib',
+        at: Date.now(),
+        title: ar ? 'المغرب' : 'Maghrib',
+        body: '',
+        location: ar ? 'سطيف' : 'Sétif',
+        timeText: '18:27',
+        autoHideSeconds: 60,
+        audible: true,
+      } as T;
+    }
     default:
       // window management and other native-only commands are no-ops in the browser
       return undefined as T;

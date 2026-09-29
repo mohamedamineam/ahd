@@ -89,7 +89,7 @@ function LocationStep() {
                 <dt className="text-ink-muted">{t('onboarding.location.coordinates')}</dt>
                 <dd>
                   <bdi dir="ltr" className="tabular">
-                    {f.num(current.lat.toFixed(4))}, {f.num(current.lon.toFixed(4))}
+                    {f.ltr(`${f.num(current.lat.toFixed(4))}, ${f.num(current.lon.toFixed(4))}`)}
                   </bdi>
                 </dd>
                 <dt className="text-ink-muted">{t('onboarding.location.timezone')}</dt>

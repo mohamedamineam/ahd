@@ -338,10 +338,6 @@
       "useMethodValue": "Method value",
       "customAngles": "Custom angles",
       "customAnglesDesc": "Override the method’s twilight angles.",
-      "asr": "Asr",
-      "asrDesc": "When an object’s shadow reaches its length (Standard) or twice its length (Hanafi).",
-      "asrStandard": "Standard — Shafiʿi, Maliki, Hanbali",
-      "asrHanafi": "Hanafi",
       "highLat": "High-latitude rule",
       "highLatDesc": "How Fajr and Isha are estimated when twilight lasts all night.",
       "highLatAuto": "Recommended for this place",
@@ -382,6 +378,15 @@
         "duplicateDate": "this date appears twice",
         "empty": "the file is empty",
         "badJson": "the JSON is not valid"
+      },
+      "params": "Fajr {{fajr}} · Isha {{isha}}",
+      "paramsInterval": "Fajr {{fajr}} · Isha {{minutes}} min after Maghrib",
+      "methodAdjustments": "Fixed offsets (minutes): {{list}}",
+      "listSep": ", ",
+      "notes": {
+        "umm_al_qura": "Isha is 90 minutes after Maghrib, and 120 minutes during Ramadan.",
+        "turkey": "An approximation of the Diyanet (Turkey) timetable.",
+        "algeria": "The Ministry of Religious Affairs publishes official timetables: compare with them and fine-tune by seconds, or import the timetable."
       }
     },
     "timer": {
@@ -551,7 +556,7 @@
       "networkDesc": "Ahd works fully offline. Each online feature can be turned off.",
       "placeSearch": "Online place search (OpenStreetMap)",
       "mapTiles": "Map tiles (OpenStreetMap)",
-      "library": "Library downloads (IslamHouse)",
+      "library": "Library downloads (IslamHouse, archive.org)",
       "tafsir": "Tafsir downloads",
       "updates": "Update checks (GitHub)",
       "export": "Export settings and data",
@@ -841,6 +846,7 @@
     "desktopOnly": "Downloads are available in the desktop app.",
     "noDownloads": "No downloaded books yet.",
     "noMatch": "No books match these filters.",
-    "attribution": "Books are provided free by IslamHouse (islamhouse.com), unchanged, and downloaded only when you ask."
+    "attribution": "Books are offered free by IslamHouse (islamhouse.com) and the Internet Archive (archive.org), unchanged, and are downloaded only when you ask.",
+    "sourceArchive": "Open the book's page on the Internet Archive"
   }
 }

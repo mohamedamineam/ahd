@@ -22,9 +22,16 @@ To reproduce: render `ٱلۡحَمۡدُ لِلَّهِ` with the KFGQPC Hafs fo
 
 | Desktop | Tray icon | Text next to the icon | Notes |
 | --- | --- | --- | --- |
-| Cinnamon, MATE, Xfce, Budgie | yes | yes (AppIndicator label) | tested on Cinnamon |
+| Cinnamon, MATE | yes | yes (XApp status icon, via libxapp) | tested on Cinnamon 6.6; AppIndicator labels are ignored there |
+| Xfce, Budgie | yes | depends on the panel plugin | AppIndicator |
 | KDE Plasma | yes | no (Plasma ignores labels) | tooltip shows the prayer and timer |
 | GNOME | with the AppIndicator extension | yes | the app explains how to install the extension |
+
+## Rendering glitches
+
+On some drivers (seen with hybrid Intel/NVIDIA laptops) WebKitGTK's DMA-BUF renderer flickers or leaves areas that
+show what is behind the window. Ahd starts WebKit with `WEBKIT_DISABLE_DMABUF_RENDERER=1` unless the variable is
+already set (set it to `0` to try the GPU path).
 
 ## Widgets on Wayland
 

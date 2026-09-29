@@ -387,3 +387,24 @@ html:not([data-window='main']) #root {
 .shaped-mark[data-selected] {
   fill: var(--shaped-selected, color-mix(in oklab, var(--sage) 28%, transparent));
 }
+
+/* Scrollbars: thin and quiet in every engine (WebKitGTK otherwise draws full GTK scrollbars) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--ink) 20%, transparent);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in oklab, var(--ink) 34%, transparent);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

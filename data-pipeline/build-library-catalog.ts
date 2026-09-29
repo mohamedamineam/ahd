@@ -1,5 +1,7 @@
-// Builds the curated library catalog (brief §17) from the IslamHouse API v3 — only books that really exist there,
-// with their official item page and PDF attachment. Content stays unchanged and attributed to IslamHouse.
+// Builds the curated library catalog (brief §17): books from the IslamHouse API v3 — only ones that really exist
+// there, with their official item page and PDF attachment — and a few books from the Internet Archive requested
+// by the owner, checked through archive.org's metadata API. Files are downloaded by the app only on request and
+// kept unchanged; each book links to its source page.
 //   node data-pipeline/build-library-catalog.ts
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -93,7 +95,10 @@ function sizeBytes(s: string): number {
 
 interface Book {
   id: string;
-  islamhouseId: number;
+  provider: 'islamhouse' | 'archive';
+  islamhouseId: number | null;
+  /** edition or printing, when useful to tell editions apart */
+  edition?: string;
   title: string;
   author: string;
   category: Category;
@@ -112,6 +117,7 @@ function toBook(it: Item, category: Category): Book | null {
   const authors = [...new Set((it.prepared_by ?? []).filter((p) => p.kind !== 'source').map((p) => p.title.trim()))];
   return {
     id: `ih-${it.id}`,
+    provider: 'islamhouse',
     islamhouseId: it.id,
     title: it.title.trim(),
     author: authors.join('، '),
@@ -152,11 +158,51 @@ for (const d of DIRECT) {
   }
 }
 
+// Internet Archive items (requested by the owner). Rights are not stated on these items: see docs/OPEN_QUESTIONS.md.
+const ARCHIVE: { item: string; file: string; title: string; author: string; category: Category; edition?: string }[] = [
+  { item: 'Bukhari_201707', file: 'Bukhari.pdf', title: 'صحيح البخاري', author: 'الإمام محمد بن إسماعيل البخاري', category: 'hadith' },
+  {
+    item: '20200223_20200223_1246',
+    file: 'الرحيق المختوم - ط أوقاف قطر.pdf',
+    title: 'الرحيق المختوم',
+    author: 'صفي الرحمن المباركفوري',
+    category: 'sirah',
+    edition: 'طبعة وزارة الأوقاف والشؤون الإسلامية في قطر',
+  },
+];
+const archiveBooks: Book[] = [];
+for (const a of ARCHIVE) {
+  const meta = await get<{ files?: { name: string; size?: string; source?: string }[]; metadata?: { language?: string } }>(`https://archive.org/metadata/${a.item}`);
+  const f = meta.files?.find((x) => x.name === a.file);
+  if (!f?.size) throw new Error(`archive.org ${a.item}: ${a.file} not found`);
+  const size = Number(f.size);
+  archiveBooks.push({
+    id: `ia-${a.item}`,
+    provider: 'archive',
+    islamhouseId: null,
+    title: a.title,
+    author: a.author,
+    category: a.category,
+    language: 'ar',
+    description: '',
+    format: 'pdf',
+    url: `https://archive.org/download/${a.item}/${encodeURIComponent(a.file)}`,
+    size,
+    sizeText: size >= 1024 ** 2 ? `${(size / 1024 ** 2).toFixed(1)} MB` : `${(size / 1024).toFixed(1)} KB`,
+    page: `https://archive.org/details/${a.item}`,
+    ...(a.edition ? { edition: a.edition } : {}),
+  });
+}
+
 const catalog = {
-  version: 1,
+  version: 2,
   generated: new Date().toISOString().slice(0, 10),
-  provider: { name: 'IslamHouse', url: 'https://islamhouse.com', terms: 'Free distribution; content kept unchanged and attributed to IslamHouse.' },
-  books: [...books.values()],
+  providers: {
+    islamhouse: { name: 'IslamHouse', url: 'https://islamhouse.com', terms: 'Free distribution; content kept unchanged and attributed to IslamHouse.' },
+    archive: { name: 'Internet Archive', url: 'https://archive.org', terms: 'Files as uploaded to archive.org; rights are those of each item (see its page).' },
+  },
+  // the two requested classics first
+  books: [...archiveBooks, ...books.values()],
 };
 mkdirSync(join(root, 'src/content/library'), { recursive: true });
 writeFileSync(join(root, 'src/content/library/catalog.json'), JSON.stringify(catalog, null, 1) + '\n');

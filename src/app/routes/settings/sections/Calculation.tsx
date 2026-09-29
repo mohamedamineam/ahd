@@ -3,16 +3,38 @@ import { DateTime } from 'luxon';
 import { useFmt } from '@/lib/useFmt';
 import { useS } from '@/features/settings/store';
 import { usePrayer } from '@/features/prayer/store';
-import { METHODS, METHOD_IDS, type MethodId } from '@/features/prayer/methods';
+import { METHODS, METHOD_IDS, isMethodId, methodSummary, type MethodId } from '@/features/prayer/methods';
 import { addDays, localDate } from '@/features/prayer/engine';
-import { PRAYER_IDS, type HighLatitudeRuleId } from '@/features/prayer/types';
+import { PRAYER_IDS, type HighLatitudeRuleId, type PrayerId } from '@/features/prayer/types';
 import { parseTimetable, templateCsv, type ImportError } from '@/features/prayer/timetableImport';
 import { openTextFile, saveTextFile } from '@/lib/files';
 import { formatTime } from '@/lib/format';
-import { Button, NumberField, Segmented, Select, Stepper, Toggle, toast } from '@/design/components';
+import { Button, NumberField, Select, Stepper, Toggle, toast } from '@/design/components';
 import { IconDownload, IconTrash, IconUpload } from '@/design/icons';
 import { TimesTuner } from '../../onboarding/TimesTuner';
 import { Group, ResetSection, Row, useUpdate } from './shared';
+
+/** What the chosen method does, in the interface language (angles, Isha interval, fixed offsets, a note). */
+function MethodParams({ id }: { id: MethodId }) {
+  const f = useFmt();
+  const { t } = f;
+  if (!isMethodId(id) || id === 'custom') return null;
+  const m = methodSummary(id);
+  const deg = (v: number) => f.ltr(`${f.num(v)}°`);
+  const main =
+    m.ishaInterval !== null
+      ? t('settings.calc.paramsInterval', { fajr: deg(m.fajrAngle), minutes: f.num(m.ishaInterval) })
+      : t('settings.calc.params', { fajr: deg(m.fajrAngle), isha: deg(m.ishaAngle ?? 0) });
+  const adjustments = m.adjustments.map(([k, v]) => `${f.prayer(k as PrayerId)} ${f.ltr(`${v > 0 ? '+' : '−'}${f.num(Math.abs(v))}`)}`).join(t('settings.calc.listSep'));
+  const note = t(`settings.calc.notes.${id}`, { defaultValue: '' });
+  return (
+    <div className="flex flex-col gap-1 text-[0.8125rem] text-ink-muted">
+      <p>{main}</p>
+      {adjustments ? <p>{t('settings.calc.methodAdjustments', { list: adjustments })}</p> : null}
+      {note ? <p>{note}</p> : null}
+    </div>
+  );
+}
 
 export default function Calculation() {
   const f = useFmt();
@@ -68,10 +90,7 @@ export default function Calculation() {
               className="w-full max-w-md"
               options={METHOD_IDS.map((m) => ({ value: m, label: t(`methods.${m}`) }))}
             />
-            <p className="text-[0.8125rem] text-ink-faint">
-              {t('settings.calc.source')}: <span className="selectable">{method.source}</span>
-            </p>
-            {method.note ? <p className="text-[0.8125rem] text-ink-muted">{method.note}</p> : null}
+            <MethodParams id={calc.method as MethodId} />
           </div>
         </Row>
         <Row k="settings.calc.customAngles">
@@ -138,17 +157,6 @@ export default function Calculation() {
             </label>
           </div>
         ) : null}
-        <Row k="settings.calc.asr" stacked>
-          <Segmented
-            label={t('settings.calc.asr')}
-            value={calc.asr}
-            onChange={(v) => update((d) => void (d.calc.asr = v))}
-            options={[
-              { value: 'standard', label: t('settings.calc.asrStandard') },
-              { value: 'hanafi', label: t('settings.calc.asrHanafi') },
-            ]}
-          />
-        </Row>
         <Row k="settings.calc.highLat">
           <Select<HighLatitudeRuleId>
             label={t('settings.calc.highLat')}

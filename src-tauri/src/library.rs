@@ -9,6 +9,13 @@ use tauri::{AppHandle, Emitter, Manager, Runtime};
 use tokio::io::AsyncWriteExt;
 
 const ALLOWED_PREFIXES: &[&str] = &["https://d1.islamhouse.com/", "https://upload.wikimedia.org/", "https://archive.org/download/"];
+/// Hosts a download may be redirected to (archive.org serves files from its ia*.us.archive.org storage nodes).
+const REDIRECT_HOSTS: &[&str] = &["d1.islamhouse.com", "upload.wikimedia.org", "archive.org"];
+
+fn redirect_allowed(url: &reqwest::Url) -> bool {
+    url.scheme() == "https"
+        && url.host_str().is_some_and(|h| REDIRECT_HOSTS.iter().any(|a| h == *a || h.ends_with(&format!(".{a}"))))
+}
 const MAX_BYTES: u64 = 400 * 1024 * 1024;
 
 #[derive(Serialize, Clone)]
@@ -51,6 +58,15 @@ pub async fn download<R: Runtime>(app: &AppHandle<R>, id: &str, url: &str, forma
     let tmp = dest.with_extension(format!("{ext}.part"));
     let client = reqwest::Client::builder()
         .user_agent(format!("Ahd/{} (https://github.com/ahdapp/ahd)", app.package_info().version))
+        .redirect(reqwest::redirect::Policy::custom(|attempt| {
+            if attempt.previous().len() > 5 {
+                attempt.error("too many redirects")
+            } else if redirect_allowed(attempt.url()) {
+                attempt.follow()
+            } else {
+                attempt.error("redirect to a host that is not allowed")
+            }
+        }))
         .build()
         .map_err(|e| e.to_string())?;
     let resp = client.get(url).send().await.map_err(|e| e.to_string())?;
@@ -105,4 +121,20 @@ pub fn delete<R: Runtime>(app: &AppHandle<R>, id: &str) -> Result<(), String> {
         let _ = std::fs::remove_file(d.join(format!("{id}.{ext}")));
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::redirect_allowed;
+
+    #[test]
+    fn redirects_stay_on_trusted_hosts() {
+        let ok = |u: &str| redirect_allowed(&reqwest::Url::parse(u).unwrap());
+        assert!(ok("https://ia800302.us.archive.org/12/items/x/x.pdf"));
+        assert!(ok("https://archive.org/download/x/x.pdf"));
+        assert!(ok("https://d1.islamhouse.com/data/ar/x.pdf"));
+        assert!(!ok("http://ia800302.us.archive.org/x.pdf"));
+        assert!(!ok("https://evilarchive.org/x.pdf"));
+        assert!(!ok("https://archive.org.evil.com/x.pdf"));
+    }
 }

@@ -22,4 +22,6 @@ pub struct AppState {
     pub shortcut: Mutex<Option<String>>,
     pub notification_icon: Option<PathBuf>,
     pub app_ready: AtomicBool,
+    /// the last adhan-window payload (see windows::show_toast)
+    pub toast: Mutex<Option<serde_json::Value>>,
 }

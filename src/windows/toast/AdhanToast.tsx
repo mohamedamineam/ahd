@@ -32,15 +32,22 @@ export default function AdhanToast() {
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    let alive = true;
     const un = listen<ToastPayload>('ahd://toast', (payload) => {
       setP(payload);
       setExpanded(false);
     });
+    // the window may have been created for this adhan after the event was sent
+    void api
+      .toastPayload<ToastPayload>()
+      .then((payload) => alive && payload && setP((cur) => cur ?? payload))
+      .catch(() => {});
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 's' || e.key === 'S') void api.toastAction('stop');
     };
     window.addEventListener('keydown', onKey);
     return () => {
+      alive = false;
       void un.then((f) => f());
       window.removeEventListener('keydown', onKey);
     };
@@ -59,10 +66,29 @@ export default function AdhanToast() {
   }, [audio.playing, p]);
 
   const playing = audio.playing && audio.kind === 'adhan';
+  // the dua after the adhan appears as soon as the adhan has ended (or on click while it plays)
   const showDua = expanded || (p !== null && !audio.playing);
+
+  // the window takes the height of its content: compact during the adhan, taller with the dua
+  const card = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = card.current;
+    if (!el) return;
+    let last = 0;
+    const ro = new ResizeObserver(() => {
+      const h = Math.ceil(el.getBoundingClientRect().height) + 16; // + the p-2 margin around the card
+      if (Math.abs(h - last) > 2) {
+        last = h;
+        void api.fitToast(h).catch(() => {});
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="h-screen w-screen p-2">
-      <div className="khatam relative flex h-full flex-col overflow-hidden rounded-[18px] border border-line-soft bg-surface shadow-lg" onClick={() => setExpanded(true)}>
+    <div className="w-screen p-2">
+      <div ref={card} className="khatam relative flex flex-col overflow-hidden rounded-[18px] border border-line-soft bg-surface shadow-lg" onClick={() => setExpanded(true)}>
         <button
           type="button"
           aria-label={t('toast.close')}
@@ -80,19 +106,25 @@ export default function AdhanToast() {
           <div className="min-w-0 flex-1">
             <div className="font-display text-[1.5rem] leading-tight text-ink">{p?.prayerLabel}</div>
             <div className="truncate text-[0.8125rem] text-ink-muted">
-              <bdi dir="ltr" className="tabular">
-                {p?.timeText}
-              </bdi>{' '}
-              — {p?.location}
+              {p?.timeText ? (
+                <>
+                  <bdi dir="ltr" className="tabular">
+                    {p.timeText}
+                  </bdi>
+                  {p.location ? ' — ' : null}
+                </>
+              ) : null}
+              {p?.location}
             </div>
           </div>
         </div>
         {showDua && dua ? (
-          <div className="mx-5 mt-2 text-ink" title={dua.text}>
-            <ShapedText font="amiri" text={dua.text} size={15} lineHeight={1.75} maxLines={2} fallbackClassName="line-clamp-2 font-dhikr" />
+          <div className="animate-fade-in mx-5 mt-3 border-t border-line-soft pt-2.5">
+            <p className="mb-1 text-[0.75rem] font-medium text-sage-strong">{t('toast.dua')}</p>
+            <ShapedText font="amiri" text={dua.text} size={16} lineHeight={1.8} className="text-ink" fallbackClassName="font-dhikr" />
           </div>
         ) : null}
-        <div className="mt-auto flex items-center gap-2 px-4 pb-3">
+        <div className="mt-3 flex items-center gap-2 px-4 pb-3">
           {playing ? (
             <button
               type="button"

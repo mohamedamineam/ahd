@@ -22,8 +22,11 @@ Decisions only the project owner can make. Nothing here blocks local testing.
    and hisnmuslim.com. A qualified reviewer should confirm the dataset before release.
 7. **Library** — «الرحيق المختوم» has no downloadable Arabic PDF on IslamHouse, and five requested titles are not
    available there (see data-pipeline/build-library-catalog.ts). Add other free sources only with a clear licence.
-8. **Tafsir** — not included yet; needs a source with a clear licence for offline use.
+8. **Internet Archive books** — Sahih al-Bukhari (archive.org item Bukhari_201707) and «الرحيق المختوم» (Qatar Awqaf
+   edition, item 20200223_20200223_1246) were added at the owner's request. Their pages state no licence; the app
+   only downloads them from archive.org when a user asks. Confirm or replace with editions whose rights are clear.
+9. **Tafsir** — not included yet; needs a source with a clear licence for offline use.
 
 ## Platform
 
-9. **Flatpak autostart** — needs the Background portal (org.freedesktop.portal.Background) to be wired up.
+10. **Flatpak autostart** — needs the Background portal (org.freedesktop.portal.Background) to be wired up.

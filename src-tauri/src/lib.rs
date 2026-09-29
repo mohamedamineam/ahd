@@ -16,6 +16,8 @@ mod state;
 mod tray;
 mod trayicon;
 mod windows;
+#[cfg(target_os = "linux")]
+mod xapp;
 
 use state::AppState;
 use std::collections::HashSet;
@@ -32,7 +34,10 @@ pub fn x11_compat_flag() -> Option<PathBuf> {
     Some(base.join("io.github.ahdapp.Ahd").join("x11-compat"))
 }
 
-/// Linux + Wayland + flag set: run through XWayland so widgets can be positioned (brief §12).
+/// Linux environment, set at the very start of main (before GTK and WebKit start):
+/// - Wayland + flag set: run through XWayland so widgets can be positioned (brief §12);
+/// - WebKitGTK's DMA-BUF renderer flickers and leaves see-through areas on some drivers (notably hybrid
+///   Intel/NVIDIA laptops); the shared-memory renderer is used instead unless the user set the variable.
 pub fn apply_x11_compat() {
     #[cfg(target_os = "linux")]
     {
@@ -40,6 +45,10 @@ pub fn apply_x11_compat() {
         if wayland && std::env::var_os("GDK_BACKEND").is_none() && x11_compat_flag().is_some_and(|f| f.exists()) {
             // SAFETY: called at the very start of main, before any other thread exists.
             unsafe { std::env::set_var("GDK_BACKEND", "x11") };
+        }
+        if std::env::var_os("WEBKIT_DISABLE_DMABUF_RENDERER").is_none() {
+            // SAFETY: as above.
+            unsafe { std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1") };
         }
     }
 }
@@ -63,6 +72,8 @@ pub fn run() {
                 .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepSome(5))
                 .max_file_size(1_000_000)
                 .level(log::LevelFilter::Info)
+                .level_for("zbus", log::LevelFilter::Warn)
+                .level_for("tracing", log::LevelFilter::Warn)
                 .build(),
         )
         .plugin(tauri_plugin_store::Builder::new().build())
@@ -119,6 +130,7 @@ pub fn run() {
                 shortcut: Mutex::new(None),
                 notification_icon,
                 app_ready: AtomicBool::new(false),
+                toast: Mutex::new(None),
             });
 
             match tray::create(app.handle()) {
@@ -164,6 +176,8 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             commands::set_schedule,
+            commands::toast_payload,
+            commands::fit_toast,
             commands::get_schedule,
             commands::stop_adhan,
             commands::audio_state,

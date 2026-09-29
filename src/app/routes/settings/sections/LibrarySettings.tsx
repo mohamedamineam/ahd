@@ -28,7 +28,7 @@ export default function LibrarySettings() {
                     <span className="block truncate font-medium text-ink">{b.title}</span>
                     <span className="block truncate text-[0.8125rem] text-ink-muted">{b.author}</span>
                   </span>
-                  <span className="tabular text-[0.875rem] text-ink-muted">{f.num(formatBytes(b.size))}</span>
+                  <span className="tabular text-[0.875rem] text-ink-muted">{f.ltr(f.num(formatBytes(b.size)))}</span>
                   <IconButton
                     size="sm"
                     label={t('common.delete')}
@@ -46,7 +46,7 @@ export default function LibrarySettings() {
           ) : (
             <p className="text-[0.875rem] text-ink-muted">{t('settings.library.none')}</p>
           )}
-          <p className="mt-3 text-[0.875rem] text-ink-muted">{t('settings.library.total', { size: f.num(formatBytes(total)) })}</p>
+          <p className="mt-3 text-[0.875rem] text-ink-muted">{t('settings.library.total', { size: f.ltr(f.num(formatBytes(total))) })}</p>
         </Row>
         <Row k="settings.library.refresh">
           <Button size="sm" variant="secondary" icon={<IconRefresh size={16} />} onClick={() => void refreshCatalog(true)}>

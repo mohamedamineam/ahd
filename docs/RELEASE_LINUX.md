@@ -12,16 +12,31 @@
 
 ## Flathub
 
-1. Fork https://github.com/flathub/flathub, branch `new-pr`, and add:
-   - `io.github.ahdapp.Ahd.yml` from `packaging/flatpak/`, with the .deb URL and its sha256 from `SHA256SUMS`;
-   - the `icons/` folder and the metainfo file next to it (adjust the paths in the manifest);
-   - `git submodule add https://github.com/flathub/shared-modules` (tray icon library).
-2. Test locally:
-   `flatpak run org.flatpak.Builder --user --install --force-clean build io.github.ahdapp.Ahd.yml`
-   then `flatpak run io.github.ahdapp.Ahd`, and `flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest io.github.ahdapp.Ahd.yml`.
-3. Open the pull request. The app ID `io.github.ahdapp.Ahd` requires owning github.com/ahdapp (verification).
+Flathub builds open-source apps from source, offline, so the manifest (`packaging/flatpak/io.github.ahdapp.Ahd.yml`)
+builds from the release tag with vendored dependencies.
 
-The manifest has not been built yet (no flatpak-builder on the development machine).
+1. Generate the dependency lists (once per release, from the tagged commit):
+   ```sh
+   git clone https://github.com/flatpak/flatpak-builder-tools
+   pipx install ./flatpak-builder-tools/node          # provides flatpak-node-generator
+   flatpak-node-generator npm package-lock.json -o node-sources.json
+   python3 flatpak-builder-tools/cargo/flatpak-cargo-generator.py src-tauri/Cargo.lock -o cargo-sources.json
+   ```
+2. Fork https://github.com/flathub/flathub, create the branch `new-pr`, and add the manifest, the two JSON files,
+   and the shared modules: `git submodule add https://github.com/flathub/shared-modules`.
+3. Test locally:
+   ```sh
+   flatpak install flathub org.flatpak.Builder
+   flatpak run org.flatpak.Builder --user --install --force-clean --install-deps-from=flathub build io.github.ahdapp.Ahd.yml
+   flatpak run io.github.ahdapp.Ahd
+   flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest io.github.ahdapp.Ahd.yml
+   ```
+4. Open the pull request. Flathub checks that `https://github.com/ahdapp/ahd` exists (the app ID is
+   `io.github.<user>.<App>`), that the metainfo validates, and that the app builds.
+
+The manifest has not been test-built yet (no flatpak-builder on the development machine). In a Flatpak the tray uses
+AppIndicator (libxapp is not in the GNOME runtime), so Cinnamon shows the icon without the timer label there; the
+.deb and AppImage show the label.
 
 ## Validation used locally
 

@@ -2,12 +2,13 @@ import { useFmt } from '@/lib/useFmt';
 import { useS } from '@/features/settings/store';
 import { ReminderList, newReminder } from '@/features/reminders/ReminderEditor';
 import { ADHAN_PRAYERS } from '@/features/prayer/types';
-import { Button, NumberField, TextInput, Toggle } from '@/design/components';
+import { Button, NumberField, TimeField, Toggle } from '@/design/components';
 import { IconPlus } from '@/design/icons';
 import { Group, ResetSection, Row, useUpdate } from './shared';
 
 export default function Reminders() {
-  const { t } = useFmt();
+  const f = useFmt();
+  const { t } = f;
   const r = useS((s) => s.reminders);
   const update = useUpdate();
   return (
@@ -56,7 +57,7 @@ export default function Reminders() {
 
       <Group title={t('settings.reminders.friday')}>
         <Row k="settings.reminders.kahf">
-          <TextInput type="time" dir="ltr" aria-label={t('settings.reminders.kahfTime')} value={r.fridayKahfTime} onChange={(e) => update((d) => void (d.reminders.fridayKahfTime = e.target.value || '09:00'))} className="w-32" />
+          <TimeField label={t('settings.reminders.kahfTime')} value={r.fridayKahfTime} format={f.clock} onChange={(v) => update((d) => void (d.reminders.fridayKahfTime = v))} />
           <Toggle checked={r.fridayKahf} onChange={(v) => update((d) => void (d.reminders.fridayKahf = v))} label={t('settings.reminders.kahf')} />
         </Row>
         <Row k="settings.reminders.jumuahBefore">

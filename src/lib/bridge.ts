@@ -144,6 +144,10 @@ export const api = {
   openPanel: () => invoke<void>('open_panel'),
   hideWindow: () => invoke<void>('hide_self'),
   toastAction: (action: 'stop' | 'hide' | 'open') => invoke<void>('toast_action', { action }),
+  /** the adhan window's content if it was sent before the window was ready */
+  toastPayload: <T>() => invoke<T | null>('toast_payload'),
+  /** the adhan window grows to fit the dua after the adhan */
+  fitToast: (height: number) => invoke<void>('fit_toast', { height }),
   applyWindows: (config: unknown) => invoke<void>('apply_windows', { config }),
   appReady: () => invoke<void>('app_ready'),
   setShortcut: (shortcut: string | null) => invoke<string | null>('set_stop_shortcut', { shortcut }),

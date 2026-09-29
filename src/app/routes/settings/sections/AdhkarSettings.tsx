@@ -2,7 +2,7 @@ import { useFmt } from '@/lib/useFmt';
 import { useS } from '@/features/settings/store';
 import type { AdhkarAnchor, AdhkarSchedule } from '@/features/settings/schema';
 import { ADHAN_PRAYERS } from '@/features/prayer/types';
-import { Checkbox, NumberField, Select, Slider, TextInput, Toggle } from '@/design/components';
+import { Checkbox, NumberField, Select, Slider, TimeField, Toggle } from '@/design/components';
 import { Group, ResetSection, Row, useUpdate } from './shared';
 
 const ANCHORS: AdhkarAnchor[] = ['fixed', 'fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
@@ -21,7 +21,7 @@ function ScheduleEditor({ value, onChange }: { value: AdhkarSchedule; onChange: 
         options={ANCHORS.map((a) => ({ value: a, label: a === 'fixed' ? t('settings.adhkarSettings.anchorFixed') : t('settings.adhkarSettings.afterPrayer', { prayer: f.prayer(a) }) }))}
       />
       {value.anchor === 'fixed' ? (
-        <TextInput type="time" dir="ltr" aria-label={t('settings.adhkarSettings.anchorFixed')} value={value.fixedTime} onChange={(e) => onChange({ ...value, fixedTime: e.target.value || value.fixedTime })} className="w-32" />
+        <TimeField label={t('settings.adhkarSettings.anchorFixed')} value={value.fixedTime} format={f.clock} onChange={(v) => onChange({ ...value, fixedTime: v })} />
       ) : (
         <NumberField label={t('settings.adhkarSettings.offset')} value={value.offsetMinutes} min={0} max={240} suffix={t('common.minUnit')} onChange={(v) => onChange({ ...value, offsetMinutes: v ?? 0 })} />
       )}

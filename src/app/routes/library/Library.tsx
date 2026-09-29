@@ -53,9 +53,14 @@ function BookCard({ b }: { b: CatalogBook }) {
         <p dir="rtl" lang="ar" className="mt-0.5 truncate text-[0.8125rem] text-ink-muted">
           {b.author}
         </p>
+        {b.edition ? (
+          <p dir="rtl" lang="ar" className="truncate text-[0.75rem] text-ink-faint">
+            {b.edition}
+          </p>
+        ) : null}
         <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
           <Badge tone="outline">{b.format.toUpperCase()}</Badge>
-          <Badge tone="neutral">{f.num(b.sizeText)}</Badge>
+          <Badge tone="neutral">{f.ltr(f.num(b.sizeText))}</Badge>
           {local ? <Badge tone="sage">{t('common.downloaded')}</Badge> : null}
         </div>
         <div className="mt-auto flex flex-wrap items-center gap-2 pt-3">
@@ -73,14 +78,14 @@ function BookCard({ b }: { b: CatalogBook }) {
               <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-line-soft">
                 <span className="block h-full rounded-full bg-sage-strong transition-[width]" style={{ width: `${pct ?? 5}%` }} />
               </span>
-              <span className="tabular text-[0.75rem] text-ink-muted">{pct !== null ? `${f.num(pct)}%` : f.num(formatBytes(p.received))}</span>
+              <span className="tabular text-[0.75rem] text-ink-muted">{pct !== null ? `${f.num(pct)}%` : f.ltr(f.num(formatBytes(p.received)))}</span>
             </div>
           ) : (
             <Button size="sm" variant="secondary" icon={<IconDownload size={16} />} disabled={!allowed} onClick={() => void download(b)} title={allowed ? undefined : t('errors.networkDisabled')}>
               {t('common.download')}
             </Button>
           )}
-          <IconButton size="sm" label={t('library.source')} onClick={() => void openExternal(b.page)}>
+          <IconButton size="sm" label={t(b.provider === 'archive' ? 'library.sourceArchive' : 'library.source')} onClick={() => void openExternal(b.page)}>
             <IconExternal size={16} />
           </IconButton>
         </div>

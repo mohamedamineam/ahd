@@ -1,10 +1,15 @@
-# Flatpak manifest for Flathub (see docs/RELEASE_LINUX.md). Repackages the .deb built by the release workflow,
-# as in Tauri's Flathub guide. In the Flathub repository, add https://github.com/flathub/shared-modules as the
-# "shared-modules" git submodule (tray icon support), and set the .deb URL and sha256 of the release.
+# Flatpak manifest for Flathub (see docs/RELEASE_LINUX.md). Flathub requires open-source apps to be built entirely
+# from source, offline: the npm and cargo dependencies come from generated source lists (node-sources.json,
+# cargo-sources.json) made with flatpak-builder-tools from package-lock.json and src-tauri/Cargo.lock.
+# In the Flathub repository, also add https://github.com/flathub/shared-modules as the "shared-modules" submodule.
+# Not yet test-built: run flatpak-builder as described in docs/RELEASE_LINUX.md before submitting.
 id: io.github.ahdapp.Ahd
 runtime: org.gnome.Platform
 runtime-version: '49'
 sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.rust-stable
+  - org.freedesktop.Sdk.Extension.node24
 command: ahd
 finish-args:
   - --share=ipc
@@ -13,9 +18,9 @@ finish-args:
   - --device=dri
   # the adhan
   - --socket=pulseaudio
-  # optional online features (place search, map, library, tafsir) — each can be turned off in the app
+  # optional online features (place search, map, library) — each can be turned off in the app
   - --share=network
-  # tray icon / top-bar indicator and notifications with actions
+  # tray icon / top-bar indicator (AppIndicator; libxapp is not in the runtime) and notifications with actions
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=org.freedesktop.Notifications
 
@@ -24,26 +29,35 @@ modules:
 
   - name: ahd
     buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node24/bin
+      env:
+        CARGO_HOME: /run/build/ahd/cargo
+        CARGO_NET_OFFLINE: 'true'
+        XDG_CACHE_HOME: /run/build/ahd/flatpak-node/cache
+        npm_config_cache: /run/build/ahd/flatpak-node/npm-cache
+        npm_config_offline: 'true'
     sources:
-      - type: file
-        url: https://github.com/ahdapp/ahd/releases/download/v0.1.0/Ahd_0.1.0_amd64.deb
-        sha256: REPLACE_WITH_SHA256_FROM_SHA256SUMS
-        dest-filename: ahd.deb
-        only-arches: [x86_64]
-      - type: file
-        path: ../linux/io.github.ahdapp.Ahd.metainfo.xml
-      - type: dir
-        path: icons
-        dest: icons
+      - type: git
+        url: https://github.com/ahdapp/ahd.git
+        tag: v0.1.0
+      - node-sources.json
+      - cargo-sources.json
     build-commands:
-      - ar -x ahd.deb
-      - tar -xf data.tar.gz
-      - install -Dm755 usr/bin/ahd /app/bin/ahd
-      # bundled resources (adhan recordings, offline places, tray icons): Tauri looks for them in ../lib/Ahd
-      - cp -a usr/lib/Ahd /app/lib/Ahd
-      - install -Dm644 usr/share/applications/Ahd.desktop /app/share/applications/io.github.ahdapp.Ahd.desktop
-      - desktop-file-edit --set-icon=io.github.ahdapp.Ahd --set-key=StartupWMClass --set-value=ahd /app/share/applications/io.github.ahdapp.Ahd.desktop
-      - install -Dm644 io.github.ahdapp.Ahd.metainfo.xml /app/share/metainfo/io.github.ahdapp.Ahd.metainfo.xml
-      - for s in 128x128 256x256 512x512; do install -Dm644 icons/$s/io.github.ahdapp.Ahd.png /app/share/icons/hicolor/$s/apps/io.github.ahdapp.Ahd.png; done
-      - install -Dm644 icons/scalable/io.github.ahdapp.Ahd.svg /app/share/icons/hicolor/scalable/apps/io.github.ahdapp.Ahd.svg
-      - install -Dm644 icons/symbolic/io.github.ahdapp.Ahd-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.ahdapp.Ahd-symbolic.svg
+      - npm ci --offline
+      - npm run build
+      # tauri/custom-protocol: serve the built frontend from the binary (what `tauri build` enables)
+      - cargo build --release --offline --manifest-path src-tauri/Cargo.toml --features tauri/custom-protocol
+      - install -Dm755 src-tauri/target/release/ahd /app/bin/ahd
+      # bundled resources (adhan recordings, offline places, sounds, tray icons): Tauri looks in ../lib/<product>
+      - mkdir -p /app/lib/Ahd
+      - cp -a assets/adhan assets/data assets/sounds /app/lib/Ahd/
+      - cp -a src-tauri/icons/tray /app/lib/Ahd/tray
+      - install -Dm644 packaging/linux/io.github.ahdapp.Ahd.metainfo.xml /app/share/metainfo/io.github.ahdapp.Ahd.metainfo.xml
+      - >-
+        sed -e 's/{{categories}}/Utility;/' -e 's/{{comment}}/Prayer times, adhan, Quran, adhkar and qibla/' -e 's/{{exec}}/ahd/g'
+        -e 's/{{icon}}/io.github.ahdapp.Ahd/' -e 's/{{name}}/Ahd/' packaging/linux/ahd.desktop > io.github.ahdapp.Ahd.desktop
+      - install -Dm644 io.github.ahdapp.Ahd.desktop /app/share/applications/io.github.ahdapp.Ahd.desktop
+      - for s in 128x128 256x256 512x512; do install -Dm644 packaging/flatpak/icons/$s/io.github.ahdapp.Ahd.png /app/share/icons/hicolor/$s/apps/io.github.ahdapp.Ahd.png; done
+      - install -Dm644 packaging/flatpak/icons/scalable/io.github.ahdapp.Ahd.svg /app/share/icons/hicolor/scalable/apps/io.github.ahdapp.Ahd.svg
+      - install -Dm644 packaging/flatpak/icons/symbolic/io.github.ahdapp.Ahd-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.ahdapp.Ahd-symbolic.svg

@@ -5,7 +5,7 @@ import './design/fonts';
 import { initI18n } from './i18n';
 import { loadSettings, useSettings } from './features/settings/store';
 import { applyAppearance, onSystemThemeChange } from './app/appearance';
-import { windowKind } from './lib/bridge';
+import { IS_TAURI, windowKind } from './lib/bridge';
 import { startClock } from './lib/clock';
 import { hijriSelfTest } from './features/prayer/hijri';
 
@@ -16,8 +16,18 @@ const PanelWindow = lazy(() => import('./windows/panel/TrayPanel'));
 const PillWindow = lazy(() => import('./windows/pill/TaskbarPill'));
 const ToastWindow = lazy(() => import('./windows/toast/AdhanToast'));
 
+/** Frontend errors go to the app's log file too (Settings → About → Open logs folder), for bug reports. */
+function forwardErrors(kind: string) {
+  if (!IS_TAURI) return;
+  const send = (msg: string) =>
+    void import('@tauri-apps/plugin-log').then(({ error }) => error(`[${kind}] ${msg}`)).catch(() => {});
+  window.addEventListener('error', (e) => send(`${e.message} at ${e.filename}:${e.lineno}:${e.colno}`));
+  window.addEventListener('unhandledrejection', (e) => send(`unhandled rejection: ${e.reason instanceof Error ? (e.reason.stack ?? e.reason.message) : String(e.reason)}`));
+}
+
 async function boot() {
   const kind = windowKind();
+  forwardErrors(kind);
   document.documentElement.dataset.window = kind;
   const s = await loadSettings();
   initI18n(s.general.language, s.general.digits);

@@ -65,6 +65,8 @@ describe('engine vs Aladhan reference values (10 cities × 4 dates)', () => {
       });
       const day = engine.day(c.date);
       for (const p of PRAYER_IDS) {
+        // the app computes Asr by the majority opinion only; Hanafi reference Asr times are not comparable
+        if (p === 'asr' && c.asr === 'hanafi') continue;
         const ref = parseLocalTime(c.date, c.times[p], c.tz) + adjustmentDelta(c.method, p);
         const diff = Math.abs(day.times[p] - ref) / 1000;
         expect(diff, `${p} differs by ${diff.toFixed(0)} s`).toBeLessThanOrEqual(tolerance(p, c.lat));
@@ -224,7 +226,7 @@ describe('methods table', () => {
     expect(defaultMethodFor('SA')).toBe('umm_al_qura');
     expect(defaultMethodFor('XX')).toBe('mwl');
     expect(defaultMethodFor(undefined)).toBe('mwl');
-    expect(defaultAsrFor('PK')).toBe('hanafi');
+    expect(defaultAsrFor('PK')).toBe('standard'); // Asr follows the majority opinion everywhere
     expect(defaultAsrFor('DZ')).toBe('standard');
   });
 });

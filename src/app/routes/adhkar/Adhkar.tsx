@@ -225,7 +225,7 @@ function Category({ data }: { data: AdhkarData }) {
 
   return (
     <div className="mx-auto max-w-3xl px-6 pb-16">
-      <div className="sticky top-0 z-10 -mx-6 mb-4 border-b border-line-soft bg-bg/95 px-6 py-3 backdrop-blur-sm">
+      <div className="sticky top-0 z-10 -mx-6 mb-4 border-b border-line-soft bg-bg px-6 py-3">
         <div className="flex items-center gap-2">
           <IconButton label={t('common.back')} size="sm" onClick={() => navigate('/adhkar')}>
             <IconChevronStart size={18} />

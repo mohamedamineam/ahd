@@ -1,3 +1,4 @@
+import { ltr } from '@/lib/format';
 import clsx from 'clsx';
 import { useFmt } from '@/lib/useFmt';
 import { useS } from '@/features/settings/store';
@@ -47,11 +48,11 @@ export default function Appearance() {
             <div className="mt-4 grid gap-3 rounded-[12px] bg-surface-sunk p-4">
               <label className="grid grid-cols-[8rem_1fr] items-center gap-3 text-[0.875rem] text-ink">
                 {t('settings.appearance.primaryHue')}
-                <Slider label={t('settings.appearance.primaryHue')} value={a.custom.primaryHue} min={0} max={359} format={(v) => `${v}°`} onChange={(v) => update((d) => void (d.appearance.custom.primaryHue = v))} />
+                <Slider label={t('settings.appearance.primaryHue')} value={a.custom.primaryHue} min={0} max={359} format={(v) => ltr(`${v}°`)} onChange={(v) => update((d) => void (d.appearance.custom.primaryHue = v))} />
               </label>
               <label className="grid grid-cols-[8rem_1fr] items-center gap-3 text-[0.875rem] text-ink">
                 {t('settings.appearance.accentHue')}
-                <Slider label={t('settings.appearance.accentHue')} value={a.custom.accentHue} min={0} max={359} format={(v) => `${v}°`} onChange={(v) => update((d) => void (d.appearance.custom.accentHue = v))} />
+                <Slider label={t('settings.appearance.accentHue')} value={a.custom.accentHue} min={0} max={359} format={(v) => ltr(`${v}°`)} onChange={(v) => update((d) => void (d.appearance.custom.accentHue = v))} />
               </label>
               <label className="grid grid-cols-[8rem_1fr] items-center gap-3 text-[0.875rem] text-ink">
                 {t('settings.appearance.intensity')}

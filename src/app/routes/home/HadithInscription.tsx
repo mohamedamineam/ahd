@@ -34,8 +34,8 @@ export function HadithInscription({ className }: { className?: string }) {
       <span aria-hidden className="hidden h-px flex-1 bg-gradient-to-l from-current to-transparent opacity-40 sm:block" />
       <Star className="shrink-0 opacity-70" />
       <blockquote className="min-w-0 shrink" cite="https://alsunna.net/hadith/657" style={{ width: natural ? Math.ceil(natural) + 2 : undefined, maxWidth: '100%' }}>
-        {/* always one line, like an inscription: scaled down rather than wrapped when space is short */}
-        <ShapedText font="ruqaa" segments={segments} size={SIZE} lineHeight={1.9} align="center" fit fallbackClassName="hadith-fallback" />
+        {/* one line, like an inscription: scaled down when space is short, wrapped only when it would get too small */}
+        <ShapedText font="ruqaa" segments={segments} size={SIZE} lineHeight={1.9} align="center" fit minFit={12.5} fallbackClassName="hadith-fallback" />
       </blockquote>
       <Star className="shrink-0 opacity-70" />
       <span aria-hidden className="hidden h-px flex-1 bg-gradient-to-r from-current to-transparent opacity-40 sm:block" />

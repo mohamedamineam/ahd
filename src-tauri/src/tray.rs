@@ -1,6 +1,7 @@
 //! Tray icon, menu and indicator label (brief §11).
-//! Linux: AppIndicator does not deliver clicks, so the menu itself shows the day (dates + six prayers) and
-//!        the label next to the icon shows "العصر +1:12".
+//! Linux: the menu itself shows the day (dates + six prayers) and the label next to the icon shows "العصر +1:12".
+//!        Cinnamon/MATE show that label only for XApp status icons, so there the tray is one (src/xapp.rs);
+//!        elsewhere it is an AppIndicator (GNOME with the AppIndicator extension shows the label; KDE does not).
 //! Windows: tooltips and a dynamic icon; left-click opens the prayer panel, right-click the menu.
 
 use crate::display::{display_state, format_value, to_digits, Mode};
@@ -14,9 +15,10 @@ use tauri::{AppHandle, Emitter, Manager, Runtime, Wry};
 const ICON_LIGHT: &[u8] = include_bytes!("../icons/tray/tray-light-32.png");
 const ICON_DARK: &[u8] = include_bytes!("../icons/tray/tray-dark-32.png");
 
-pub struct TrayHandles {
-    pub tray: TrayIcon<Wry>,
-    info: Vec<MenuItem<Wry>>, // hijri, gregorian, 6 prayer rows (Linux)
+/// The Tauri (AppIndicator / Windows notification area) tray and its menu items.
+struct TauriTray {
+    tray: TrayIcon<Wry>,
+    info: Vec<MenuItem<Wry>>, // weekday + hijri, gregorian, place, 6 prayer rows (Linux)
     stop: MenuItem<Wry>,
     panel: MenuItem<Wry>,
     open: MenuItem<Wry>,
@@ -24,9 +26,15 @@ pub struct TrayHandles {
     widget: CheckMenuItem<Wry>,
     mini: CheckMenuItem<Wry>,
     quit: MenuItem<Wry>,
+}
+
+pub struct TrayHandles {
+    /// None when the XApp tray is used instead (Cinnamon, MATE)
+    tauri: Option<TauriTray>,
     last_label: String,
     last_minute: i64,
     last_icon_key: String,
+    last_stop: Option<bool>,
 }
 
 fn png(bytes: &[u8]) -> Option<Image<'static>> {
@@ -34,6 +42,16 @@ fn png(bytes: &[u8]) -> Option<Image<'static>> {
 }
 
 pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
+    #[cfg(target_os = "linux")]
+    if crate::xapp::wanted() {
+        if let Some(icon) = crate::xapp::icon_file(app, "tray-xapp-light.png", ICON_LIGHT) {
+            if crate::xapp::create(app, &icon) {
+                log::info!("tray: XApp status icon");
+                return Ok(TrayHandles { tauri: None, last_label: String::new(), last_minute: -1, last_icon_key: String::new(), last_stop: None });
+            }
+        }
+        log::warn!("tray: XApp status icon unavailable, using AppIndicator");
+    }
     let info: Vec<MenuItem<Wry>> = if cfg!(target_os = "linux") {
         (0..9).map(|i| MenuItem::with_id(app, format!("info-{i}"), " ", false, None::<&str>)).collect::<Result<_, _>>()?
     } else {
@@ -91,22 +109,15 @@ pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
     }
     let tray = builder.build(app)?;
     Ok(TrayHandles {
-        tray,
-        info,
-        stop,
-        panel,
-        open,
-        settings,
-        widget,
-        mini,
-        quit,
+        tauri: Some(TauriTray { tray, info, stop, panel, open, settings, widget, mini, quit }),
         last_label: String::new(),
         last_minute: -1,
         last_icon_key: String::new(),
+        last_stop: None,
     })
 }
 
-fn on_menu<R: Runtime>(app: &AppHandle<R>, id: &str) {
+pub(crate) fn on_menu<R: Runtime>(app: &AppHandle<R>, id: &str) {
     match id {
         "open" => crate::windows::show_main(app, None),
         "settings" => crate::windows::show_main(app, Some("/settings/general".into())),
@@ -132,11 +143,15 @@ fn ltr(s: &str) -> String {
 }
 
 /// Called every tick by the scheduler.
-pub fn update(_app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now: i64) {
+pub fn update(app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now: i64) {
     let Ok(mut guard) = state.tray.lock() else { return };
     let Some(h) = guard.as_mut() else { return };
     let cfg = state.config.read().map(|c| c.clone()).unwrap_or_default();
     let st = display_state(now, &s.timeline, s.display.threshold_minutes, s.display.include_sunrise);
+    #[cfg(target_os = "linux")]
+    let mut xu = crate::xapp::Update::default();
+    #[cfg(not(target_os = "linux"))]
+    let _ = app;
 
     // ---- label + tooltip (every second in countdown or with seconds on, otherwise once a minute)
     if let Some(st) = &st {
@@ -149,11 +164,20 @@ pub fn update(_app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now:
             _ => format!("{name} {}", ltr(&value)),
         };
         let tooltip = format!("{name} {}{}{next_name} {}", ltr(&value), s.string("tooltipSep"), ltr(&st.next.time_text));
-        if label != h.last_label {
-            h.last_label = label.clone();
-            let show_title = cfg.indicator.enabled && cfg.indicator.panel_label;
-            let _ = h.tray.set_title(if show_title { Some(label) } else { None::<String> });
-            let _ = h.tray.set_tooltip(Some(tooltip));
+        let show_title = cfg.indicator.enabled && cfg.indicator.panel_label;
+        let shown = if show_title { label } else { String::new() };
+        if shown != h.last_label {
+            h.last_label = shown.clone();
+            if let Some(t) = &h.tauri {
+                let _ = t.tray.set_title(if show_title { Some(shown) } else { None::<String> });
+                let _ = t.tray.set_tooltip(Some(tooltip));
+            } else {
+                #[cfg(target_os = "linux")]
+                {
+                    xu.label = Some(shown);
+                    xu.tooltip = Some(tooltip);
+                }
+            }
         }
     }
 
@@ -173,14 +197,22 @@ pub fn update(_app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now:
     };
     if icon_key != h.last_icon_key {
         h.last_icon_key = icon_key;
-        let image = if dynamic {
-            crate::trayicon::render(&crate::trayicon::IconSpec { size: 32, progress, countdown, minutes_left: minutes, light_taskbar })
-                .map(|rgba| Image::new_owned(rgba, 32, 32))
+        if let Some(t) = &h.tauri {
+            let image = if dynamic {
+                crate::trayicon::render(&crate::trayicon::IconSpec { size: 32, progress, countdown, minutes_left: minutes, light_taskbar })
+                    .map(|rgba| Image::new_owned(rgba, 32, 32))
+            } else {
+                png(if light_taskbar { ICON_DARK } else { ICON_LIGHT })
+            };
+            if let Some(img) = image {
+                let _ = t.tray.set_icon(Some(img));
+            }
         } else {
-            png(if light_taskbar { ICON_DARK } else { ICON_LIGHT })
-        };
-        if let Some(img) = image {
-            let _ = h.tray.set_icon(Some(img));
+            #[cfg(target_os = "linux")]
+            {
+                let (name, bytes) = if light_taskbar { ("tray-xapp-dark.png", ICON_DARK) } else { ("tray-xapp-light.png", ICON_LIGHT) };
+                xu.icon = crate::xapp::icon_file(app, name, bytes);
+            }
         }
     }
 
@@ -188,45 +220,78 @@ pub fn update(_app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now:
     let minute = now / 60_000;
     if minute != h.last_minute {
         h.last_minute = minute;
-        let _ = h.panel.set_text(s.string("showPanel"));
-        let _ = h.open.set_text(s.string("open"));
-        let _ = h.settings.set_text(s.string("settings"));
-        let _ = h.quit.set_text(s.string("quit"));
-        let _ = h.stop.set_text(s.string("stopAdhan"));
-        let _ = h.widget.set_text(s.string("widget"));
-        let _ = h.mini.set_text(s.string("miniWidget"));
-        let _ = h.widget.set_checked(cfg.main_widget.enabled);
-        let _ = h.mini.set_checked(cfg.mini_widget.enabled);
-        if h.info.len() == 9 {
-            if let Some(day) = s.day_at(now) {
-                let _ = h.info[0].set_text(format!("{} {}", day.weekday, day.hijri));
-                let _ = h.info[1].set_text(day.gregorian.clone());
-                let _ = h.info[2].set_text(s.location.clone());
-                let next_at = st.as_ref().map(|x| x.next.at);
-                let rows: Vec<_> = s.timeline.iter().filter(|e| e.date == day.date).collect();
-                for (i, item) in h.info[3..].iter().enumerate() {
-                    if let Some(e) = rows.get(i) {
-                        let mark = if Some(e.at) == next_at {
-                            format!("  {} {}", s.string("nextMark"), s.string("next"))
-                        } else if e.at <= now {
-                            format!("  {}", s.string("passed"))
-                        } else {
-                            String::new()
-                        };
-                        let _ = item.set_text(format!("{}   {}{}", s.label_for(e), ltr(&e.time_text), mark));
-                    }
-                }
+        let texts = [
+            s.string("showPanel"),
+            s.string("stopAdhan"),
+            s.string("widget"),
+            s.string("miniWidget"),
+            s.string("settings"),
+            s.string("open"),
+            s.string("quit"),
+        ];
+        let mut info: Vec<String> = Vec::new();
+        if let Some(day) = s.day_at(now) {
+            info.push(format!("{} {}", day.weekday, day.hijri));
+            info.push(day.gregorian.clone());
+            info.push(s.location.clone());
+            let next_at = st.as_ref().map(|x| x.next.at);
+            for e in s.timeline.iter().filter(|e| e.date == day.date) {
+                let mark = if Some(e.at) == next_at {
+                    format!("  {} {}", s.string("nextMark"), s.string("next"))
+                } else if e.at <= now {
+                    format!("  {}", s.string("passed"))
+                } else {
+                    String::new()
+                };
+                info.push(format!("{}   {}{}", s.label_for(e), ltr(&e.time_text), mark));
+            }
+        }
+        if let Some(t) = &h.tauri {
+            let [panel, stop, widget, mini, settings, open, quit] = &texts;
+            let _ = t.panel.set_text(panel);
+            let _ = t.stop.set_text(stop);
+            let _ = t.widget.set_text(widget);
+            let _ = t.mini.set_text(mini);
+            let _ = t.settings.set_text(settings);
+            let _ = t.open.set_text(open);
+            let _ = t.quit.set_text(quit);
+            let _ = t.widget.set_checked(cfg.main_widget.enabled);
+            let _ = t.mini.set_checked(cfg.mini_widget.enabled);
+            for (item, text) in t.info.iter().zip(&info) {
+                let _ = item.set_text(text);
+            }
+        } else {
+            #[cfg(target_os = "linux")]
+            {
+                xu.texts = Some(texts);
+                xu.info = Some(info);
+                xu.checked = Some((cfg.main_widget.enabled, cfg.mini_widget.enabled));
             }
         }
     }
     let playing = state.audio.state().playing;
-    let _ = h.stop.set_enabled(playing);
+    if h.last_stop != Some(playing) {
+        h.last_stop = Some(playing);
+        if let Some(t) = &h.tauri {
+            let _ = t.stop.set_enabled(playing);
+        } else {
+            #[cfg(target_os = "linux")]
+            {
+                xu.stop_enabled = Some(playing);
+            }
+        }
+    }
+    #[cfg(target_os = "linux")]
+    if h.tauri.is_none() {
+        crate::xapp::apply(app, xu);
+    }
 }
 
+/// Show or hide the tray icon (Windows: "hide the tray icon" while the taskbar pill is shown).
 pub fn set_visible(state: &AppState, visible: bool) {
     if let Ok(g) = state.tray.lock() {
-        if let Some(h) = g.as_ref() {
-            let _ = h.tray.set_visible(visible);
+        if let Some(t) = g.as_ref().and_then(|h| h.tauri.as_ref()) {
+            let _ = t.tray.set_visible(visible);
         }
     }
 }

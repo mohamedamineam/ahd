@@ -99,7 +99,8 @@ export function buildParams(calc: CalcSettings, coords: Coordinates, ramadan: bo
     params.ishaInterval += def.ramadanIshaExtra;
   }
 
-  params.madhab = calc.asr === 'hanafi' ? Madhab.Hanafi : Madhab.Shafi;
+  // Asr: the majority (Jumhur) opinion only — shadow equal to the object's length (owner's decision)
+  params.madhab = Madhab.Shafi;
   params.highLatitudeRule =
     calc.highLat === 'middle'
       ? HighLatitudeRule.MiddleOfTheNight

@@ -76,7 +76,7 @@ export default function LocationSection() {
                   <div className="truncate text-[0.875rem] text-ink-muted">
                     {placeSubtitle(loc.current, lang)} —{' '}
                     <bdi dir="ltr" className="tabular">
-                      {f.num(loc.current.lat.toFixed(4))}, {f.num(loc.current.lon.toFixed(4))}
+                      {f.ltr(`${f.num(loc.current.lat.toFixed(4))}, ${f.num(loc.current.lon.toFixed(4))}`)}
                     </bdi>
                   </div>
                 </div>

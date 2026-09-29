@@ -11,7 +11,10 @@ export type LibraryCategory = 'tafsir' | 'sirah' | 'aqidah' | 'tazkiyah' | 'hadi
 
 export interface CatalogBook {
   id: string;
-  islamhouseId: number;
+  provider: 'islamhouse' | 'archive';
+  islamhouseId: number | null;
+  /** edition or printing, when useful */
+  edition?: string;
   title: string;
   author: string;
   category: LibraryCategory;
@@ -27,9 +30,12 @@ export interface CatalogBook {
 export interface Catalog {
   version: number;
   generated: string;
-  provider: { name: string; url: string; terms: string };
+  providers: Record<CatalogBook['provider'], { name: string; url: string; terms: string }>;
   books: CatalogBook[];
 }
+
+/** Same allow-list as the downloader in src-tauri/src/library.rs. */
+const ALLOWED = ['https://d1.islamhouse.com/', 'https://upload.wikimedia.org/', 'https://archive.org/download/'];
 
 const REMOTE_CATALOG = 'https://raw.githubusercontent.com/ahdapp/ahd/main/src/content/library/catalog.json';
 
@@ -69,7 +75,7 @@ export const useLibrary = create<LibraryState>((set, get) => ({
       const res = await fetch(REMOTE_CATALOG, { cache: 'no-store' });
       if (res.ok) {
         const c = (await res.json()) as Catalog;
-        if (Array.isArray(c.books) && c.books.every((b) => b.url.startsWith('https://d1.islamhouse.com/'))) set({ catalog: c });
+        if (c.version >= 2 && Array.isArray(c.books) && c.books.every((b) => ALLOWED.some((a) => b.url.startsWith(a)))) set({ catalog: c });
       }
     } catch {
       /* offline: keep the bundled catalog */

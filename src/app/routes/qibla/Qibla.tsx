@@ -85,7 +85,7 @@ export default function Qibla() {
 
   if (!place || !engine || !info) return <EmptyState icon={<IconQibla size={28} />} title={t('home.noLocationTitle')} body={t('home.noLocationBody')} />;
   const sun = sunPosition(place.lat, place.lon, new Date(now));
-  const deg = (v: number) => `${f.num(v.toFixed(1))}°`;
+  const deg = (v: number) => f.ltr(`${f.num(v.toFixed(1))}°`);
   const magnetic = info.decl !== null ? (info.bearing - info.decl + 360) % 360 : null;
 
   return (

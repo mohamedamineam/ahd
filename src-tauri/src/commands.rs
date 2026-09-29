@@ -134,6 +134,19 @@ pub fn hide_self(window: WebviewWindow<Wry>) {
     let _ = window.hide();
 }
 
+/// The adhan window asks for the height its content needs (it grows when the dua after the adhan appears).
+#[tauri::command]
+pub fn fit_toast(app: AppHandle<Wry>, state: State<'_, AppState>, height: f64) {
+    let cfg = state.config.read().map(|c| c.clone()).unwrap_or_default();
+    windows::fit_toast(&app, &cfg, height);
+}
+
+/// The adhan window's content, for when the window was created after the event was sent.
+#[tauri::command]
+pub fn toast_payload(state: State<'_, AppState>) -> Option<serde_json::Value> {
+    state.toast.lock().ok().and_then(|t| t.clone())
+}
+
 #[tauri::command]
 pub fn toast_action(app: AppHandle<Wry>, state: State<'_, AppState>, action: String) {
     match action.as_str() {
