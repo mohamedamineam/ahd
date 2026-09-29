@@ -1,33 +1,192 @@
-use tauri::Manager;
+//! Ahd (عهد) — desktop prayer times companion. Rust side: scheduler, adhan audio, tray/indicator,
+//! notifications, extra windows, bundled datasets.
+
+mod adhans;
+mod audio;
+mod commands;
+mod db_migrations;
+mod display;
+mod notify;
+mod places;
+mod platform;
+mod schedule;
+mod scheduler;
+mod state;
+mod tray;
+mod trayicon;
+mod windows;
+
+use state::AppState;
+use std::collections::HashSet;
+use std::path::PathBuf;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{Mutex, RwLock};
+use tauri::{Emitter, Manager, WindowEvent};
+
+/// Flag file for "Compatibility mode (XWayland)", read before the toolkit starts (see main.rs).
+pub fn x11_compat_flag() -> Option<PathBuf> {
+    let base = std::env::var_os("XDG_CONFIG_HOME")
+        .map(PathBuf::from)
+        .or_else(|| std::env::var_os("HOME").map(|h| PathBuf::from(h).join(".config")))?;
+    Some(base.join("io.github.ahdapp.Ahd").join("x11-compat"))
+}
+
+/// Linux + Wayland + flag set: run through XWayland so widgets can be positioned (brief §12).
+pub fn apply_x11_compat() {
+    #[cfg(target_os = "linux")]
+    {
+        let wayland = std::env::var("XDG_SESSION_TYPE").map(|v| v == "wayland").unwrap_or(false) || std::env::var_os("WAYLAND_DISPLAY").is_some();
+        if wayland && std::env::var_os("GDK_BACKEND").is_none() && x11_compat_flag().is_some_and(|f| f.exists()) {
+            // SAFETY: called at the very start of main, before any other thread exists.
+            unsafe { std::env::set_var("GDK_BACKEND", "x11") };
+        }
+    }
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let _ = rustls::crypto::ring::default_provider().install_default();
-    tauri::Builder::default()
+    let started_minimized = std::env::args().any(|a| a == "--minimized");
+
+    #[allow(unused_mut)]
+    let mut builder = tauri::Builder::default()
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            if let Some(w) = app.get_webview_window("main") {
-                let _ = w.show();
-                let _ = w.set_focus();
-            }
+            windows::show_main(app, None);
         }))
-        .plugin(tauri_plugin_log::Builder::new().build())
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .targets([
+                    tauri_plugin_log::Target::new(tauri_plugin_log::TargetKind::Stdout),
+                    tauri_plugin_log::Target::new(tauri_plugin_log::TargetKind::LogDir { file_name: None }),
+                ])
+                .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepSome(5))
+                .max_file_size(1_000_000)
+                .level(log::LevelFilter::Info)
+                .build(),
+        )
         .plugin(tauri_plugin_store::Builder::new().build())
-        .plugin(tauri_plugin_sql::Builder::new().build())
+        .plugin(tauri_plugin_sql::Builder::new().add_migrations(db_migrations::DB_URL, db_migrations::migrations()).build())
         .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec!["--minimized"])))
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_positioner::init())
-        .plugin(tauri_plugin_window_state::Builder::new().build())
+        .plugin(
+            tauri_plugin_window_state::Builder::new()
+                .with_denylist(&[windows::WIDGET, windows::MINI, windows::PANEL, windows::PILL, windows::TOAST])
+                .with_state_flags(tauri_plugin_window_state::StateFlags::all() & !tauri_plugin_window_state::StateFlags::VISIBLE)
+                .build(),
+        )
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_os::init())
-        .plugin(tauri_plugin_process::init())
-        .setup(|app| {
-            if let Some(w) = app.get_webview_window("main") {
-                let _ = w.show();
+        .plugin(tauri_plugin_process::init());
+
+    #[cfg(feature = "updater")]
+    {
+        builder = builder.plugin(tauri_plugin_updater::Builder::new().build());
+    }
+
+    builder
+        .setup(move |app| {
+            let version = app.package_info().version.to_string();
+            let resource = app.path().resource_dir()?;
+            let data = app.path().app_data_dir()?;
+            let _ = std::fs::create_dir_all(&data);
+
+            let handle = app.handle().clone();
+            let audio = audio::AudioHandle::spawn(Box::new(move |s| {
+                let _ = handle.emit("ahd://audio", &s);
+            }));
+
+            // notification icon (Linux notifications take a file path)
+            let notification_icon = app.path().app_cache_dir().ok().and_then(|dir| {
+                let _ = std::fs::create_dir_all(&dir);
+                let p = dir.join("ahd-notification.png");
+                std::fs::write(&p, include_bytes!("../icons/128x128.png")).ok().map(|_| p)
+            });
+
+            app.manage(AppState {
+                schedule: RwLock::new(None),
+                fired: Mutex::new(HashSet::new()),
+                initialized: AtomicBool::new(false),
+                audio,
+                adhans: adhans::Adhans::new(resource.join("adhan"), &data),
+                places: places::Places::new(resource.join("data").join("cities.sqlite"), &version),
+                config: RwLock::new(windows::WindowsConfig::default()),
+                tray: Mutex::new(None),
+                started_minimized,
+                shortcut: Mutex::new(None),
+                notification_icon,
+                app_ready: AtomicBool::new(false),
+            });
+
+            match tray::create(app.handle()) {
+                Ok(t) => {
+                    if let Ok(mut g) = app.state::<AppState>().tray.lock() {
+                        *g = Some(t);
+                    }
+                }
+                Err(e) => log::error!("tray: {e}"),
             }
+            windows::precreate_panel(app.handle(), &windows::WindowsConfig::default());
+            tauri::async_runtime::spawn(scheduler::run(app.handle().clone()));
+
+            // Safety net: show the main window even if the frontend never reports ready.
+            if !started_minimized {
+                let h = app.handle().clone();
+                tauri::async_runtime::spawn(async move {
+                    tokio::time::sleep(std::time::Duration::from_secs(6)).await;
+                    let st = h.state::<AppState>();
+                    if !st.app_ready.swap(true, Ordering::SeqCst) {
+                        windows::show_main(&h, None);
+                    }
+                });
+            }
+            log::info!("Ahd {version} started (minimized: {started_minimized})");
             Ok(())
         })
+        .on_window_event(|window, event| {
+            if window.label() == "main" {
+                if let WindowEvent::CloseRequested { api, .. } = event {
+                    let keep = window.app_handle().state::<AppState>().config.read().map(|c| c.keep_in_tray).unwrap_or(true);
+                    if keep {
+                        api.prevent_close();
+                        let _ = window.hide();
+                    } else {
+                        window.app_handle().exit(0);
+                    }
+                }
+            }
+        })
+        .invoke_handler(tauri::generate_handler![
+            commands::set_schedule,
+            commands::get_schedule,
+            commands::stop_adhan,
+            commands::audio_state,
+            commands::play_preview,
+            commands::play_tone,
+            commands::test_adhan,
+            commands::list_adhans,
+            commands::import_adhan,
+            commands::delete_adhan,
+            commands::update_adhan,
+            commands::search_places,
+            commands::nearest_place,
+            commands::nominatim_search,
+            commands::show_main,
+            commands::open_panel,
+            commands::hide_self,
+            commands::toast_action,
+            commands::apply_windows,
+            commands::set_stop_shortcut,
+            commands::reset_widget_position,
+            commands::platform_info,
+            commands::set_wayland_compat,
+            commands::export_file,
+            commands::read_import_file,
+            commands::open_logs_folder,
+            commands::app_ready,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running Ahd");
 }

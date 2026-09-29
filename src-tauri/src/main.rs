@@ -2,5 +2,6 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
+    ahd_lib::apply_x11_compat();
     ahd_lib::run()
 }

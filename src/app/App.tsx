@@ -8,6 +8,8 @@ import { Toaster } from '@/design/components';
 import { TitleBar } from './shell/TitleBar';
 import { NavRail } from './shell/NavRail';
 import { AdhanPlayingPill, startAudioState } from './shell/AdhanPlayingPill';
+import { startEffects } from './effects';
+import { api } from '@/lib/bridge';
 import Home from './routes/home/Home';
 
 const Onboarding = lazy(() => import('./routes/onboarding/Onboarding'));
@@ -29,6 +31,7 @@ async function startMain() {
   await startPrayerStore();
   startScheduleSync();
   startAudioState();
+  startEffects();
 }
 
 function NavigationBridge() {
@@ -87,7 +90,11 @@ export default function App() {
   const ready = useSettings((s) => s.ready);
   const [booted, setBooted] = useState(false);
   useEffect(() => {
-    void startMain().then(() => setBooted(true));
+    void startMain().then(() => {
+      setBooted(true);
+      // first paint done: let Rust show the window (avoids a blank flash)
+      requestAnimationFrame(() => void api.appReady().catch(() => {}));
+    });
   }, []);
   if (!ready || !booted) return null;
   return (

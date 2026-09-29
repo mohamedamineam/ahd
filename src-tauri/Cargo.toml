@@ -18,8 +18,9 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2.7", features = [] }
 
 [features]
-default = ["updater"]
-# The in-app updater is only for GitHub-release builds. Microsoft Store (MSIX) and Flathub builds are
+default = []
+# The in-app updater is only for GitHub-release builds (tauri.github.conf.json adds its signing key and endpoint);
+# Microsoft Store (MSIX) and Flathub builds never enable it because the stores deliver updates. Previously
 # compiled with `--no-default-features` because the stores deliver updates themselves.
 updater = ["dep:tauri-plugin-updater"]
 
@@ -43,6 +44,7 @@ tauri-plugin-single-instance = "2.5"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tokio = { version = "1", features = ["rt", "sync", "time", "macros", "fs"] }
+unicode-normalization = "0.1"
 futures-util = "0.3"
 log = "0.4"
 thiserror = "2"
@@ -64,7 +66,7 @@ rodio = { version = "0.22", default-features = false, features = [
 sqlx = { version = "0.8", default-features = false, features = ["sqlite", "runtime-tokio"] }
 
 # Downloads (library books, tafsir) — rustls with the ring provider, same stack as Tauri's updater.
-reqwest = { version = "0.13", default-features = false, features = ["rustls-no-provider", "stream", "http2", "charset"] }
+reqwest = { version = "0.13", default-features = false, features = ["rustls-no-provider", "stream", "http2", "charset", "query", "json"] }
 rustls = { version = "0.23", default-features = false, features = ["ring", "std", "tls12", "logging"] }
 sha2 = "0.10"
 hex = "0.4"
@@ -84,6 +86,7 @@ windows-sys = { version = "0.59", features = [
 
 [target.'cfg(target_os = "linux")'.dependencies]
 gtk = "0.18"
+notify-rust = "4"
 
 [profile.release]
 codegen-units = 1

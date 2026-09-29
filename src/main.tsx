@@ -11,6 +11,7 @@ import { hijriSelfTest } from './features/prayer/hijri';
 
 const MainApp = lazy(() => import('./app/App'));
 const WidgetWindow = lazy(() => import('./windows/widget/Widget'));
+const MiniWindow = lazy(() => import('./windows/mini/MiniWidget'));
 const PanelWindow = lazy(() => import('./windows/panel/TrayPanel'));
 const PillWindow = lazy(() => import('./windows/pill/TaskbarPill'));
 const ToastWindow = lazy(() => import('./windows/toast/AdhanToast'));
@@ -27,7 +28,7 @@ async function boot() {
   startClock();
 
   const View =
-    kind === 'widget' ? WidgetWindow : kind === 'panel' ? PanelWindow : kind === 'pill' ? PillWindow : kind === 'toast' ? ToastWindow : MainApp;
+    kind === 'widget' ? WidgetWindow : kind === 'mini' ? MiniWindow : kind === 'panel' ? PanelWindow : kind === 'pill' ? PillWindow : kind === 'toast' ? ToastWindow : MainApp;
 
   createRoot(document.getElementById('root')!).render(
     <StrictMode>

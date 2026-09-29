@@ -1,7 +1,17 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "auxiliary",
-  "description": "Widget, tray panel, taskbar pill and adhan toast: read-only display + a few actions",
-  "windows": ["widget", "panel", "pill", "toast"],
-  "permissions": ["core:default"]
+  "description": "Widgets, tray panel, taskbar pill and adhan toast: display plus a few actions, read-only settings, no files or database",
+  "windows": ["widget", "mini", "panel", "pill", "toast"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-hide",
+    "store:allow-load",
+    "store:allow-get",
+    "store:allow-get-store",
+    "store:allow-has",
+    "store:allow-entries",
+    "store:allow-reload"
+  ]
 }

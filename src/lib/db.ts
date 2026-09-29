@@ -301,32 +301,43 @@ export const db = {
   },
 
   adhkar: {
-    async progress(date: string): Promise<Record<string, number>> {
-      if (!IS_TAURI) return lsRead().adhkar[date] ?? {};
+    /** Counters of one session (e.g. "morning:2026-09-29"). Only today's and yesterday's sessions are kept. */
+    async progress(session: string): Promise<Record<string, number>> {
+      if (!IS_TAURI) return lsRead().adhkar[session] ?? {};
       const rows = await (await sqlBackend()).select<{ dhikr_id: string; count: number }>(
         'SELECT dhikr_id, count FROM adhkar_progress WHERE date = $1',
-        [date],
+        [session],
       );
       return Object.fromEntries(rows.map((r) => [r.dhikr_id, r.count]));
     },
-    async setCount(date: string, id: string, count: number): Promise<void> {
+    async setCount(session: string, id: string, count: number, keepDates: string[]): Promise<void> {
+      const keep = (k: string) => keepDates.some((d) => k.includes(d));
       if (!IS_TAURI) {
         lsUpdate((t) => {
-          // privacy by default: keep only today
-          t.adhkar = { [date]: { ...(t.adhkar[date] ?? {}), [id]: count } };
+          const next: Tables['adhkar'] = {};
+          for (const [k, v] of Object.entries(t.adhkar)) if (keep(k)) next[k] = v;
+          next[session] = { ...(next[session] ?? {}), [id]: count };
+          t.adhkar = next;
         });
         return;
       }
       const b = await sqlBackend();
-      await b.execute('DELETE FROM adhkar_progress WHERE date <> $1', [date]);
+      const all = await b.select<{ date: string }>('SELECT DISTINCT date FROM adhkar_progress');
+      for (const r of all) if (!keep(r.date)) await b.execute('DELETE FROM adhkar_progress WHERE date = $1', [r.date]);
       await b.execute(
         `INSERT INTO adhkar_progress (date, dhikr_id, count) VALUES ($1, $2, $3)
          ON CONFLICT(date, dhikr_id) DO UPDATE SET count = excluded.count`,
-        [date, id, count],
+        [session, id, count],
       );
     },
-    async reset(date: string, ids: string[]): Promise<void> {
-      for (const id of ids) await db.adhkar.setCount(date, id, 0);
+    async reset(session: string): Promise<void> {
+      if (!IS_TAURI) {
+        lsUpdate((t) => {
+          delete t.adhkar[session];
+        });
+        return;
+      }
+      await (await sqlBackend()).execute('DELETE FROM adhkar_progress WHERE date = $1', [session]);
     },
   },
 

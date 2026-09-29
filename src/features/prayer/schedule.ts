@@ -301,6 +301,7 @@ export function buildSchedule(input: ScheduleInput): SchedulePayload {
       quit: t('tray.quit'),
       settings: t('tray.settings'),
       widget: t('tray.widget'),
+      miniWidget: t('tray.miniWidget'),
       indicator: t('tray.indicator'),
       next: t('tray.next'),
       passed: '✓',

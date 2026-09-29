@@ -1,0 +1,14 @@
+{
+  "geonames": {
+    "cities1000.zip": "0ba3eedb8b7c04f2b0fa9396e8c5f8746c432c76c4f247f63cc9fd63f39ceec5",
+    "alternateNamesV2.zip": "289259b8cb3d5d4522a6c1090ea89d57ffdb272d6bd0c6ce771ca2e7499054fb",
+    "admin1CodesASCII.txt": "1da92a6323a5fec3176f3f743bf4cf4040fd56a876da55e46fbca23c863aa60a"
+  },
+  "kfgqpc": {
+    "hafs/data/hafsData_v18.json": "5d8bb91726e482839d0057633cb1973031e4d706fa9604eea5e08892f20ba140",
+    "hafs/font/hafs.18.woff2": "8c00e7a7d5f773bcfb1642fdcfba505dbd81975fef39f14718827a32d075020c",
+    "warsh/data/warshData_v10.json": "f05d0dc652fd46b38563cacb13242f76f80db4cc64d25873da0bce157253872f",
+    "warsh/font/warsh.10.woff2": "d6e21b46de4bc42dae9218749830cb4cb54ff815e67c66002001219a175b71d7"
+  },
+  "tanzilMetadata": "8867c1d88191472adec9db694b3cd9f135b1a2ef580574d32cf888dcb22c5c7a"
+}

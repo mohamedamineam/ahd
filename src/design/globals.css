@@ -378,3 +378,12 @@
 .hadith-small {
   font-size: 1rem;
 }
+
+/* Auxiliary windows (widgets, panel, pill, toast) are transparent, frameless webviews */
+html:not([data-window='main']),
+html:not([data-window='main']) body {
+  background: transparent !important;
+}
+html:not([data-window='main']) #root {
+  height: 100vh;
+}

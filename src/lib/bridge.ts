@@ -16,14 +16,14 @@ export const IS_TAURI: boolean = (() => {
   }
 })();
 
-export type WindowKind = 'main' | 'widget' | 'panel' | 'pill' | 'toast';
+export type WindowKind = 'main' | 'widget' | 'mini' | 'panel' | 'pill' | 'toast';
 
 export function windowKind(): WindowKind {
   const w = new URLSearchParams(location.search).get('w');
-  if (w === 'widget' || w === 'panel' || w === 'pill' || w === 'toast') return w;
+  if (w === 'widget' || w === 'mini' || w === 'panel' || w === 'pill' || w === 'toast') return w;
   if (IS_TAURI) {
     const label = getCurrentWindow().label;
-    if (label === 'widget' || label === 'panel' || label === 'pill' || label === 'toast') return label;
+    if (label === 'widget' || label === 'mini' || label === 'panel' || label === 'pill' || label === 'toast') return label;
   }
   return 'main';
 }
@@ -145,6 +145,7 @@ export const api = {
   hideWindow: () => invoke<void>('hide_self'),
   toastAction: (action: 'stop' | 'hide' | 'open') => invoke<void>('toast_action', { action }),
   applyWindows: (config: unknown) => invoke<void>('apply_windows', { config }),
+  appReady: () => invoke<void>('app_ready'),
   setShortcut: (shortcut: string | null) => invoke<string | null>('set_stop_shortcut', { shortcut }),
   platformInfo: () => invoke<PlatformInfo>('platform_info'),
   relaunchX11: (enable: boolean) => invoke<void>('set_wayland_compat', { enable }),

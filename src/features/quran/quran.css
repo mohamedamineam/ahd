@@ -1,0 +1,53 @@
+/* KFGQPC Uthmanic fonts — each riwaya is rendered only with its own font (brief §14.1) */
+@font-face {
+  font-family: 'KFGQPC Hafs';
+  src: url('/quran/fonts/hafs.18.woff2') format('woff2');
+  font-display: block;
+}
+@font-face {
+  font-family: 'KFGQPC Warsh';
+  src: url('/quran/fonts/warsh.10.woff2') format('woff2');
+  font-display: block;
+}
+.mushaf-hafs {
+  font-family: 'KFGQPC Hafs';
+}
+.mushaf-warsh {
+  font-family: 'KFGQPC Warsh';
+}
+.mushaf-page {
+  --paper: #f7f1e3;
+  --paper-ink: #2b2a24;
+  --paper-frame: #c9b48e;
+  --paper-accent: #8a6d3b;
+  --paper-mark: rgba(201, 180, 142, 0.35);
+}
+.mushaf-page[data-paper='sepia'] {
+  --paper: #efe2c6;
+  --paper-ink: #3a2f20;
+  --paper-frame: #b39a6b;
+  --paper-accent: #7b5a2c;
+}
+.mushaf-page[data-paper='dark'] {
+  --paper: #1c211d;
+  --paper-ink: #e8e2d2;
+  --paper-frame: #5d5640;
+  --paper-accent: #cbbb97;
+  --paper-mark: rgba(203, 187, 151, 0.18);
+}
+.mushaf-text {
+  text-align: justify;
+  text-align-last: center;
+  word-spacing: 0.04em;
+}
+.mushaf-ayah {
+  border-radius: 6px;
+  transition: background-color 160ms;
+  cursor: default;
+}
+.mushaf-ayah:hover {
+  background: var(--paper-mark);
+}
+.mushaf-ayah[data-selected='true'] {
+  background: color-mix(in oklab, var(--sage) 28%, transparent);
+}
