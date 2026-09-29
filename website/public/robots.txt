@@ -1,2 +1,6 @@
 User-agent: *
+Allow: /
 Disallow: /api/
+Disallow: /download/
+
+Sitemap: https://3ahd.pages.dev/sitemap.xml

@@ -41,7 +41,7 @@
       sending: 'جار الإرسال…', sent: 'وصلت رسالتك، جزاك الله خيرا.', errShort: 'الرسالة قصيرة جدا.', errEmail: 'تحقق من البريد الإلكتروني.',
       errRate: 'أرسلت عدة رسائل مؤخرا. حاول بعد ساعة.', errGeneric: 'تعذر الإرسال. حاول مرة أخرى بعد قليل.',
       footer: 'عهد — مجاني ومفتوح المصدر برخصة GPL-3.0', privacy: 'الخصوصية', releases: 'كل الإصدارات',
-      title: 'عهد — مواقيت الصلاة لويندوز ولينكس', langBtn: 'English'
+      title: 'عهد | برنامج مواقيت الصلاة والأذان للكمبيوتر — ويندوز ولينكس مجانا', langBtn: 'English', faqKicker: 'أسئلة شائعة', faqTitle: 'عن برنامج مواقيت الصلاة للكمبيوتر', faqQ1: 'ما هو برنامج عهد؟', faqA1: 'عهد برنامج مجاني لمواقيت الصلاة على الكمبيوتر، لنظامي ويندوز ولينكس. يعرض أوقات الصلاة لمدينتك، ويرفع الأذان في وقته، ويضم القرآن الكريم والأذكار واتجاه القبلة.', faqQ2: 'كيف أعرف أوقات الصلاة على الكمبيوتر؟', faqA2: 'نزّل عهد وثبّته، ثم اختر مدينتك. تظهر مواقيت الصلاة في نافذة البرنامج وفي أداة صغيرة على سطح المكتب، ويظهر العد التنازلي للصلاة القادمة في شريط المهام.', faqQ3: 'هل يعمل البرنامج على ويندوز 10 وويندوز 11؟', faqA3: 'نعم، يعمل على ويندوز 10 وويندوز 11 (64 بت)، وعلى لينكس: أوبونتو ولينكس مينت وديبيان وفيدورا وغيرها. لا يعمل على ويندوز 7.', faqQ4: 'هل يرفع البرنامج الأذان تلقائيا؟', faqA4: 'نعم، يرفع الأذان عند دخول وقت كل صلاة، مع أذان خاص بالفجر، ثم يعرض دعاء ما بعد الأذان. ويمكن إيقاف الأذان بزر أو باختصار من لوحة المفاتيح.', faqQ5: 'هل يحتاج البرنامج إلى الإنترنت؟', faqA5: 'لا. حساب المواقيت وقائمة المدن (أكثر من 171 ألف مكان) والقرآن الكريم والأذكار كلها داخل البرنامج. يلزم الإنترنت فقط لتنزيل كتب المكتبة عند طلبك.', faqQ6: 'ما طرق حساب مواقيت الصلاة المتاحة؟', faqA6: 'كل الطرق المعروفة، منها رابطة العالم الإسلامي، وأم القرى، والهيئة المصرية العامة للمساحة، وجامعة العلوم الإسلامية بكراتشي، ووزارة الأوقاف المغربية والجزائرية والأردنية، مع ضبط كل صلاة بالدقائق والثواني.', faqQ7: 'هل البرنامج مجاني فعلا؟', faqA7: 'نعم، مجاني ومفتوح المصدر، بلا إعلانات ولا حسابات ولا تتبع.'
     },
     en: {
       brand: 'Ahd', navFeatures: 'Features', navDownload: 'Download', navReq: 'Requirements', navFeedback: 'Feedback',
@@ -79,13 +79,16 @@
       sending: 'Sending…', sent: 'Thank you, your message has arrived.', errShort: 'The message is too short.', errEmail: 'Please check the email address.',
       errRate: 'You have sent several messages recently. Please try again in an hour.', errGeneric: 'Could not send your message. Please try again in a moment.',
       footer: 'Ahd — free and open source under GPL-3.0', privacy: 'Privacy', releases: 'All releases',
-      title: 'Ahd — prayer times for Windows and Linux', langBtn: 'العربية'
+      title: 'Ahd | Free prayer times and adhan app for PC — Windows and Linux', langBtn: 'العربية', faqKicker: 'Questions', faqTitle: 'About the prayer times app for PC', faqQ1: 'What is Ahd?', faqA1: 'Ahd is a free prayer times app for PC, for Windows and Linux. It shows the prayer times for your city, plays the adhan on time, and includes the Quran, adhkar and the qibla direction.', faqQ2: 'How do I see prayer times on my computer?', faqA2: 'Download and install Ahd, then choose your city. The prayer times appear in the app window and in a small desktop widget, and the countdown to the next prayer shows in the taskbar.', faqQ3: 'Does it work on Windows 10 and Windows 11?', faqA3: 'Yes, on Windows 10 and Windows 11 (64-bit), and on Linux: Ubuntu, Linux Mint, Debian, Fedora and others. It does not run on Windows 7.', faqQ4: 'Does it play the adhan automatically?', faqA4: 'Yes. It plays the adhan when each prayer time begins, with a separate Fajr adhan, then shows the dua after the adhan. A button or a keyboard shortcut stops it.', faqQ5: 'Does it need the internet?', faqA5: 'No. The prayer time calculation, the list of places (over 171,000), the Quran and the adhkar are all inside the app. The internet is only used to download library books when you ask.', faqQ6: 'Which calculation methods are available?', faqA6: 'All the common ones, including the Muslim World League, Umm al-Qura, the Egyptian General Authority of Survey, the University of Islamic Sciences in Karachi, and the ministries of Morocco, Algeria and Jordan, with per-prayer adjustment in minutes and seconds.', faqQ7: 'Is it really free?', faqA7: 'Yes. Free and open source, with no ads, no accounts and no tracking.'
     }
   };
 
   var lang = 'ar';
   // Arabic first; English only when the visitor chose it with the language button
   try { lang = localStorage.getItem('ahd-lang') || 'ar'; } catch (e) { /* storage blocked */ }
+  // ?lang=en / ?lang=ar (the English address search engines index) wins over the stored choice
+  var asked = new URLSearchParams(location.search).get('lang');
+  if (asked === 'en' || asked === 'ar') lang = asked;
   if (!T[lang]) lang = 'ar';
 
   var os = /Windows/i.test(navigator.userAgent) ? 'windows' : /Linux/i.test(navigator.userAgent) && !/Android/i.test(navigator.userAgent) ? 'linux' : 'windows';
@@ -117,6 +120,7 @@
   document.getElementById('lang').addEventListener('click', function () {
     lang = lang === 'ar' ? 'en' : 'ar';
     try { localStorage.setItem('ahd-lang', lang); } catch (e) { /* storage blocked */ }
+    if (location.search) history.replaceState(null, '', location.pathname + location.hash);
     apply();
   });
 
