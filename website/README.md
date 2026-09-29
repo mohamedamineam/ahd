@@ -30,9 +30,9 @@ npx wrangler login                                   # opens the browser to conn
 npx wrangler d1 create ahd-comments                  # prints a database_id
 # put that database_id into wrangler.toml (replace the example id), then:
 npx wrangler d1 execute ahd-comments --remote --file=schema.sql
-npx wrangler pages project create ahd --production-branch main
-npx wrangler pages deploy                            # publishes public/ and functions/ → https://ahd.pages.dev
-npx wrangler pages secret put HASH_SALT --project-name ahd   # optional: any long random text (salts the spam limit)
+npx wrangler pages project create 3ahd --production-branch main
+npx wrangler pages deploy                            # publishes public/ and functions/ → https://3ahd.pages.dev
+npx wrangler pages secret put HASH_SALT --project-name 3ahd   # optional: any long random text (salts the spam limit)
 ```
 
 If the name `ahd` is taken on pages.dev, use another project name (e.g. `ahd-app`) in both commands and in
