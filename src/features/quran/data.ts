@@ -50,6 +50,8 @@ export function looseSearch(s: string): string {
     .trim();
 }
 
+const resolved = new Map<Riwaya, QuranData>();
+
 export function loadQuran(riwaya: Riwaya): Promise<QuranData> {
   let p = cache.get(riwaya);
   if (!p) {
@@ -67,7 +69,12 @@ export function loadQuran(riwaya: Riwaya): Promise<QuranData> {
           r[1] = i;
           if (!juzStart[a[3]]) juzStart[a[3]] = a[2];
         });
-        return { ...d, pageIndex, juzStart, looseKeys: d.ayat.map((a) => looseSearch(a[5])) };
+        // Surah names are UI labels: shown without harakat, which the Linux webview misplaces in UI fonts. The ayat
+        // themselves are always displayed verbatim (and shaped by src/features/shaping).
+        const surahs = d.surahs.map((s) => ({ ...s, ar: s.ar.replace(/[\u064B-\u0652\u0670]/g, '') }));
+        const q: QuranData = { ...d, surahs, pageIndex, juzStart, looseKeys: d.ayat.map((a) => looseSearch(a[5])) };
+        resolved.set(riwaya, q);
+        return q;
       });
     cache.set(riwaya, p);
   }
@@ -75,13 +82,13 @@ export function loadQuran(riwaya: Riwaya): Promise<QuranData> {
 }
 
 export function useQuran(riwaya: Riwaya) {
-  const [data, setData] = useState<QuranData | null>(null);
+  const [, setLoaded] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const data = resolved.get(riwaya) ?? null;
   useEffect(() => {
     let alive = true;
-    setData(null);
     loadQuran(riwaya)
-      .then((d) => alive && setData(d))
+      .then(() => alive && setLoaded((n) => n + 1))
       .catch((e) => alive && setError(String(e)));
     return () => {
       alive = false;

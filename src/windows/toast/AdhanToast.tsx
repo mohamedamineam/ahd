@@ -5,6 +5,7 @@ import { useAudio } from '@/app/shell/AdhanPlayingPill';
 import { AhdMark } from '@/design/brand/AhdMark';
 import { IconClose, IconStop } from '@/design/icons';
 import { useDuaAfterAdhan } from '@/features/adhkar/data';
+import { ShapedText } from '@/features/shaping/ShapedText';
 import { useAuxWindow } from '../shared';
 
 interface ToastPayload {
@@ -25,14 +26,15 @@ export default function AdhanToast() {
   const { t } = useTranslation();
   const audio = useAudio();
   const [p, setP] = useState<ToastPayload | null>(null);
-  const [showDua, setShowDua] = useState(false);
+  // the dua after the adhan: shown once the adhan has ended, or earlier on click
+  const [expanded, setExpanded] = useState(false);
   const dua = useDuaAfterAdhan();
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const un = listen<ToastPayload>('ahd://toast', (payload) => {
       setP(payload);
-      setShowDua(false);
+      setExpanded(false);
     });
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 's' || e.key === 'S') void api.toastAction('stop');
@@ -48,7 +50,6 @@ export default function AdhanToast() {
   useEffect(() => {
     if (!p) return;
     if (!audio.playing) {
-      setShowDua(true);
       if (hideTimer.current) clearTimeout(hideTimer.current);
       hideTimer.current = setTimeout(() => void api.toastAction('hide'), Math.max(5, p.autoHideSeconds) * 1000);
     } else if (hideTimer.current) {
@@ -58,9 +59,10 @@ export default function AdhanToast() {
   }, [audio.playing, p]);
 
   const playing = audio.playing && audio.kind === 'adhan';
+  const showDua = expanded || (p !== null && !audio.playing);
   return (
     <div className="h-screen w-screen p-2">
-      <div className="khatam relative flex h-full flex-col overflow-hidden rounded-[18px] border border-line-soft bg-surface shadow-lg" onClick={() => setShowDua(true)}>
+      <div className="khatam relative flex h-full flex-col overflow-hidden rounded-[18px] border border-line-soft bg-surface shadow-lg" onClick={() => setExpanded(true)}>
         <button
           type="button"
           aria-label={t('toast.close')}
@@ -86,8 +88,8 @@ export default function AdhanToast() {
           </div>
         </div>
         {showDua && dua ? (
-          <div className="mx-5 mt-2 line-clamp-2 font-dhikr text-[0.9375rem] leading-relaxed text-ink" lang="ar" dir="rtl" title={dua.text}>
-            {dua.text}
+          <div className="mx-5 mt-2 text-ink" title={dua.text}>
+            <ShapedText font="amiri" text={dua.text} size={15} lineHeight={1.75} maxLines={2} fallbackClassName="line-clamp-2 font-dhikr" />
           </div>
         ) : null}
         <div className="mt-auto flex items-center gap-2 px-4 pb-3">

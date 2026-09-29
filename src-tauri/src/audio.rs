@@ -303,7 +303,7 @@ mod tests {
     #[test]
     fn chime_has_expected_length_and_is_bounded() {
         let c = Chime::new();
-        let samples: Vec<f32> = c.map(|s| s as f32).collect();
+        let samples: Vec<f32> = c.collect();
         assert_eq!(samples.len(), (44_100.0 * 1.9) as usize);
         assert!(samples.iter().all(|s| s.abs() <= 1.0));
     }

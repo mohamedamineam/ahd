@@ -36,7 +36,7 @@
         "font-src": "'self' data: asset: http://asset.localhost",
         "img-src": "'self' data: blob: asset: http://asset.localhost https://tile.openstreetmap.org https://*.tile.openstreetmap.org https://d1.islamhouse.com",
         "media-src": "'self' asset: http://asset.localhost",
-        "connect-src": "'self' ipc: http://ipc.localhost asset: http://asset.localhost https://nominatim.openstreetmap.org https://api3.islamhouse.com",
+        "connect-src": "'self' ipc: http://ipc.localhost asset: http://asset.localhost https://nominatim.openstreetmap.org https://api3.islamhouse.com https://raw.githubusercontent.com",
         "worker-src": "'self' blob:",
         "object-src": "'none'",
         "frame-src": "'none'",
@@ -45,14 +45,27 @@
       },
       "assetProtocol": {
         "enable": true,
-        "scope": ["$APPDATA/library/**", "$APPDATA/adhan/**", "$RESOURCE/adhan/**"]
+        "scope": [
+          "$APPDATA/library/**",
+          "$APPDATA/adhan/**",
+          "$RESOURCE/adhan/**"
+        ]
       },
-      "capabilities": ["main", "auxiliary"]
+      "capabilities": [
+        "main",
+        "auxiliary"
+      ]
     }
   },
   "bundle": {
     "active": true,
-    "targets": ["deb", "rpm", "appimage", "nsis", "msi"],
+    "targets": [
+      "deb",
+      "rpm",
+      "appimage",
+      "nsis",
+      "msi"
+    ],
     "publisher": "Ahd contributors",
     "copyright": "© 2026 Ahd contributors — GPL-3.0-or-later",
     "license": "GPL-3.0-or-later",
@@ -61,7 +74,13 @@
     "category": "Lifestyle",
     "shortDescription": "Prayer times, adhan, Quran, adhkar and qibla",
     "longDescription": "Ahd is a calm, free and private desktop companion for Muslims: accurate prayer times with per-second fine-tuning, the adhan with a notification you can close while it keeps playing, a desktop widget and taskbar indicator, the Quran (Hafs and Warsh), authentic adhkar from Hisn al-Muslim, the qibla direction and a small library of free Islamic books. No ads, no accounts, no tracking.",
-    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
     "resources": {
       "../assets/adhan/": "adhan/",
       "../assets/data/": "data/",
@@ -70,11 +89,15 @@
     },
     "linux": {
       "deb": {
-        "depends": ["libayatana-appindicator3-1"],
+        "depends": [
+          "libayatana-appindicator3-1"
+        ],
         "desktopTemplate": "../packaging/linux/ahd.desktop"
       },
       "rpm": {
-        "depends": ["libayatana-appindicator-gtk3"],
+        "depends": [
+          "libayatana-appindicator-gtk3"
+        ],
         "desktopTemplate": "../packaging/linux/ahd.desktop"
       },
       "appimage": {
@@ -82,14 +105,22 @@
       }
     },
     "windows": {
-      "webviewInstallMode": { "type": "downloadBootstrapper" },
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper"
+      },
       "nsis": {
-        "languages": ["English", "Arabic"],
+        "languages": [
+          "English",
+          "Arabic"
+        ],
         "displayLanguageSelector": true,
         "installMode": "currentUser"
       },
       "wix": {
-        "language": ["en-US", "ar-SA"]
+        "language": [
+          "en-US",
+          "ar-SA"
+        ]
       }
     }
   },

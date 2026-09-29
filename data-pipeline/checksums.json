@@ -6,9 +6,13 @@
   },
   "kfgqpc": {
     "hafs/data/hafsData_v18.json": "5d8bb91726e482839d0057633cb1973031e4d706fa9604eea5e08892f20ba140",
-    "hafs/font/hafs.18.woff2": "8c00e7a7d5f773bcfb1642fdcfba505dbd81975fef39f14718827a32d075020c",
+    "hafs/font/hafs.18.ttf": "a0636e68e375af9552470d67773936f54d536e6586ce2608311b2fe7f9cbec3a",
     "warsh/data/warshData_v10.json": "f05d0dc652fd46b38563cacb13242f76f80db4cc64d25873da0bce157253872f",
-    "warsh/font/warsh.10.woff2": "d6e21b46de4bc42dae9218749830cb4cb54ff815e67c66002001219a175b71d7"
+    "warsh/font/warsh.10.ttf": "e6347a1b4cf0ca32e9cb187a7db8c9ecee0d5e384269ca6a943373a34ff747fb"
   },
-  "tanzilMetadata": "8867c1d88191472adec9db694b3cd9f135b1a2ef580574d32cf888dcb22c5c7a"
+  "tanzilMetadata": "8867c1d88191472adec9db694b3cd9f135b1a2ef580574d32cf888dcb22c5c7a",
+  "shapingFonts": {
+    "Amiri-Regular.ttf": "ab391c4147d054c48976e98322ad0eefe1427aa0e0502a12a4c75d80a70cfcd7",
+    "ArefRuqaa-Regular.ttf": "ceb786d83ba92f35e96efcd8623c2858d288e0c543c8761ba35b1020989464f9"
+  }
 }

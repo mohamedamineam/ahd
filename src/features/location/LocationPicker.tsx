@@ -33,9 +33,11 @@ export function LocationPicker({ onPick, selected, autoFocus }: LocationPickerPr
     const id = ++seq.current;
     const h = setTimeout(async () => {
       const r = await searchOffline(query).catch(() => []);
-      if (id === seq.current) setResults(r);
+      if (id === seq.current) {
+        setResults(r);
+        setOnline(null);
+      }
     }, 120);
-    setOnline(null);
     return () => clearTimeout(h);
   }, [query]);
 

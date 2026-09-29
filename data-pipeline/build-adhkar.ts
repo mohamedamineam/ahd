@@ -24,7 +24,7 @@ async function cached(url: string, file: string): Promise<string> {
     writeFileSync(p, Buffer.from(await res.arrayBuffer()));
     await new Promise((r) => setTimeout(r, 250));
   }
-  return readFileSync(p, 'utf8').replace(/^﻿/, '');
+  return readFileSync(p, 'utf8').replace(/^\uFEFF/, '');
 }
 
 const sha = (s: string) => createHash('sha256').update(s).digest('hex');

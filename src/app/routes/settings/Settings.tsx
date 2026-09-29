@@ -125,7 +125,7 @@ export default function Settings() {
   const location = useLocation();
   const section = (SECTIONS as readonly string[]).includes(params.section ?? '') ? (params.section as SectionId) : 'general';
   const [query, setQuery] = useState('');
-  const index = useMemo(buildIndex, []);
+  const index = useMemo(() => buildIndex(), []);
   const content = useRef<HTMLDivElement>(null);
 
   const results = useMemo(() => {

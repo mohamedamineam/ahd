@@ -54,7 +54,8 @@
     "notAvailable": "Not available",
     "unknown": "Unknown",
     "minUnit": "min",
-    "secUnit": "s"
+    "secUnit": "s",
+    "copy": "Copy"
   },
   "nav": {
     "label": "Main navigation",
@@ -478,10 +479,10 @@
       "paletteDesc": "Every palette stays soft and readable.",
       "paletteNames": {
         "sage-linen": "Sage & Linen",
-        "olive-parchment": "Olive & Parchment",
+        "olive-parchment": "Olive & Papyrus",
         "mint-stone": "Mint & Stone",
         "slate-sand": "Slate & Sand",
-        "cedar-wheat": "Cedar & Wheat",
+        "cedar-wheat": "Pine & Wheat",
         "custom": "Custom"
       },
       "primaryHue": "Main colour",
@@ -591,7 +592,7 @@
       "arrowsBook": "Right arrow: next page",
       "theme": "Reading theme",
       "themeAuto": "Follow the app",
-      "parchment": "Parchment",
+      "parchment": "Papyrus",
       "sepia": "Sepia",
       "tafsir": "Tafsir",
       "tafsirDesc": "Downloaded on demand and shown beside the text.",
@@ -630,7 +631,7 @@
   },
   "notify": {
     "adhanTitle": "{{prayer}}",
-    "adhanBody": "It is time for {{prayer}} prayer ({{time}}) in {{place}}",
+    "adhanBody": "It is time for {{prayer}} ({{time}}) in {{place}}",
     "before": "{{minutes}} until {{prayer}}",
     "sunriseWarning": "Sunrise in {{minutes}} — Fajr time is ending",
     "after": "Did you pray {{prayer}}?",
@@ -814,5 +815,32 @@
     "source": "Text and fonts: King Fahd Glorious Qur’an Printing Complex (KFGQPC).",
     "loading": "Opening the mushaf…",
     "index": "Index"
+  },
+  "library": {
+    "title": "Library",
+    "catalog": "Catalog",
+    "downloaded": "Downloaded",
+    "search": "Title or author",
+    "category": "Category",
+    "author": "Author",
+    "allCategories": "All categories",
+    "allAuthors": "All authors",
+    "categories": {
+      "tafsir": "Tafsir",
+      "sirah": "Sirah & history",
+      "aqidah": "Aqidah",
+      "tazkiyah": "Purification of the soul",
+      "hadith": "Hadith",
+      "fiqh": "Fiqh",
+      "adhkar": "Adhkar"
+    },
+    "read": "Read",
+    "continue": "Continue from page {{page}}",
+    "source": "Open the book page on IslamHouse",
+    "failed": "The download failed. Check your connection and try again.",
+    "desktopOnly": "Downloads are available in the desktop app.",
+    "noDownloads": "No downloaded books yet.",
+    "noMatch": "No books match these filters.",
+    "attribution": "Books are provided free by IslamHouse (islamhouse.com), unchanged, and downloaded only when you ask."
   }
 }

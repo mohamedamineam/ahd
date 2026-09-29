@@ -67,6 +67,7 @@ pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
         .item(&quit)
         .build()?;
 
+    #[cfg_attr(not(target_os = "linux"), allow(unused_mut))]
     let mut builder = TrayIconBuilder::with_id("main")
         .icon(png(ICON_LIGHT).expect("tray icon"))
         .tooltip("Ahd")

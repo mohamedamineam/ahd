@@ -7,7 +7,9 @@ import type { Place } from '@/features/prayer/types';
 export default function MapPicker({ initial, onPick, height = 288 }: { initial: Place | null; onPick: (lat: number, lon: number) => void; height?: number }) {
   const el = useRef<HTMLDivElement>(null);
   const pick = useRef(onPick);
-  pick.current = onPick;
+  useEffect(() => {
+    pick.current = onPick;
+  });
   useEffect(() => {
     if (!el.current) return;
     const center: L.LatLngExpression = initial ? [initial.lat, initial.lon] : [21.4225, 39.8262];

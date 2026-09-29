@@ -1,5 +1,7 @@
 // Builds the offline Quran data for both riwayat (brief §14):
-//   public/quran/hafs.json, public/quran/warsh.json, public/quran/fonts/*.woff2
+//   public/quran/hafs.json, public/quran/warsh.json, public/quran/fonts/*.ttf
+// The TrueType fonts are shipped exactly as published (the KFGQPC licence forbids modifying them); TrueType because
+// the Quran is shaped with HarfBuzz (src/features/shaping), which reads sfnt fonts only.
 // Text and fonts: King Fahd Glorious Qur'an Printing Complex (KFGQPC) Unicode Uthmanic data — Hafs v18, Warsh v10
 // — the text and its font come from the same release, so glyphs match. Downloaded from the developer mirror
 // github.com/thetruetruth/quran-data-kfgqpc because the official site (qurancomplex.gov.sa/techquran/dev) was
@@ -33,7 +35,7 @@ export function searchKey(s: string): string {
   return s
     .replace(/[ؐ-ًؚ-ٰٟۖ-ۭـ]/g, '')
     .replace(/[٠-٩۰-۹0-9]/g, '')
-    .replace(/[۝۞ ]/g, ' ')
+    .replace(/[\u06DD\u06DE\u00A0]/g, ' ')
     .replace(/[ٱآأإ]/g, 'ا')
     .replace(/ى/g, 'ي')
     .replace(/ة/g, 'ه')
@@ -70,14 +72,14 @@ const outDir = join(root, 'public/quran');
 mkdirSync(join(outDir, 'fonts'), { recursive: true });
 
 for (const r of [
-  { id: 'hafs', data: 'hafs/data/hafsData_v18.json', font: 'hafs/font/hafs.18.woff2', expected: 6236, version: 'KFGQPC Hafs Uthmanic Script v18' },
-  { id: 'warsh', data: 'warsh/data/warshData_v10.json', font: 'warsh/font/warsh.10.woff2', expected: 6214, version: 'KFGQPC Warsh Uthmanic Script v10' },
+  { id: 'hafs', data: 'hafs/data/hafsData_v18.json', font: 'hafs/font/hafs.18.ttf', expected: 6236, version: 'KFGQPC Hafs Uthmanic Script v18' },
+  { id: 'warsh', data: 'warsh/data/warshData_v10.json', font: 'warsh/font/warsh.10.ttf', expected: 6214, version: 'KFGQPC Warsh Uthmanic Script v10' },
 ] as const) {
   const dataPath = await fetchCached(`${MIRROR}/${r.data}`, r.data.split('/').pop()!);
   const fontPath = await fetchCached(`${MIRROR}/${r.font}`, r.font.split('/').pop()!);
   checksums[r.data] = sha(dataPath);
   checksums[r.font] = sha(fontPath);
-  const raw = JSON.parse(readFileSync(dataPath, 'utf8').replace(/^﻿/, '')) as Raw[];
+  const raw = JSON.parse(readFileSync(dataPath, 'utf8').replace(/^\uFEFF/, '')) as Raw[];
   if (raw.length !== r.expected) throw new Error(`${r.id}: expected ${r.expected} ayat, got ${raw.length}`);
 
   const surahs: { n: number; ar: string; en: string; ayat: number; type: string; page: number; juz: number }[] = [];

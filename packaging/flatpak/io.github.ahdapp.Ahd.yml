@@ -1,0 +1,49 @@
+# Flatpak manifest for Flathub (see docs/RELEASE_LINUX.md). Repackages the .deb built by the release workflow,
+# as in Tauri's Flathub guide. In the Flathub repository, add https://github.com/flathub/shared-modules as the
+# "shared-modules" git submodule (tray icon support), and set the .deb URL and sha256 of the release.
+id: io.github.ahdapp.Ahd
+runtime: org.gnome.Platform
+runtime-version: '49'
+sdk: org.gnome.Sdk
+command: ahd
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # the adhan
+  - --socket=pulseaudio
+  # optional online features (place search, map, library, tafsir) — each can be turned off in the app
+  - --share=network
+  # tray icon / top-bar indicator and notifications with actions
+  - --talk-name=org.kde.StatusNotifierWatcher
+  - --talk-name=org.freedesktop.Notifications
+
+modules:
+  - shared-modules/libayatana-appindicator/libayatana-appindicator-gtk3.json
+
+  - name: ahd
+    buildsystem: simple
+    sources:
+      - type: file
+        url: https://github.com/ahdapp/ahd/releases/download/v0.1.0/Ahd_0.1.0_amd64.deb
+        sha256: REPLACE_WITH_SHA256_FROM_SHA256SUMS
+        dest-filename: ahd.deb
+        only-arches: [x86_64]
+      - type: file
+        path: ../linux/io.github.ahdapp.Ahd.metainfo.xml
+      - type: dir
+        path: icons
+        dest: icons
+    build-commands:
+      - ar -x ahd.deb
+      - tar -xf data.tar.gz
+      - install -Dm755 usr/bin/ahd /app/bin/ahd
+      # bundled resources (adhan recordings, offline places, tray icons): Tauri looks for them in ../lib/Ahd
+      - cp -a usr/lib/Ahd /app/lib/Ahd
+      - install -Dm644 usr/share/applications/Ahd.desktop /app/share/applications/io.github.ahdapp.Ahd.desktop
+      - desktop-file-edit --set-icon=io.github.ahdapp.Ahd --set-key=StartupWMClass --set-value=ahd /app/share/applications/io.github.ahdapp.Ahd.desktop
+      - install -Dm644 io.github.ahdapp.Ahd.metainfo.xml /app/share/metainfo/io.github.ahdapp.Ahd.metainfo.xml
+      - for s in 128x128 256x256 512x512; do install -Dm644 icons/$s/io.github.ahdapp.Ahd.png /app/share/icons/hicolor/$s/apps/io.github.ahdapp.Ahd.png; done
+      - install -Dm644 icons/scalable/io.github.ahdapp.Ahd.svg /app/share/icons/hicolor/scalable/apps/io.github.ahdapp.Ahd.svg
+      - install -Dm644 icons/symbolic/io.github.ahdapp.Ahd-symbolic.svg /app/share/icons/hicolor/symbolic/apps/io.github.ahdapp.Ahd-symbolic.svg

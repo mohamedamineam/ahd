@@ -363,20 +363,8 @@
   color: var(--hadith);
   font-family: var(--font-hadith);
 }
-.hadith-inscription q {
-  quotes: '«' '»';
-}
-/* Aref Ruqaa draws guillemets like double brackets; set the marks in Amiri */
-.hadith-inscription q::before,
-.hadith-inscription q::after {
-  font-family: 'Amiri', serif;
-  font-size: 0.9em;
-}
-.hadith-text {
-  font-size: 1.6rem;
-}
-.hadith-small {
-  font-size: 1rem;
+.hadith-fallback {
+  font-size: 1.1rem;
 }
 
 /* Auxiliary windows (widgets, panel, pill, toast) are transparent, frameless webviews */
@@ -386,4 +374,16 @@ html:not([data-window='main']) body {
 }
 html:not([data-window='main']) #root {
   height: 100vh;
+}
+
+/* shaped text (src/features/shaping): highlight and click target behind each segment */
+.shaped-mark {
+  fill: transparent;
+  transition: fill 160ms;
+}
+.shaped-mark[data-hover] {
+  fill: var(--shaped-hover, color-mix(in oklab, currentColor 7%, transparent));
+}
+.shaped-mark[data-selected] {
+  fill: var(--shaped-selected, color-mix(in oklab, var(--sage) 28%, transparent));
 }

@@ -1,0 +1,87 @@
+name: Release
+
+# Push a tag like v0.1.0 to build installers into a draft GitHub release. Review the draft, then publish it.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  gate:
+    name: Release checks
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      # every bundled adhan needs a confirmed source and licence (assets/adhan/adhan.json)
+      - run: npm run check:release
+      - run: npm run data:fonts
+
+  build:
+    name: Build (${{ matrix.name }})
+    needs: gate
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Linux
+            os: ubuntu-22.04 # older glibc: the AppImage and .deb run on more distributions
+            args: --bundles deb,rpm,appimage
+          - name: Windows
+            os: windows-latest
+            args: --bundles nsis,msi
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - name: Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libasound2-dev libxdo-dev patchelf
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: Ahd ${{ github.ref_name }}
+          releaseBody: Installers for Linux and Windows. Verify downloads with SHA256SUMS.
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+
+  checksums:
+    name: SHA256SUMS
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checksums of all release files
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          mkdir assets && cd assets
+          gh release download "$TAG" --repo "$REPO" --pattern '*' --skip-existing
+          rm -f SHA256SUMS
+          sha256sum * > SHA256SUMS
+          cat SHA256SUMS
+          gh release upload "$TAG" SHA256SUMS --repo "$REPO" --clobber

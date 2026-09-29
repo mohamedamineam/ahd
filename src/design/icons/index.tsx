@@ -275,6 +275,12 @@ export const IconBookmark = (p: IconProps) => (
     <path d="M7 4h10v16.5l-5-3.6-5 3.6Z" />
   </Svg>
 );
+export const IconCopy = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="8.5" y="8.5" width="11" height="12" rx="2.2" />
+    <path d="M15.5 8.5V6.2a2.2 2.2 0 0 0-2.2-2.2H6.7a2.2 2.2 0 0 0-2.2 2.2v8.1a2.2 2.2 0 0 0 2.2 2.2h1.8" />
+  </Svg>
+);
 export const IconPrinter = (p: IconProps) => (
   <Svg {...p}>
     <path d="M7 8.5V4h10v4.5M7 16.5H5a1.5 1.5 0 0 1-1.5-1.5v-5A1.5 1.5 0 0 1 5 8.5h14a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-2" />

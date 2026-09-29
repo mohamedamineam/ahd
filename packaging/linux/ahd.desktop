@@ -1,5 +1,5 @@
 [Desktop Entry]
-Categories={{categories}};Utility;
+Categories=Utility;Clock;
 Comment={{comment}}
 Comment[ar]=أوقات الصلاة والأذان والقرآن والأذكار والقبلة
 Exec={{exec}}

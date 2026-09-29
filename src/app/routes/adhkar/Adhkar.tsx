@@ -8,8 +8,9 @@ import { useNowMinute } from '@/lib/clock';
 import { db } from '@/lib/db';
 import { itemsOf, keepDates, sessionKey, useAdhkar, type AdhkarData, type Dhikr } from '@/features/adhkar/data';
 import { localDate } from '@/features/prayer/engine';
-import { Button, Checkbox, CounterButton, EmptyState, IconButton, Skeleton } from '@/design/components';
-import { IconChevronEnd, IconChevronStart, IconClose, IconFocus, IconReset, IconSettings } from '@/design/icons';
+import { ShapedText } from '@/features/shaping/ShapedText';
+import { Button, Checkbox, CounterButton, EmptyState, IconButton, Skeleton, toast } from '@/design/components';
+import { IconChevronEnd, IconChevronStart, IconClose, IconCopy, IconFocus, IconReset, IconSettings } from '@/design/icons';
 
 const FEATURED = ['morning', 'evening'] as const;
 
@@ -131,9 +132,7 @@ function DhikrCard({ d, done, onCount, fontScale, animate, innerRef }: { d: Dhik
       className={clsx('flex gap-5 rounded-panel border p-6 transition-colors', complete ? 'border-sage/50 bg-sage-soft/50' : 'border-line-soft bg-surface')}
     >
       <div className="min-w-0 flex-1">
-        <p lang="ar" dir="rtl" className="selectable font-dhikr text-ink" style={{ fontSize: `${1.5 * fontScale}rem`, lineHeight: 2.05 }}>
-          {d.text}
-        </p>
+        <ShapedText font="amiri" text={d.text} size={24 * fontScale} lineHeight={2.05} className="text-ink" fallbackClassName="selectable font-dhikr" />
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.8125rem] text-ink-muted">
           {d.reference ? (
             <span lang="ar" dir="rtl" className="selectable">
@@ -141,6 +140,9 @@ function DhikrCard({ d, done, onCount, fontScale, animate, innerRef }: { d: Dhik
             </span>
           ) : null}
           <span className="rounded-full bg-surface-sunk px-2 py-0.5">{f.t('adhkar.times', { count: d.count })}</span>
+          <IconButton size="sm" label={f.t('common.copy')} className="-my-1" onClick={() => void navigator.clipboard.writeText(d.text).then(() => toast(f.t('common.copied'), 'success'))}>
+            <IconCopy size={15} />
+          </IconButton>
         </div>
       </div>
       <div className="flex flex-col items-center justify-center">
@@ -179,9 +181,7 @@ function FocusMode({ items, index, setIndex, done, onCount, fontScale, onClose }
         </IconButton>
       </div>
       <div className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-10">
-        <p key={d.id} lang="ar" dir="rtl" className="animate-fade-in selectable max-w-3xl text-center font-dhikr text-ink" style={{ fontSize: `${2 * fontScale}rem`, lineHeight: 2.1 }}>
-          {d.text}
-        </p>
+        <ShapedText key={d.id} font="amiri" text={d.text} size={32 * fontScale} lineHeight={2.1} align="center" className="animate-fade-in w-full max-w-3xl text-ink" fallbackClassName="selectable font-dhikr" />
       </div>
       <p lang="ar" dir="rtl" className="px-10 pb-4 text-center text-[0.875rem] text-ink-muted">
         {d.reference}
@@ -255,8 +255,8 @@ function Category({ data }: { data: AdhkarData }) {
       {groups.map((g) => (
         <section key={g.chapter.index} className="mb-6">
           {groups.length > 1 ? (
-            <h2 lang="ar" dir="rtl" className="mb-3 font-dhikr text-[1.125rem] text-ink-muted">
-              {g.chapter.title}
+            <h2 className="mb-3 text-ink-muted">
+              <ShapedText font="amiri" text={g.chapter.title} size={18} lineHeight={1.8} fallbackClassName="font-dhikr" />
             </h2>
           ) : null}
           <div className="flex flex-col gap-3">

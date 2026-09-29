@@ -72,7 +72,7 @@ function addRow(table: OfficialTimetable, errors: ImportError[], row: number, re
 export function parseTimetable(text: string, fileName = ''): ImportResult {
   const table: OfficialTimetable = {};
   const errors: ImportError[] = [];
-  const trimmed = text.replace(/^﻿/, '').trim();
+  const trimmed = text.replace(/^\uFEFF/, '').trim();
   if (!trimmed) return { table, errors: [{ row: 1, column: '', message: 'empty' }] };
 
   if (fileName.toLowerCase().endsWith('.json') || trimmed.startsWith('[') || trimmed.startsWith('{')) {

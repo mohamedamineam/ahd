@@ -96,7 +96,8 @@ export function SunPathDial({ engine, now }: { engine: PrayerEngine; now: number
   if (rtl) gradStops.reverse();
 
   return (
-    <div className="relative w-full select-none" style={{ aspectRatio: `${DIAL.W} / ${DIAL.H}` }}>
+    // container-type: the centre text is sized in cqw so it scales with the dial and never reaches the horizon
+    <div className="relative w-full select-none [container-type:inline-size]" style={{ aspectRatio: `${DIAL.W} / ${DIAL.H}` }}>
       <svg viewBox={`0 0 ${DIAL.W} ${DIAL.H}`} className="absolute inset-0 h-full w-full overflow-visible" role="img" aria-label={t('home.dayArc')}>
         <defs>
           <linearGradient id={`${uid}day`} gradientUnits="userSpaceOnUse" x1={DIAL.cx - DIAL.rx} y1="0" x2={DIAL.cx + DIAL.rx} y2="0">
@@ -223,8 +224,8 @@ export function SunPathDial({ engine, now }: { engine: PrayerEngine; now: number
             >
               {t(countdown ? 'home.untilLabel' : 'home.sinceLabel')}
             </span>
-            <span className="font-display mt-1 text-[1.9375rem] leading-[1.15] text-ink">{eventName}</span>
-            <bdi dir="ltr" className={clsx('tabular text-[3.8125rem] leading-[1.05] font-normal tracking-[-0.01em]', countdown ? 'text-ochre-strong' : 'text-sage-strong')}>
+            <span className="font-display mt-1 text-[clamp(1.25rem,3.2cqw,1.9375rem)] leading-[1.15] text-ink">{eventName}</span>
+            <bdi dir="ltr" className={clsx('tabular text-[clamp(2.25rem,6.3cqw,3.8125rem)] leading-[1.05] font-normal tracking-[-0.01em]', countdown ? 'text-ochre-strong' : 'text-sage-strong')}>
               {value}
             </bdi>
           </div>
@@ -232,7 +233,7 @@ export function SunPathDial({ engine, now }: { engine: PrayerEngine; now: number
       </div>
       {/* the next prayer, inside the night bowl below the horizon */}
       <div className="pointer-events-none absolute inset-x-0 flex justify-center" style={{ top: `${((DIAL.hy + 12) / DIAL.H) * 100}%` }}>
-        <span className="text-[0.9375rem] text-ink-muted">{secondary}</span>
+        <span className="text-[clamp(0.8125rem,1.55cqw,0.9375rem)] text-ink-muted">{secondary}</span>
       </div>
       <p className="sr-only" aria-live="polite">
         {srText}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- AppStream metadata (Flathub, GNOME Software, KDE Discover). Validate: appstreamcli validate - -->
+<component type="desktop-application">
+  <id>io.github.ahdapp.Ahd</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <name>Ahd</name>
+  <name xml:lang="ar">عهد</name>
+  <summary>Prayer times, adhan, Quran, adhkar and qibla</summary>
+  <summary xml:lang="ar">مواقيت الصلاة والأذان والقرآن والأذكار والقبلة</summary>
+
+  <developer id="io.github.ahdapp">
+    <name>Ahd contributors</name>
+  </developer>
+
+  <description>
+    <p>
+      Ahd is a calm, free and private desktop companion for Muslims. It works fully offline, has no ads and no
+      accounts, and sends nothing about you anywhere.
+    </p>
+    <p xml:lang="ar">
+      «عهد» رفيق هادئ ومجاني يحفظ خصوصيتك لمواقيت الصلاة على الحاسوب. يعمل دون إنترنت، بلا إعلانات ولا حسابات،
+      ولا يرسل عنك أي شيء.
+    </p>
+    <ul>
+      <li>Accurate prayer times for any place, with all common calculation methods and per-second fine-tuning</li>
+      <li>The adhan, with a separate Fajr adhan, a notification you can close while the adhan keeps playing, and a stop shortcut</li>
+      <li>A desktop widget, a small floating widget and a taskbar or top-bar indicator</li>
+      <li>The Quran in the Hafs and Warsh narrations with the King Fahd Complex text and fonts</li>
+      <li>Authentic adhkar from Hisn al-Muslim with counters and reminders</li>
+      <li>Qibla direction by the sun, with the days the sun is over the Kaaba</li>
+      <li>A small library of free Islamic books from IslamHouse, downloaded only on request</li>
+      <li>Arabic and English, right-to-left layout, light and dark themes</li>
+    </ul>
+    <ul xml:lang="ar">
+      <li>مواقيت دقيقة لأي مكان، بكل طرق الحساب المعروفة، مع ضبط دقيق بالثواني</li>
+      <li>الأذان، مع أذان خاص بالفجر، وإشعار يمكن إغلاقه دون إيقاف الأذان، واختصار لإيقافه</li>
+      <li>أداة على سطح المكتب، وأداة مصغرة عائمة، ومؤشر في شريط المهام أو اللوحة العلوية</li>
+      <li>القرآن الكريم بروايتي حفص وورش، بنص مجمع الملك فهد وخطوطه</li>
+      <li>أذكار صحيحة من حصن المسلم، مع العداد والتذكيرات</li>
+      <li>اتجاه القبلة بالشمس، وأيام تعامد الشمس على الكعبة</li>
+      <li>مكتبة صغيرة من الكتب المجانية من دار الإسلام، لا يتم تنزيلها إلا عند طلبك</li>
+      <li>العربية والإنجليزية، مع الاتجاه من اليمين إلى اليسار، والمظهر الفاتح والداكن</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">io.github.ahdapp.Ahd.desktop</launchable>
+  <provides>
+    <binary>ahd</binary>
+  </provides>
+
+  <categories>
+    <category>Utility</category>
+    <category>Clock</category>
+  </categories>
+  <keywords>
+    <keyword>prayer</keyword>
+    <keyword>salah</keyword>
+    <keyword>adhan</keyword>
+    <keyword>azan</keyword>
+    <keyword>quran</keyword>
+    <keyword>qibla</keyword>
+    <keyword>adhkar</keyword>
+    <keyword>islam</keyword>
+    <keyword xml:lang="ar">صلاة</keyword>
+    <keyword xml:lang="ar">أذان</keyword>
+    <keyword xml:lang="ar">قرآن</keyword>
+    <keyword xml:lang="ar">قبلة</keyword>
+    <keyword xml:lang="ar">أذكار</keyword>
+  </keywords>
+
+  <url type="homepage">https://github.com/ahdapp/ahd</url>
+  <url type="bugtracker">https://github.com/ahdapp/ahd/issues</url>
+  <url type="vcs-browser">https://github.com/ahdapp/ahd</url>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#dfe8dc</color>
+    <color type="primary" scheme_preference="dark">#1f3a2c</color>
+  </branding>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Prayer times with the sun's path</caption>
+      <image>https://raw.githubusercontent.com/ahdapp/ahd/main/docs/screenshots/store-home-en-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The Quran in the Hafs and Warsh narrations</caption>
+      <image>https://raw.githubusercontent.com/ahdapp/ahd/main/docs/screenshots/store-quran-ar-light.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Adhkar with counters</caption>
+      <image>https://raw.githubusercontent.com/ahdapp/ahd/main/docs/screenshots/store-adhkar-ar-dark.png</image>
+    </screenshot>
+  </screenshots>
+
+  <content_rating type="oars-1.1"/>
+
+  <requires>
+    <display_length compare="ge">900</display_length>
+  </requires>
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+
+  <releases>
+    <release version="0.1.0" date="2026-09-29">
+      <description>
+        <p>First release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

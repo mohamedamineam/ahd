@@ -6,6 +6,7 @@ mod audio;
 mod commands;
 mod db_migrations;
 mod display;
+mod library;
 mod notify;
 mod places;
 mod platform;
@@ -147,6 +148,9 @@ pub fn run() {
         })
         .on_window_event(|window, event| {
             if window.label() == "main" {
+                if let WindowEvent::Resized(_) | WindowEvent::ScaleFactorChanged { .. } = event {
+                    windows::fit_main_zoom(window.app_handle());
+                }
                 if let WindowEvent::CloseRequested { api, .. } = event {
                     let keep = window.app_handle().state::<AppState>().config.read().map(|c| c.keep_in_tray).unwrap_or(true);
                     if keep {
@@ -186,6 +190,9 @@ pub fn run() {
             commands::read_import_file,
             commands::open_logs_folder,
             commands::app_ready,
+            commands::library_download,
+            commands::library_delete,
+            commands::open_library_folder,
         ])
         .run(tauri::generate_context!())
         .expect("error while running Ahd");

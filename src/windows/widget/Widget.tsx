@@ -45,7 +45,7 @@ export default function Widget() {
   return (
     <FloatCard opacity={cfg.opacity} drag={!locked} onDoubleClick={() => void api.showMain()}>
       <div className="flex h-full flex-col px-4 pt-3.5 pb-3" data-tauri-drag-region={drag}>
-        <div className="flex items-center gap-2 text-[0.75rem] text-ink-muted" data-tauri-drag-region={drag}>
+        <div className="flex items-center gap-2 text-[0.75rem] leading-4 text-ink-muted" data-tauri-drag-region={drag}>
           <AhdMark size={16} />
           <span className="min-w-0 flex-1 truncate" data-tauri-drag-region={drag}>
             {payload?.location}
@@ -68,7 +68,7 @@ export default function Widget() {
           </div>
         </div>
 
-        <ul className="mt-3 flex flex-1 flex-col justify-center gap-0.5 border-t border-line-soft pt-2" data-tauri-drag-region={drag}>
+        <ul className="mt-3 flex min-h-0 flex-1 flex-col justify-center gap-0.5 border-t border-line-soft pt-2" data-tauri-drag-region={drag}>
           {events.map((e) => {
             const current = state?.prev.at === e.at;
             const next = state?.next.at === e.at;
@@ -77,7 +77,7 @@ export default function Widget() {
               <li
                 key={e.id}
                 data-tauri-drag-region={drag}
-                className={clsx('flex items-center justify-between rounded-[8px] px-2 py-[3px] text-[0.8125rem]', current && 'bg-sage-soft', next && countdown && 'bg-ochre-soft')}
+                className={clsx('flex items-center justify-between rounded-[8px] px-2 py-[3px] text-[0.8125rem] leading-[18px]', current && 'bg-sage-soft', next && countdown && 'bg-ochre-soft')}
               >
                 <span className={clsx(passed ? 'text-ink-muted' : 'text-ink', (current || next) && 'font-semibold')}>{label(e)}</span>
                 <bdi dir="ltr" className={clsx('tabular', passed ? 'text-ink-muted' : 'text-ink', (current || next) && 'font-semibold')}>
@@ -88,7 +88,7 @@ export default function Widget() {
           })}
         </ul>
         {large && tomorrowFajr ? (
-          <div className="mt-1 flex justify-between px-2 text-[0.75rem] text-ink-muted">
+          <div className="mt-1 flex justify-between px-2 text-[0.75rem] leading-4 text-ink-muted">
             <span>{t('prayers.tomorrowFajr')}</span>
             <bdi dir="ltr" className="tabular">
               {tomorrowFajr.timeText}

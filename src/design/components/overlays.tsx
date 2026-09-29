@@ -119,13 +119,13 @@ export function Sheet({ open, onClose, title, description, children, footer, wid
   const ref = useRef<HTMLDivElement>(null);
   const titleId = useId();
   useFocusTrap(open, ref, onClose);
+  // stays mounted for the closing animation
   const [visible, setVisible] = useState(open);
+  if (open && !visible) setVisible(true);
   useEffect(() => {
-    if (open) setVisible(true);
-    else {
-      const t = setTimeout(() => setVisible(false), 220);
-      return () => clearTimeout(t);
-    }
+    if (open) return;
+    const t = setTimeout(() => setVisible(false), 220);
+    return () => clearTimeout(t);
   }, [open]);
   if (!visible) return null;
   return createPortal(

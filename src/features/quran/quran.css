@@ -1,12 +1,13 @@
-/* KFGQPC Uthmanic fonts — each riwaya is rendered only with its own font (brief §14.1) */
+/* KFGQPC Uthmanic fonts — each riwaya is rendered only with its own font (brief §14.1). The text is shaped with
+   HarfBuzz and drawn as SVG (src/features/shaping); these faces are only the fallback if that cannot run. */
 @font-face {
   font-family: 'KFGQPC Hafs';
-  src: url('/quran/fonts/hafs.18.woff2') format('woff2');
+  src: url('/quran/fonts/hafs.18.ttf') format('truetype');
   font-display: block;
 }
 @font-face {
   font-family: 'KFGQPC Warsh';
-  src: url('/quran/fonts/warsh.10.woff2') format('woff2');
+  src: url('/quran/fonts/warsh.10.ttf') format('truetype');
   font-display: block;
 }
 .mushaf-hafs {
@@ -21,6 +22,8 @@
   --paper-frame: #c9b48e;
   --paper-accent: #8a6d3b;
   --paper-mark: rgba(201, 180, 142, 0.35);
+  --shaped-hover: var(--paper-mark);
+  --shaped-selected: color-mix(in oklab, var(--sage) 28%, transparent);
 }
 .mushaf-page[data-paper='sepia'] {
   --paper: #efe2c6;
@@ -34,20 +37,4 @@
   --paper-frame: #5d5640;
   --paper-accent: #cbbb97;
   --paper-mark: rgba(203, 187, 151, 0.18);
-}
-.mushaf-text {
-  text-align: justify;
-  text-align-last: center;
-  word-spacing: 0.04em;
-}
-.mushaf-ayah {
-  border-radius: 6px;
-  transition: background-color 160ms;
-  cursor: default;
-}
-.mushaf-ayah:hover {
-  background: var(--paper-mark);
-}
-.mushaf-ayah[data-selected='true'] {
-  background: color-mix(in oklab, var(--sage) 28%, transparent);
 }

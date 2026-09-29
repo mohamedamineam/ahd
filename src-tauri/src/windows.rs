@@ -91,8 +91,9 @@ pub const TOAST: &str = "toast";
 /// Logical sizes.
 fn size_of(label: &str, cfg: &WindowsConfig) -> (f64, f64) {
     match label {
-        WIDGET if cfg.main_widget.size == "L" => (300.0, 430.0),
-        WIDGET => (300.0, 350.0),
+        // room for the stop button that appears while the adhan plays
+        WIDGET if cfg.main_widget.size == "L" => (300.0, 448.0),
+        WIDGET => (300.0, 372.0),
         MINI => (210.0, 48.0),
         PANEL => (300.0, 440.0),
         PILL => (164.0, 34.0),
@@ -291,7 +292,7 @@ pub fn apply<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
     {
         if cfg.indicator.enabled && cfg.indicator.pill {
             if let Ok(w) = build(app, PILL, cfg) {
-                if load_positions(app).get(PILL).is_none() {
+                if !load_positions(app).contains_key(PILL) {
                     place_pill(app, &w);
                 }
                 let _ = w.show();
@@ -370,11 +371,27 @@ pub fn hide<R: Runtime>(app: &AppHandle<R>, label: &str) {
     }
 }
 
+/// The main window is designed at 1120×740 logical px. Larger windows (e.g. maximized on a big screen) zoom the
+/// page — like the browser's own zoom, so layout, maps and the PDF reader stay correct — up to 1.4×, in 5 % steps.
+pub fn fit_main_zoom<R: Runtime>(app: &AppHandle<R>) {
+    use std::sync::atomic::{AtomicU32, Ordering};
+    static CURRENT: AtomicU32 = AtomicU32::new(100);
+    let Some(w) = app.get_webview_window("main") else { return };
+    let (Ok(size), Ok(scale)) = (w.inner_size(), w.scale_factor()) else { return };
+    let size = size.to_logical::<f64>(scale);
+    let fit = (size.width / 1120.0).min(size.height / 740.0).clamp(1.0, 1.4);
+    let pct = ((fit * 20.0).floor() * 5.0) as u32; // 100, 105, … 140
+    if CURRENT.swap(pct, Ordering::Relaxed) != pct {
+        let _ = w.set_zoom(f64::from(pct) / 100.0);
+    }
+}
+
 pub fn show_main<R: Runtime>(app: &AppHandle<R>, route: Option<String>) {
     if let Some(w) = app.get_webview_window("main") {
         let _ = w.unminimize();
         let _ = w.show();
         let _ = w.set_focus();
+        fit_main_zoom(app);
         if let Some(r) = route {
             let _ = app.emit_to("main", "ahd://navigate", serde_json::json!({ "route": r }));
         }

@@ -50,6 +50,8 @@ export default defineConfig({
     },
   },
   envPrefix: ['VITE_', 'TAURI_ENV_'],
+  // harfbuzzjs finds its .wasm next to itself (new URL(…, import.meta.url)); pre-bundling would move it
+  optimizeDeps: { exclude: ['harfbuzzjs'] },
   build: {
     target: process.env.TAURI_ENV_PLATFORM === 'windows' ? 'chrome110' : 'safari16',
     minify: process.env.TAURI_ENV_DEBUG ? false : 'oxc',

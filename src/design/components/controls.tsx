@@ -102,7 +102,7 @@ export function Segmented<T extends string | number>({ value, onChange, options,
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const onKey = (e: React.KeyboardEvent, i: number) => {
     const dir = getComputedStyle(e.currentTarget).direction === 'rtl' ? -1 : 1;
-    let next = i;
+    let next: number;
     if (e.key === 'ArrowRight') next = i + dir;
     else if (e.key === 'ArrowLeft') next = i - dir;
     else if (e.key === 'Home') next = 0;

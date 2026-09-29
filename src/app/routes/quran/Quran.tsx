@@ -7,6 +7,7 @@ import { useS, useSettings } from '@/features/settings/store';
 import { resolvedTheme } from '@/app/appearance';
 import { db, type QuranBookmark } from '@/lib/db';
 import { ayatOfPage, loadQuran, mapPosition, pageOf, searchQuran, useQuran, type AyahRow, type QuranData, type Riwaya } from '@/features/quran/data';
+import { ShapedText, type ShapedSegment } from '@/features/shaping/ShapedText';
 import { Button, Dialog, IconButton, Segmented, Skeleton, Tabs, TextInput, toast } from '@/design/components';
 import { IconBookmark, IconChevronLeft, IconChevronRight, IconClose, IconFocus, IconSearch, IconSinglePage, IconSpread } from '@/design/icons';
 
@@ -37,28 +38,56 @@ function SurahHeader({ data, surah }: { data: QuranData; surah: number }) {
   );
 }
 
-/** U+FDFD ARABIC LIGATURE BISMILLAH — one standard Unicode character, set in Amiri. */
-function Basmala() {
+/** U+FDFD ARABIC LIGATURE BISMILLAH — one standard Unicode character, set in Amiri (shaped: Amiri builds it from
+ *  offset parts that the Linux webview would misplace). */
+function Basmala({ fontSize }: { fontSize: number }) {
   return (
-    <div className="mb-2 text-center text-[2.1em] leading-none text-[var(--paper-ink)]" style={{ fontFamily: 'Amiri, serif' }} aria-hidden>
-      {'﷽'}
+    <div className="mx-auto mb-2 w-[78%] text-[var(--paper-ink)]" aria-hidden>
+      <ShapedText font="amiri" text={'\uFDFD'} size={fontSize * 2.1} lineHeight={1.1} align="center" fit fallbackClassName="font-dhikr" />
     </div>
   );
 }
 
 type Block = { kind: 'header'; surah: number } | { kind: 'text'; rows: AyahRow[] };
 
+const ayahKey = (a: { 0: number; 1: number }) => `${a[0]}:${a[1]}`;
+
+/** One run of ayat between surah headers, justified like a printed page; each ayah is a clickable segment. */
+function AyatBlock({ riwaya, rows, fontSize, selected, onSelect }: { riwaya: Riwaya; rows: AyahRow[]; fontSize: number; selected: Sel | null; onSelect: (s: Sel) => void }) {
+  const segments = useMemo<ShapedSegment[]>(() => rows.map((a) => ({ key: ayahKey(a), text: a[4] })), [rows]);
+  const onClick = useCallback((key: string) => {
+    const [surah, ayah] = key.split(':').map(Number);
+    onSelect({ surah: surah!, ayah: ayah! });
+  }, [onSelect]);
+  return (
+    <ShapedText
+      font={riwaya}
+      segments={segments}
+      size={fontSize}
+      lineHeight={2.05}
+      justify
+      lastAlign="center"
+      wordSpacing={0.04}
+      selected={selected ? ayahKey([selected.surah, selected.ayah]) : null}
+      onSegmentClick={onClick}
+      fallbackClassName={riwaya === 'hafs' ? 'mushaf-hafs' : 'mushaf-warsh'}
+    />
+  );
+}
+
 function MushafPage({ data, page, paper, fontSize, selected, onSelect, bookmarks }: { data: QuranData; page: number; paper: string; fontSize: number; selected: Sel | null; onSelect: (s: Sel) => void; bookmarks: QuranBookmark[] }) {
   const f = useFmt();
-  const ayat = ayatOfPage(data, page);
-  const first = ayat[0];
-  const blocks: Block[] = [];
-  for (const a of ayat) {
-    if (a[1] === 1) blocks.push({ kind: 'header', surah: a[0] });
-    const last = blocks[blocks.length - 1];
-    if (last && last.kind === 'text') last.rows.push(a);
-    else blocks.push({ kind: 'text', rows: [a] });
-  }
+  const blocks = useMemo(() => {
+    const out: Block[] = [];
+    for (const a of ayatOfPage(data, page)) {
+      if (a[1] === 1) out.push({ kind: 'header', surah: a[0] });
+      const last = out[out.length - 1];
+      if (last && last.kind === 'text') last.rows.push(a);
+      else out.push({ kind: 'text', rows: [a] });
+    }
+    return out;
+  }, [data, page]);
+  const first = ayatOfPage(data, page)[0];
   const ribbons = bookmarks.filter((b) => b.riwaya === data.riwaya && b.page === page);
   return (
     <article data-paper={paper} className="mushaf-page relative flex min-w-0 max-w-[640px] flex-1 basis-0 flex-col rounded-[14px] bg-[var(--paper)] px-7 pt-5 pb-4 shadow-md" aria-label={f.t('quran.pageN', { n: page })}>
@@ -71,21 +100,15 @@ function MushafPage({ data, page, paper, fontSize, selected, onSelect, bookmarks
         <span className="font-display">{first ? `سورة ${data.surahs[first[0] - 1]!.ar}` : ''}</span>
         <span>{first ? f.t('quran.juzN', { n: f.num(first[3]) }) : ''}</span>
       </header>
-      <div className={clsx('relative flex-1 px-2 text-[var(--paper-ink)]', data.riwaya === 'hafs' ? 'mushaf-hafs' : 'mushaf-warsh')} dir="rtl" lang="ar" style={{ fontSize, lineHeight: 2.05 }}>
+      <div className="relative flex-1 px-2 text-[var(--paper-ink)]" dir="rtl" lang="ar" style={{ fontSize }}>
         {blocks.map((b, i) =>
           b.kind === 'header' ? (
             <div key={`h${b.surah}`}>
               <SurahHeader data={data} surah={b.surah} />
-              {b.surah !== 9 && !(data.riwaya === 'hafs' && b.surah === 1) ? <Basmala /> : null}
+              {b.surah !== 9 && !(data.riwaya === 'hafs' && b.surah === 1) ? <Basmala fontSize={fontSize} /> : null}
             </div>
           ) : (
-            <p key={`t${i}`} className="mushaf-text">
-              {b.rows.map((a) => (
-                <span key={`${a[0]}:${a[1]}`} className="mushaf-ayah" data-selected={selected?.surah === a[0] && selected?.ayah === a[1]} onClick={() => onSelect({ surah: a[0], ayah: a[1] })}>
-                  {a[4]}{' '}
-                </span>
-              ))}
-            </p>
+            <AyatBlock key={`t${i}`} riwaya={data.riwaya} rows={b.rows} fontSize={fontSize} selected={selected} onSelect={onSelect} />
           ),
         )}
       </div>
@@ -135,12 +158,13 @@ export default function Quran() {
   // initial position: /quran/surah/18 → last read → page 1
   useEffect(() => {
     if (!data || page !== null) return;
+    let alive = true;
     const surahParam = params['*']?.match(/^surah\/(\d+)/)?.[1];
-    if (surahParam) {
-      setPage(data.surahs[Number(surahParam) - 1]?.page ?? 1);
-      return;
-    }
-    void db.quran.lastRead(riwaya).then((p) => setPage(p?.page ?? 1));
+    const start = surahParam ? Promise.resolve(data.surahs[Number(surahParam) - 1]?.page ?? 1) : db.quran.lastRead(riwaya).then((p) => p?.page ?? 1);
+    void start.then((p) => alive && setPage(p));
+    return () => {
+      alive = false;
+    };
   }, [data, page, params, riwaya]);
 
   // last-read auto-save (debounced 1 s, one position per riwaya)
@@ -328,9 +352,7 @@ export default function Quran() {
                   className="mb-1 w-full rounded-[10px] px-3 py-2 text-start hover:bg-[color-mix(in_oklab,var(--ink)_5%,transparent)]"
                 >
                   <span className="block text-[0.8125rem] text-sage-strong">{t('quran.ayahRef', { surah: data.surahs[h.surah - 1]!.ar, ayah: f.num(h.ayah) })}</span>
-                  <span dir="rtl" lang="ar" className={clsx('line-clamp-2 block text-[1.05rem] leading-loose text-ink', mushafFont)}>
-                    {h.text}
-                  </span>
+                  <ShapedText font={riwaya} text={h.text} size={17} lineHeight={2} maxLines={2} lazy className="text-ink" fallbackClassName={clsx('line-clamp-2', mushafFont)} />
                 </button>
               ))}
             </div>

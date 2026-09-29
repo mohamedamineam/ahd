@@ -287,3 +287,20 @@ pub fn app_ready(app: AppHandle<Wry>, state: State<'_, AppState>) {
         windows::show_main(&app, None);
     }
 }
+
+#[tauri::command]
+pub async fn library_download(app: AppHandle<Wry>, id: String, url: String, format: String) -> Res<crate::library::Downloaded> {
+    crate::library::download(&app, &id, &url, &format).await
+}
+
+#[tauri::command]
+pub fn library_delete(app: AppHandle<Wry>, id: String) -> Res<()> {
+    crate::library::delete(&app, &id)
+}
+
+#[tauri::command]
+pub fn open_library_folder(app: AppHandle<Wry>) -> Res<()> {
+    use tauri_plugin_opener::OpenerExt;
+    let dir = crate::library::dir(&app)?;
+    app.opener().open_path(dir.to_string_lossy(), None::<&str>).map_err(|e| e.to_string())
+}
