@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { api } from '@/lib/bridge';
 import { useS } from '@/features/settings/store';
 import { useAudio } from '@/app/shell/AdhanPlayingPill';
-import { useAuxWindow, useLive, useWindowsConfigLock } from '../shared';
+import { glass, useAuxWindow, useLive, useWindowsConfigLock } from '../shared';
 
 /** The very small widget: prayer name + timer, floating anywhere (above all apps by default). */
 export default function MiniWidget() {
@@ -14,13 +14,14 @@ export default function MiniWidget() {
   const audio = useAudio();
   const countdown = state?.mode === 'countdown';
   const playing = audio.playing && audio.kind === 'adhan';
+  const g = glass(cfg.opacity);
   return (
     <div className="flex h-screen w-screen items-center justify-center p-1.5" data-tauri-drag-region={!locked || undefined}>
       <div
         data-tauri-drag-region={!locked || undefined}
         onDoubleClick={() => void api.showMain()}
-        className="relative flex h-full w-full items-center justify-between gap-3 overflow-hidden rounded-full border border-line-soft ps-3.5 pe-4 shadow-md"
-        style={{ background: `color-mix(in oklab, var(--surface) ${Math.round(cfg.opacity * 100)}%, transparent)` }}
+        className={clsx('relative flex h-full w-full items-center justify-between gap-3 overflow-hidden rounded-full border ps-3.5 pe-4', g.halo && 'float-halo')}
+        style={g.style}
       >
         {/* the prayer (with its dot) on one side, the timer on the other; any spare room stays between them */}
         <span className="flex min-w-0 items-center gap-2.5" data-tauri-drag-region={!locked || undefined}>

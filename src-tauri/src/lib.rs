@@ -119,7 +119,7 @@ pub fn run() {
         .plugin(tauri_plugin_positioner::init())
         .plugin(
             tauri_plugin_window_state::Builder::new()
-                .with_denylist(&[windows::WIDGET, windows::MINI, windows::PANEL, windows::PILL, windows::TOAST])
+                .with_denylist(&[windows::WIDGET, windows::MINI, windows::PILL, windows::TOAST])
                 .with_state_flags(tauri_plugin_window_state::StateFlags::all() & !tauri_plugin_window_state::StateFlags::VISIBLE)
                 .build(),
         )
@@ -176,7 +176,9 @@ pub fn run() {
                 }
                 Err(e) => log::error!("tray: {e}"),
             }
-            windows::precreate_panel(app.handle(), &windows::WindowsConfig::default());
+            // widgets and the pill keep their layer when other apps come to the front (setup runs on the main thread)
+            #[cfg(windows)]
+            windows::layers::install();
             tauri::async_runtime::spawn(scheduler::run(app.handle().clone()));
 
             // Safety net: show the main window even if the frontend never reports ready.
@@ -227,7 +229,7 @@ pub fn run() {
             commands::nearest_place,
             commands::nominatim_search,
             commands::show_main,
-            commands::open_panel,
+            commands::pill_drag,
             commands::hide_self,
             commands::toast_action,
             commands::apply_windows,

@@ -408,3 +408,15 @@ html:not([data-window='main']) #root {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+/* Widgets with a thin background (below 50 % opacity): a soft halo in the background's own colour keeps the text
+   readable over any wallpaper, white text on dark glass as well as dark text on light glass */
+.float-halo {
+  /* secondary text close to full strength: grey on a busy wallpaper disappears */
+  --ink-muted: color-mix(in oklab, var(--ink) 88%, var(--surface));
+  --ink-faint: color-mix(in oklab, var(--ink) 78%, var(--surface));
+  text-shadow:
+    0 0 1px var(--surface),
+    0 0 3px var(--surface),
+    0 0 8px color-mix(in oklab, var(--surface) 55%, transparent);
+}

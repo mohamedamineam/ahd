@@ -123,10 +123,11 @@ pub fn show_main(app: AppHandle<Wry>, route: Option<String>) {
     windows::show_main(&app, route);
 }
 
+/// Taskbar pill (Windows): dragging it along the taskbar. `phase` is "start", "move" or "end"; dx, dy are how far
+/// the pointer moved since the start, in physical pixels.
 #[tauri::command]
-pub fn open_panel(app: AppHandle<Wry>, state: State<'_, AppState>) {
-    let cfg = state.config.read().map(|c| c.clone()).unwrap_or_default();
-    windows::toggle_panel(&app, &cfg);
+pub fn pill_drag(app: AppHandle<Wry>, phase: String, dx: i32, dy: i32) {
+    windows::pill_drag(&app, &phase, dx, dy);
 }
 
 #[tauri::command]
@@ -248,7 +249,11 @@ pub fn set_stop_shortcut(app: AppHandle<Wry>, state: State<'_, AppState>, shortc
 
 #[tauri::command]
 pub fn reset_widget_position(app: AppHandle<Wry>, which: String) {
-    let label = if which == "mini" { windows::MINI } else { windows::WIDGET };
+    let label = match which.as_str() {
+        "mini" => windows::MINI,
+        "pill" => windows::PILL,
+        _ => windows::WIDGET,
+    };
     windows::forget_position(&app, label);
 }
 

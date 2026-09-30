@@ -64,15 +64,29 @@ export function useToday() {
   return { payload, day, events, now };
 }
 
+/** Background, border and shadow of a widget at the chosen background opacity: the text itself stays fully opaque. */
+export function glass(opacity: number) {
+  const pct = Math.round(Math.min(1, Math.max(0, opacity)) * 100);
+  return {
+    halo: opacity < 0.5,
+    style: {
+      background: `color-mix(in oklab, var(--surface) ${pct}%, transparent)`,
+      borderColor: `color-mix(in oklab, var(--line-soft) ${pct}%, transparent)`,
+      boxShadow: opacity >= 0.35 ? 'var(--shadow-md)' : 'none',
+    },
+  };
+}
+
 /** Frosted card for floating windows (fills the transparent window with a small margin for the shadow). */
 export function FloatCard({ children, className, opacity = 1, drag = true, onDoubleClick }: { children: ReactNode; className?: string; opacity?: number; drag?: boolean; onDoubleClick?: () => void }) {
+  const g = glass(opacity);
   return (
     <div className="h-screen w-screen p-2" data-tauri-drag-region={drag || undefined}>
       <div
         data-tauri-drag-region={drag || undefined}
         onDoubleClick={onDoubleClick}
-        className={clsx('relative h-full w-full overflow-hidden rounded-[18px] border border-line-soft shadow-md', className)}
-        style={{ background: `color-mix(in oklab, var(--surface) ${Math.round(opacity * 100)}%, transparent)` }}
+        className={clsx('relative h-full w-full overflow-hidden rounded-[18px] border', g.halo && 'float-halo', className)}
+        style={g.style}
       >
         {children}
       </div>

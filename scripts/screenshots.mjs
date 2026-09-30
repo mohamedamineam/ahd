@@ -2,7 +2,7 @@
 // the mock backend. Usage:
 //   npx vite --port 1420 &           (dev server)
 //   node scripts/screenshots.mjs [--routes /,/settings] [--langs ar,en] [--themes light,dark]
-//                                [--now 2026-09-30T14:12:40+01:00] [--out docs/screenshots] [--window main|widget|panel|pill|toast]
+//                                [--now 2026-09-30T14:12:40+01:00] [--out docs/screenshots] [--window main|widget|mini|pill|toast]
 import { chromium } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -17,8 +17,8 @@ const themes = (args.themes ?? 'light,dark').split(',');
 const now = args.now ?? '2026-09-30T14:12:40+01:00';
 const out = args.out ?? 'docs/screenshots';
 const windowKind = args.window ?? 'main';
-const width = Number(args.width ?? (windowKind === 'main' ? 1120 : windowKind === 'panel' ? 300 : windowKind === 'toast' ? 360 : windowKind === 'pill' ? 170 : 320));
-const height = Number(args.height ?? (windowKind === 'main' ? 740 : windowKind === 'panel' ? 420 : windowKind === 'toast' ? 150 : windowKind === 'pill' ? 34 : 360));
+const width = Number(args.width ?? (windowKind === 'main' ? 1120 : windowKind === 'toast' ? 360 : windowKind === 'pill' ? 170 : 320));
+const height = Number(args.height ?? (windowKind === 'main' ? 740 : windowKind === 'toast' ? 150 : windowKind === 'pill' ? 34 : 360));
 const extra = args.settings ? JSON.parse(args.settings) : {};
 const onboarded = args.onboarded !== 'false';
 const suffix = args.suffix ? `-${args.suffix}` : '';

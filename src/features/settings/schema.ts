@@ -21,6 +21,11 @@ export interface PrayerNotify {
 
 export type ReminderType = 'notification' | 'tone' | 'sound';
 
+/** Widget text: 'light' = white text on dark glass, 'dark' = dark text on light glass, 'auto' = the app's theme. */
+export type WidgetText = 'auto' | 'light' | 'dark';
+/** Main widget types: 1 standard (tall), 2 panel (dates, all times, Open app), 3 wide. */
+export type MainWidgetStyle = 'classic' | 'panel' | 'wide';
+
 export interface Reminder {
   id: string;
   prayer: PrayerId;
@@ -86,6 +91,8 @@ export interface Settings {
     sunriseWarning: boolean;
   };
   reminders: {
+    /** Built-in reminder before each of the five prayers (on by default) */
+    beforePrayer: { enabled: boolean; minutes: number; type: 'notification' | 'tone' };
     items: Reminder[];
     fridayKahf: boolean;
     fridayKahfTime: string; // HH:MM
@@ -105,18 +112,22 @@ export interface Settings {
     /** The main desktop widget: current state large, all times, dates, progress ring. */
     main: {
       enabled: boolean;
-      size: 'M' | 'L'; // L adds dates and tomorrow's Fajr
+      style: MainWidgetStyle;
+      size: 'M' | 'L'; // type 1 only: L adds dates and tomorrow's Fajr
       layer: WidgetLayer;
-      opacity: number; // 0.6 … 1
+      /** background opacity, 0 … 1 (the text stays fully opaque) */
+      opacity: number;
+      text: WidgetText;
       locked: boolean;
       seconds: boolean;
-      pinDesktopLayer: boolean; // Windows, experimental (only when layer = desktop)
     };
     /** The very small widget: prayer name and timer only. */
     mini: {
       enabled: boolean;
       layer: WidgetLayer;
+      /** background opacity, 0 … 1 */
       opacity: number;
+      text: WidgetText;
       locked: boolean;
       seconds: boolean;
       showName: boolean;
@@ -212,6 +223,7 @@ export function defaultSettings(lang: Lang = 'ar'): Settings {
       sunriseWarning: false,
     },
     reminders: {
+      beforePrayer: { enabled: true, minutes: 10, type: 'tone' },
       items: [],
       fridayKahf: false,
       fridayKahfTime: '09:00',
@@ -228,8 +240,8 @@ export function defaultSettings(lang: Lang = 'ar'): Settings {
       quranPaper: 'auto',
     },
     widgets: {
-      main: { enabled: false, size: 'M', layer: 'desktop', opacity: 1, locked: false, seconds: true, pinDesktopLayer: false },
-      mini: { enabled: false, layer: 'top', opacity: 0.96, locked: false, seconds: true, showName: true },
+      main: { enabled: false, style: 'classic', size: 'M', layer: 'desktop', opacity: 1, text: 'auto', locked: false, seconds: true },
+      mini: { enabled: false, layer: 'top', opacity: 0.96, text: 'auto', locked: false, seconds: true, showName: true },
       indicator: {
         enabled: false,
         dynamicTrayIcon: true,

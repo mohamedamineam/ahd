@@ -16,14 +16,14 @@ export const IS_TAURI: boolean = (() => {
   }
 })();
 
-export type WindowKind = 'main' | 'widget' | 'mini' | 'panel' | 'pill' | 'toast';
+export type WindowKind = 'main' | 'widget' | 'mini' | 'pill' | 'toast';
 
 export function windowKind(): WindowKind {
   const w = new URLSearchParams(location.search).get('w');
-  if (w === 'widget' || w === 'mini' || w === 'panel' || w === 'pill' || w === 'toast') return w;
+  if (w === 'widget' || w === 'mini' || w === 'pill' || w === 'toast') return w;
   if (IS_TAURI) {
     const label = getCurrentWindow().label;
-    if (label === 'widget' || label === 'mini' || label === 'panel' || label === 'pill' || label === 'toast') return label;
+    if (label === 'widget' || label === 'mini' || label === 'pill' || label === 'toast') return label;
   }
   return 'main';
 }
@@ -141,7 +141,8 @@ export const api = {
   searchPlaces: (query: string, limit = 12) => invoke<Place[]>('search_places', { query, limit }),
   nearestPlace: (lat: number, lon: number) => invoke<Place | null>('nearest_place', { lat, lon }),
   showMain: (route?: string) => invoke<void>('show_main', { route: route ?? null }),
-  openPanel: () => invoke<void>('open_panel'),
+  /** Taskbar pill (Windows): drag along the taskbar; dx, dy = physical pixels moved since "start" */
+  pillDrag: (phase: 'start' | 'move' | 'end', dx = 0, dy = 0) => invoke<void>('pill_drag', { phase, dx, dy }),
   hideWindow: () => invoke<void>('hide_self'),
   toastAction: (action: 'stop' | 'hide' | 'open') => invoke<void>('toast_action', { action }),
   /** the adhan window's content if it was sent before the window was ready */

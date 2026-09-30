@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useFmt } from '@/lib/useFmt';
 import { useS } from '@/features/settings/store';
 import { api, invoke, type PlatformInfo } from '@/lib/bridge';
-import type { WidgetLayer } from '@/features/settings/schema';
-import { Badge, Button, Segmented, Select, Slider, Toggle } from '@/design/components';
+import type { WidgetLayer, WidgetText } from '@/features/settings/schema';
+import { Button, Segmented, Select, Slider, Toggle } from '@/design/components';
 import { IconAlert } from '@/design/icons';
 import { Group, ResetSection, Row, useUpdate } from './shared';
 
@@ -20,6 +20,31 @@ function LayerChoice({ value, onChange }: { value: WidgetLayer; onChange: (v: Wi
         { value: 'top', label: t('settings.widgets.layerTop') },
       ]}
     />
+  );
+}
+
+/** Background opacity and text colour, shared by both widgets: only the background fades. */
+function Look({ opacity, text, onOpacity, onText }: { opacity: number; text: WidgetText; onOpacity: (v: number) => void; onText: (v: WidgetText) => void }) {
+  const { t } = useFmt();
+  return (
+    <>
+      <Row k="settings.widgets.opacity">
+        <Slider label={t('settings.widgets.opacity')} value={Math.round(opacity * 100)} min={0} max={100} step={5} format={(v) => `${v}%`} onChange={(v) => onOpacity(v / 100)} className="w-56" />
+      </Row>
+      <Row k="settings.widgets.text">
+        <Segmented
+          size="sm"
+          label={t('settings.widgets.text')}
+          value={text}
+          onChange={onText}
+          options={[
+            { value: 'auto', label: t('settings.widgets.textAuto') },
+            { value: 'light', label: t('settings.widgets.textLight') },
+            { value: 'dark', label: t('settings.widgets.textDark') },
+          ]}
+        />
+      </Row>
+    </>
   );
 }
 
@@ -64,24 +89,37 @@ export default function Widgets() {
         </Row>
         {w.main.enabled ? (
           <>
-            <Row k="settings.widgets.layer">
-              <LayerChoice value={w.main.layer} onChange={(v) => update((d) => void (d.widgets.main.layer = v))} />
-            </Row>
-            <Row k="settings.widgets.size">
+            <Row k="settings.widgets.style">
               <Segmented
                 size="sm"
-                label={t('settings.widgets.size')}
-                value={w.main.size}
-                onChange={(v) => update((d) => void (d.widgets.main.size = v))}
+                label={t('settings.widgets.style')}
+                value={w.main.style}
+                onChange={(v) => update((d) => void (d.widgets.main.style = v))}
                 options={[
-                  { value: 'M', label: t('settings.widgets.sizeM') },
-                  { value: 'L', label: t('settings.widgets.sizeL') },
+                  { value: 'classic', label: t('settings.widgets.styleClassic') },
+                  { value: 'panel', label: t('settings.widgets.stylePanel') },
+                  { value: 'wide', label: t('settings.widgets.styleWide') },
                 ]}
               />
             </Row>
-            <Row k="settings.widgets.opacity">
-              <Slider label={t('settings.widgets.opacity')} value={Math.round(w.main.opacity * 100)} min={60} max={100} step={5} format={(v) => `${v}%`} onChange={(v) => update((d) => void (d.widgets.main.opacity = v / 100))} className="w-56" />
+            <Row k="settings.widgets.layer">
+              <LayerChoice value={w.main.layer} onChange={(v) => update((d) => void (d.widgets.main.layer = v))} />
             </Row>
+            {w.main.style === 'classic' ? (
+              <Row k="settings.widgets.size">
+                <Segmented
+                  size="sm"
+                  label={t('settings.widgets.size')}
+                  value={w.main.size}
+                  onChange={(v) => update((d) => void (d.widgets.main.size = v))}
+                  options={[
+                    { value: 'M', label: t('settings.widgets.sizeM') },
+                    { value: 'L', label: t('settings.widgets.sizeL') },
+                  ]}
+                />
+              </Row>
+            ) : null}
+            <Look opacity={w.main.opacity} text={w.main.text} onOpacity={(v) => update((d) => void (d.widgets.main.opacity = v))} onText={(v) => update((d) => void (d.widgets.main.text = v))} />
             <Row k="settings.widgets.lock">
               <Toggle checked={w.main.locked} onChange={(v) => update((d) => void (d.widgets.main.locked = v))} label={t('settings.widgets.lock')} />
             </Row>
@@ -93,11 +131,6 @@ export default function Widgets() {
                 {t('settings.widgets.resetPosition')}
               </Button>
             </Row>
-            {os === 'windows' && w.main.layer === 'desktop' ? (
-              <Row k="settings.widgets.pinDesktop" label={<span className="flex items-center gap-2">{t('settings.widgets.pinDesktop')} <Badge tone="ochre">{t('common.experimental')}</Badge></span>}>
-                <Toggle checked={w.main.pinDesktopLayer} onChange={(v) => update((d) => void (d.widgets.main.pinDesktopLayer = v))} label={t('settings.widgets.pinDesktop')} />
-              </Row>
-            ) : null}
           </>
         ) : null}
       </Group>
@@ -114,9 +147,7 @@ export default function Widgets() {
             <Row k="settings.widgets.showName">
               <Toggle checked={w.mini.showName} onChange={(v) => update((d) => void (d.widgets.mini.showName = v))} label={t('settings.widgets.showName')} />
             </Row>
-            <Row k="settings.widgets.opacity">
-              <Slider label={t('settings.widgets.opacity')} value={Math.round(w.mini.opacity * 100)} min={60} max={100} step={5} format={(v) => `${v}%`} onChange={(v) => update((d) => void (d.widgets.mini.opacity = v / 100))} className="w-56" />
-            </Row>
+            <Look opacity={w.mini.opacity} text={w.mini.text} onOpacity={(v) => update((d) => void (d.widgets.mini.opacity = v))} onText={(v) => update((d) => void (d.widgets.mini.text = v))} />
             <Row k="settings.widgets.lock">
               <Toggle checked={w.mini.locked} onChange={(v) => update((d) => void (d.widgets.mini.locked = v))} label={t('settings.widgets.lock')} />
             </Row>
@@ -150,9 +181,18 @@ export default function Widgets() {
             <Row k="settings.widgets.pill">
               <Toggle checked={w.indicator.pill} onChange={(v) => update((d) => void (d.widgets.indicator.pill = v))} label={t('settings.widgets.pill')} />
             </Row>
-            <Row k="settings.widgets.pillLock">
-              <Toggle checked={w.indicator.pillLocked} onChange={(v) => update((d) => void (d.widgets.indicator.pillLocked = v))} label={t('settings.widgets.pillLock')} />
-            </Row>
+            {w.indicator.pill ? (
+              <Row k="settings.widgets.pillLock">
+                <Toggle checked={w.indicator.pillLocked} onChange={(v) => update((d) => void (d.widgets.indicator.pillLocked = v))} label={t('settings.widgets.pillLock')} />
+              </Row>
+            ) : null}
+            {w.indicator.pill ? (
+              <Row k="settings.widgets.pillReset">
+                <Button size="sm" variant="secondary" onClick={() => void invoke('reset_widget_position', { which: 'pill' })}>
+                  {t('settings.widgets.resetPosition')}
+                </Button>
+              </Row>
+            ) : null}
             {w.indicator.pill ? (
               <Row k="settings.widgets.pillColor">
                 <Select
@@ -191,7 +231,7 @@ export default function Widgets() {
             <Toggle checked={w.indicator.panelLabel} onChange={(v) => update((d) => void (d.widgets.indicator.panelLabel = v))} label={t('settings.widgets.panelLabel')} />
           </Row>
         ) : null}
-        {w.indicator.enabled ? (
+        {w.indicator.enabled && (os !== 'windows' || w.indicator.pill) ? (
           <Row k="settings.widgets.labelFormat">
             <Select
               label={t('settings.widgets.labelFormat')}

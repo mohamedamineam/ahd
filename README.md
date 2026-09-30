@@ -13,9 +13,10 @@ A calm, free and private desktop companion for prayer times, for Windows and Lin
 - **Prayer times** for any place (171,000 places offline), all common calculation methods, per-second fine-tuning
   per prayer and per place, official timetable import, Hijri and Gregorian dates.
 - **Adhan** with a separate Fajr adhan, full or short, volume and fade-in. The notification can be closed while
-  the adhan keeps playing; a global shortcut stops it.
-- **On the desktop**: a widget (desktop layer or always on top), a small floating widget, a taskbar or top-bar
-  indicator, a tray panel.
+  the adhan keeps playing; a global shortcut stops it. A reminder before each prayer (10 minutes by default).
+- **On the desktop**: a widget in three types (standard, panel, wide) on the desktop or above all apps, a small
+  floating widget, both with their own background opacity and text colour; a timer on the Windows taskbar or the
+  Linux top bar.
 - **Quran** in the Hafs and Warsh narrations, King Fahd Complex text and fonts, five bookmarks and last-read position.
 - **Adhkar** from Hisn al-Muslim with counters, focus mode and reminders.
 - **Qibla** by the sun, with the days the sun passes over the Kaaba.

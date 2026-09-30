@@ -13,9 +13,18 @@ Run on a clean machine for each package (.deb, AppImage, Windows installer), in 
 - [ ] Fajr uses the Fajr adhan; "short" mode stops after the first takbir.
 
 ## Desktop
-- [ ] Main widget: desktop layer and always-on-top; position is remembered; lock works.
-- [ ] Mini widget: size is compact, text fits, on top of other windows.
-- [ ] Tray icon and label (Linux) / taskbar pill (Windows); tray menu toggles widgets.
+- [ ] Main widget, types 1, 2 and 3: switch "On the desktop" ↔ "Above all apps" without restarting; above all
+      apps it stays over other windows, on the desktop it stays under them (also after clicking or dragging it).
+- [ ] Background opacity from 0 to 100 % with each text colour (auto, white, dark): the text stays readable.
+- [ ] Mini widget: the same layer and opacity checks; size is compact, text fits.
+- [ ] Clicking the tray icon (static or dynamic) opens the app; the tray menu toggles widgets.
+- [ ] Windows taskbar pill: on the taskbar next to the clock (bottom, top, left and right taskbars); unlocked it
+      drags along the taskbar only, locked it stays; "Reset position" puts it back; it hides with an auto-hidden
+      taskbar and during full-screen apps; clicking the taskbar or Start does not hide it for more than a moment;
+      each label format shows; a click opens the app.
+- [ ] Reminder before each prayer: arrives 10 minutes before by default with a short tone; minutes, tone and
+      on/off in Settings → Reminders.
+- [ ] Linux: tray label and menu (GNOME with the AppIndicator extension, Cinnamon, KDE).
 
 ## Arabic text (all must show every dot and haraka)
 - [ ] Home: the hadith inscription, prayer names, the dial.

@@ -2,7 +2,7 @@
 //! Linux: the menu itself shows the day (dates + six prayers) and the label next to the icon shows "العصر +1:12".
 //!        Cinnamon/MATE show that label only for XApp status icons, so there the tray is one (src/xapp.rs);
 //!        elsewhere it is an AppIndicator (GNOME with the AppIndicator extension shows the label; KDE does not).
-//! Windows: tooltips and a dynamic icon; left-click opens the prayer panel, right-click the menu.
+//! Windows: tooltips and a dynamic icon; left-click opens the app, right-click the menu.
 
 use crate::display::{display_state, format_value, to_digits, Mode};
 use crate::schedule::SchedulePayload;
@@ -20,7 +20,6 @@ struct TauriTray {
     tray: TrayIcon<Wry>,
     info: Vec<MenuItem<Wry>>, // weekday + hijri, gregorian, place, 6 prayer rows (Linux)
     stop: MenuItem<Wry>,
-    panel: MenuItem<Wry>,
     open: MenuItem<Wry>,
     settings: MenuItem<Wry>,
     widget: CheckMenuItem<Wry>,
@@ -57,7 +56,6 @@ pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
     } else {
         Vec::new()
     };
-    let panel = MenuItem::with_id(app, "panel", "Show prayer panel", true, None::<&str>)?;
     let stop = MenuItem::with_id(app, "stop", "Stop adhan", false, None::<&str>)?;
     let widget = CheckMenuItem::with_id(app, "toggle-widget", "Main widget", true, false, None::<&str>)?;
     let mini = CheckMenuItem::with_id(app, "toggle-mini", "Mini widget", true, false, None::<&str>)?;
@@ -74,7 +72,6 @@ pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
         mb = mb.item(&PredefinedMenuItem::separator(app)?);
     }
     let menu: Menu<Wry> = mb
-        .item(&panel)
         .item(&stop)
         .item(&PredefinedMenuItem::separator(app)?)
         .item(&widget)
@@ -93,10 +90,9 @@ pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
         .show_menu_on_left_click(cfg!(target_os = "linux"))
         .on_menu_event(|app, ev| on_menu(app, ev.id().as_ref()))
         .on_tray_icon_event(|tray, ev| {
+            // a click opens the app itself
             if let TrayIconEvent::Click { button: MouseButton::Left, button_state: MouseButtonState::Up, .. } = ev {
-                let app = tray.app_handle();
-                let cfg = app.state::<AppState>().config.read().map(|c| c.clone()).unwrap_or_default();
-                crate::windows::toggle_panel(app, &cfg);
+                crate::windows::show_main(tray.app_handle(), None);
             }
         });
     #[cfg(target_os = "linux")]
@@ -109,7 +105,7 @@ pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
     }
     let tray = builder.build(app)?;
     Ok(TrayHandles {
-        tauri: Some(TauriTray { tray, info, stop, panel, open, settings, widget, mini, quit }),
+        tauri: Some(TauriTray { tray, info, stop, open, settings, widget, mini, quit }),
         last_label: String::new(),
         last_minute: -1,
         last_icon_key: String::new(),
@@ -121,10 +117,6 @@ pub(crate) fn on_menu<R: Runtime>(app: &AppHandle<R>, id: &str) {
     match id {
         "open" => crate::windows::show_main(app, None),
         "settings" => crate::windows::show_main(app, Some("/settings/general".into())),
-        "panel" => {
-            let cfg = app.state::<AppState>().config.read().map(|c| c.clone()).unwrap_or_default();
-            crate::windows::toggle_panel(app, &cfg);
-        }
         "stop" => app.state::<AppState>().audio.stop(),
         "toggle-widget" => {
             let _ = app.emit_to("main", "ahd://tray-action", serde_json::json!({ "action": "toggle-widget" }));
@@ -222,7 +214,6 @@ pub fn update(app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now: 
     if minute != h.last_minute {
         h.last_minute = minute;
         let texts = [
-            s.string("showPanel"),
             s.string("stopAdhan"),
             s.string("widget"),
             s.string("miniWidget"),
@@ -248,8 +239,7 @@ pub fn update(app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now: 
             }
         }
         if let Some(t) = &h.tauri {
-            let [panel, stop, widget, mini, settings, open, quit] = &texts;
-            let _ = t.panel.set_text(panel);
+            let [stop, widget, mini, settings, open, quit] = &texts;
             let _ = t.stop.set_text(stop);
             let _ = t.widget.set_text(widget);
             let _ = t.mini.set_text(mini);

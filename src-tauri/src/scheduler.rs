@@ -75,6 +75,7 @@ pub async fn run(app: AppHandle<Wry>) {
             fire_due(&app, &state, &s, now, jumped);
             crate::tray::update(&app, &state, &s, now);
         }
+        crate::windows::tick(&app);
     }
 }
 

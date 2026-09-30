@@ -12,7 +12,6 @@ import { hijriSelfTest } from './features/prayer/hijri';
 const MainApp = lazy(() => import('./app/App'));
 const WidgetWindow = lazy(() => import('./windows/widget/Widget'));
 const MiniWindow = lazy(() => import('./windows/mini/MiniWidget'));
-const PanelWindow = lazy(() => import('./windows/panel/TrayPanel'));
 const PillWindow = lazy(() => import('./windows/pill/TaskbarPill'));
 const ToastWindow = lazy(() => import('./windows/toast/AdhanToast'));
 
@@ -31,14 +30,14 @@ async function boot() {
   document.documentElement.dataset.window = kind;
   const s = await loadSettings();
   initI18n(s.general.language, s.general.digits);
-  applyAppearance(s);
+  applyAppearance(s, document.documentElement, kind);
   hijriSelfTest();
-  useSettings.subscribe((st) => applyAppearance(st.s));
-  onSystemThemeChange(() => applyAppearance(useSettings.getState().s));
+  useSettings.subscribe((st) => applyAppearance(st.s, document.documentElement, kind));
+  onSystemThemeChange(() => applyAppearance(useSettings.getState().s, document.documentElement, kind));
   startClock();
 
   const View =
-    kind === 'widget' ? WidgetWindow : kind === 'mini' ? MiniWindow : kind === 'panel' ? PanelWindow : kind === 'pill' ? PillWindow : kind === 'toast' ? ToastWindow : MainApp;
+    kind === 'widget' ? WidgetWindow : kind === 'mini' ? MiniWindow : kind === 'pill' ? PillWindow : kind === 'toast' ? ToastWindow : MainApp;
 
   createRoot(document.getElementById('root')!).render(
     <StrictMode>

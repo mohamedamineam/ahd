@@ -217,7 +217,8 @@ export async function invoke<T>(cmd: string, args: Record<string, unknown> = {})
     }
     case 'platform_info':
       return {
-        os: 'linux',
+        // browser preview of the Windows-only settings: ?os=windows
+        os: new URLSearchParams(location.search).get('os') === 'windows' ? 'windows' : 'linux',
         desktop: 'browser',
         sessionType: 'x11',
         flatpak: false,

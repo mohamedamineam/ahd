@@ -1,4 +1,4 @@
-//! Extra windows: main widget, mini widget, tray panel, taskbar pill (Windows) and adhan toast.
+//! Extra windows: main widget, mini widget, taskbar pill (Windows) and adhan toast.
 //! All share the same frontend bundle, selected with `?w=<kind>`.
 
 use serde::{Deserialize, Serialize};
@@ -16,14 +16,20 @@ pub struct WidgetConfig {
     pub layer: String,
     #[serde(default = "default_size")]
     pub size: String,
+    /// main widget: "classic" | "panel" | "wide"
+    #[serde(default = "default_style")]
+    pub style: String,
+    /// background opacity (the page draws it; kept here as part of the shared settings)
     pub opacity: f64,
     pub locked: bool,
-    #[serde(default)]
-    pub pin_desktop_layer: bool,
 }
 
 fn default_size() -> String {
     "M".into()
+}
+
+fn default_style() -> String {
+    "classic".into()
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
@@ -57,7 +63,7 @@ pub struct WindowsConfig {
 
 impl Default for WindowsConfig {
     fn default() -> Self {
-        let widget = WidgetConfig { enabled: false, layer: "desktop".into(), size: "M".into(), opacity: 1.0, locked: false, pin_desktop_layer: false };
+        let widget = WidgetConfig { enabled: false, layer: "desktop".into(), size: "M".into(), style: "classic".into(), opacity: 1.0, locked: false };
         Self {
             lang: "ar".into(),
             theme: "light".into(),
@@ -85,7 +91,6 @@ impl Default for WindowsConfig {
 
 pub const WIDGET: &str = "widget";
 pub const MINI: &str = "mini";
-pub const PANEL: &str = "panel";
 pub const PILL: &str = "pill";
 pub const TOAST: &str = "toast";
 
@@ -97,12 +102,17 @@ static TOAST_HEIGHT: AtomicU32 = AtomicU32::new(TOAST_COMPACT);
 /// Logical sizes.
 fn size_of(label: &str, cfg: &WindowsConfig) -> (f64, f64) {
     match label {
-        // room for the stop button that appears while the adhan plays
-        WIDGET if cfg.main_widget.size == "L" => (300.0, 448.0),
-        WIDGET => (300.0, 372.0),
+        WIDGET => match (cfg.main_widget.style.as_str(), cfg.main_widget.size.as_str()) {
+            // dates, the state, up to eight times (with Imsak and Duha) and the buttons
+            ("panel", _) => (300.0, 520.0),
+            ("wide", _) => (540.0, 176.0),
+            // room for the stop button that appears while the adhan plays
+            (_, "L") => (300.0, 448.0),
+            _ => (300.0, 372.0),
+        },
         // snug: the longest prayer name and a timer with seconds, with a small space between them
         MINI => (226.0, 48.0),
-        PANEL => (300.0, 440.0),
+        // Windows sizes it to the taskbar (pill::place)
         PILL => (164.0, 34.0),
         TOAST => (400.0, f64::from(TOAST_HEIGHT.load(Ordering::Relaxed))),
         _ => (300.0, 300.0),
@@ -132,6 +142,11 @@ fn save_position<R: Runtime>(app: &AppHandle<R>, label: &str, pos: PhysicalPosit
 }
 
 pub fn forget_position<R: Runtime>(app: &AppHandle<R>, label: &str) {
+    #[cfg(windows)]
+    if label == PILL {
+        pill::forget_position(app);
+        return;
+    }
     let mut all = load_positions(app);
     all.remove(label);
     if let Some(p) = positions_file(app) {
@@ -169,7 +184,6 @@ fn place_default<R: Runtime>(w: &WebviewWindow<R>, label: &str, cfg: &WindowsCon
     let pos = match label {
         WIDGET => PhysicalPosition::new(right, y + margin),
         MINI => PhysicalPosition::new(right, y + margin + (400.0 * scale) as i32),
-        PANEL => PhysicalPosition::new(right, if panel_top { y + margin / 2 } else { y + wh as i32 - sh - margin / 2 }),
         TOAST => {
             // Arabic: bottom-left corner (brief §10.3); "auto" follows the panel (top panel → top)
             let left = x + margin;
@@ -233,11 +247,14 @@ fn build<R: Runtime>(app: &AppHandle<R>, label: &str, cfg: &WindowsConfig) -> ta
         MINI => cfg.mini_widget.layer == "top",
         _ => true,
     };
-    let on_bottom = match label {
-        WIDGET => cfg.main_widget.layer != "top",
-        MINI => cfg.mini_widget.layer != "top",
-        _ => false,
-    };
+    // Windows keeps desktop widgets at the bottom itself (layers), since tao's "always on bottom" also stops them
+    // from ever being put back on top
+    let on_bottom = !cfg!(windows)
+        && match label {
+            WIDGET => cfg.main_widget.layer != "top",
+            MINI => cfg.mini_widget.layer != "top",
+            _ => false,
+        };
     let builder = WebviewWindowBuilder::new(app, label, url)
         .title("3ahd")
         .inner_size(w, h)
@@ -252,8 +269,8 @@ fn build<R: Runtime>(app: &AppHandle<R>, label: &str, cfg: &WindowsConfig) -> ta
         .always_on_top(on_top)
         .always_on_bottom(on_bottom)
         .visible_on_all_workspaces(label == WIDGET || label == MINI || label == PILL)
-        .focused(label == PANEL)
-        .focusable(label == PANEL || label == TOAST)
+        .focused(false)
+        .focusable(label == TOAST)
         .visible(false);
     let win = builder.build()?;
 
@@ -279,12 +296,12 @@ fn build<R: Runtime>(app: &AppHandle<R>, label: &str, cfg: &WindowsConfig) -> ta
         }
     }
 
-    // position: saved (widgets/pill) or default
+    // position: saved (widgets) or default; the pill is placed on the taskbar by pill::place
     let saved = load_positions(app).get(label).copied();
     let scale = work_area(app).map(|a| a.4).unwrap_or(1.0);
     let size = physical_size(label, cfg, scale);
     match saved.and_then(|p| clamp_to_screen(app, p, size)) {
-        Some((x, y)) if label == WIDGET || label == MINI || label == PILL => {
+        Some((x, y)) if label == WIDGET || label == MINI => {
             let _ = win.set_position(PhysicalPosition::new(x, y));
         }
         _ => {
@@ -294,16 +311,43 @@ fn build<R: Runtime>(app: &AppHandle<R>, label: &str, cfg: &WindowsConfig) -> ta
 
     let app2 = app.clone();
     let lbl = label.to_string();
-    win.on_window_event(move |ev| match ev {
-        WindowEvent::Moved(pos) if lbl == WIDGET || lbl == MINI || lbl == PILL => save_position(&app2, &lbl, *pos),
-        WindowEvent::Focused(false) if lbl == PANEL => {
-            if let Some(w) = app2.get_webview_window(PANEL) {
-                let _ = w.hide();
+    // Only the widgets remember where they were dragged: the pill saves its place along the taskbar itself, and
+    // saving its first (default) position here once kept it from ever being put on the taskbar.
+    win.on_window_event(move |ev| {
+        if let WindowEvent::Moved(pos) = ev {
+            if lbl == WIDGET || lbl == MINI {
+                save_position(&app2, &lbl, *pos);
+                // a moved desktop widget stays below the apps
+                #[cfg(windows)]
+                layers::restack();
             }
         }
-        _ => {}
     });
     Ok(win)
+}
+
+/// Above all apps (`top`) or on the desktop. The flag being turned off goes first: on Windows, turning "always on
+/// bottom" off also turns "always on top" off, which kept "above all apps" from working until a restart.
+fn set_layer<R: Runtime>(w: &WebviewWindow<R>, top: bool) {
+    if top {
+        let _ = w.set_always_on_bottom(false);
+        let _ = w.set_always_on_top(true);
+    } else {
+        let _ = w.set_always_on_top(false);
+        #[cfg(not(windows))]
+        let _ = w.set_always_on_bottom(true);
+    }
+}
+
+/// After a change of size (another widget type), keep the whole widget on screen.
+fn keep_on_screen<R: Runtime>(app: &AppHandle<R>, w: &WebviewWindow<R>, label: &str, cfg: &WindowsConfig) {
+    let Ok(pos) = w.outer_position() else { return };
+    let scale = w.scale_factor().unwrap_or(1.0);
+    if let Some((x, y)) = clamp_to_screen(app, (pos.x, pos.y), physical_size(label, cfg, scale)) {
+        if (x, y) != (pos.x, pos.y) {
+            let _ = w.set_position(PhysicalPosition::new(x, y));
+        }
+    }
 }
 
 /// Create/show/hide windows so they match the configuration.
@@ -313,17 +357,18 @@ pub fn apply<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
             match build(app, label, cfg) {
                 Ok(w) => {
                     let top = wcfg.layer == "top";
-                    let _ = w.set_always_on_top(top);
-                    let _ = w.set_always_on_bottom(!top);
-                    let (sw, sh) = size_of(label, cfg);
-                    let _ = w.set_min_size(Some(tauri::LogicalSize::new(sw, sh)));
-                    let _ = w.set_max_size(Some(tauri::LogicalSize::new(sw, sh)));
-                    let _ = w.set_size(tauri::LogicalSize::new(sw, sh));
+                    set_layer(&w, top);
+                    resize_fixed(&w, label, cfg);
+                    keep_on_screen(app, &w, label, cfg);
                     let _ = w.show();
+                    #[cfg(windows)]
+                    layers::track(label, &w, if top { layers::Z::AboveApps } else { layers::Z::BelowApps });
                 }
                 Err(e) => log::error!("cannot create {label}: {e}"),
             }
         } else if let Some(w) = app.get_webview_window(label) {
+            #[cfg(windows)]
+            layers::untrack(label);
             let _ = w.close();
         }
     }
@@ -332,54 +377,281 @@ pub fn apply<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
     {
         if cfg.indicator.enabled && cfg.indicator.pill {
             if let Ok(w) = build(app, PILL, cfg) {
-                if !load_positions(app).contains_key(PILL) {
-                    place_pill(app, &w);
-                }
-                let _ = w.show();
+                pill::place(app, &w);
             }
         } else if let Some(w) = app.get_webview_window(PILL) {
+            layers::untrack(PILL);
+            pill::closed();
             let _ = w.close();
         }
     }
     let _ = app.emit("ahd://windows-config", cfg);
 }
 
+/// Windows z-order of the widgets and the pill. Windows has no "below all apps" layer (a window only put at the
+/// bottom comes back up when shown or clicked), and the taskbar comes over "always on top" windows when clicked.
+/// So desktop widgets are pushed back down, and the pill back above the taskbar, whenever another app's window comes
+/// to the front, after they are moved, and every second. Widgets above all apps are simply "always on top": raising
+/// them again each time would cover the Start menu and the notification flyouts.
 #[cfg(windows)]
-fn place_pill<R: Runtime>(app: &AppHandle<R>, w: &WebviewWindow<R>) {
-    let size = w.outer_size().map(|s| (s.width as i32, s.height as i32)).unwrap_or((164, 34));
-    if let Some((bar, notify)) = crate::platform::windows::taskbar_rects() {
-        let horizontal = (bar.right - bar.left) > (bar.bottom - bar.top);
-        let (x, y) = if horizontal {
-            let right = notify.map(|n| n.left).unwrap_or(bar.right - 320);
-            (right - size.0 - 8, bar.top + ((bar.bottom - bar.top) - size.1) / 2)
-        } else {
-            (bar.left + ((bar.right - bar.left) - size.0) / 2, notify.map(|n| n.top).unwrap_or(bar.bottom - 320) - size.1 - 8)
-        };
-        let _ = w.set_position(PhysicalPosition::new(x, y));
-    } else {
-        let cfg = app.state::<crate::state::AppState>().config.read().map(|c| c.clone()).unwrap_or_default();
-        let _ = place_default(w, PILL, &cfg);
+pub mod layers {
+    use std::sync::Mutex;
+    use tauri::{Runtime, WebviewWindow};
+
+    #[derive(Clone, Copy, PartialEq)]
+    pub enum Z {
+        /// widget above all apps: always on top, set once
+        AboveApps,
+        /// desktop widget: kept below all apps
+        BelowApps,
+        /// the pill: kept above the taskbar
+        AboveTaskbar,
+    }
+
+    static TRACKED: Mutex<Vec<(&'static str, isize, Z)>> = Mutex::new(Vec::new());
+
+    fn tracked() -> std::sync::MutexGuard<'static, Vec<(&'static str, isize, Z)>> {
+        TRACKED.lock().unwrap_or_else(|e| e.into_inner())
+    }
+
+    pub fn track<R: Runtime>(label: &'static str, w: &WebviewWindow<R>, z: Z) {
+        let Ok(h) = w.hwnd() else { return };
+        let hwnd = h.0 as isize;
+        let mut t = tracked();
+        t.retain(|(l, _, _)| *l != label);
+        t.push((label, hwnd, z));
+        drop(t);
+        crate::platform::windows::set_z(hwnd, z != Z::BelowApps);
+    }
+
+    pub fn untrack(label: &str) {
+        tracked().retain(|(l, _, _)| *l != label);
+    }
+
+    /// Push desktop widgets back down and the pill back above the taskbar.
+    pub fn restack() {
+        let all = tracked().clone();
+        for (_, hwnd, z) in all {
+            match z {
+                Z::BelowApps => crate::platform::windows::set_z(hwnd, false),
+                Z::AboveTaskbar => crate::platform::windows::set_z(hwnd, true),
+                Z::AboveApps => {}
+            }
+        }
+    }
+
+    /// Restack whenever another app comes to the front (installed once, on the main thread).
+    pub fn install() {
+        crate::platform::windows::on_foreground_change(restack);
     }
 }
 
-/// Pre-create the tray panel hidden so it opens instantly (brief §11.4).
-pub fn precreate_panel<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
-    let _ = build(app, PANEL, cfg);
-}
+/// Taskbar pill (Windows). It sits on the taskbar, whichever edge the taskbar is on: next to the notification area
+/// by default, or where it was dragged along the taskbar (it cannot leave it; "Lock pill position" keeps it still).
+/// It hides with the taskbar (auto-hide, full-screen apps) and stays above it when the taskbar is clicked.
+#[cfg(windows)]
+mod pill {
+    use super::{layers, load_positions, positions_file, save_position, PILL};
+    use std::sync::Mutex;
+    use std::time::{Duration, Instant};
+    use tauri::{AppHandle, Manager, PhysicalPosition, PhysicalSize, Runtime, WebviewWindow};
 
-pub fn toggle_panel<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig) {
-    let cfg = cfg.clone();
-    with_windows(app, move |app| {
-        if let Ok(w) = build(app, PANEL, &cfg) {
-            if w.is_visible().unwrap_or(false) {
-                let _ = w.hide();
-            } else {
-                let _ = place_default(&w, PANEL, &cfg);
-                let _ = w.show();
-                let _ = w.set_focus();
+    /// Saved place along the taskbar (x on a horizontal taskbar, y on a vertical one), physical pixels.
+    const KEY: &str = "pill-taskbar";
+
+    type Bar = Option<(i32, i32, i32, i32)>;
+    struct Placed {
+        /// taskbar rectangle it was placed on (None: no taskbar then)
+        bar: Bar,
+        shown: bool,
+    }
+    static PLACED: Mutex<Option<Placed>> = Mutex::new(None);
+    /// Window position when a drag started, and the last sign of that drag (a lost drag must not stop the pill
+    /// from following the taskbar).
+    static DRAG_FROM: Mutex<Option<(i32, i32, Instant)>> = Mutex::new(None);
+
+    fn lock<T>(m: &'static Mutex<T>) -> std::sync::MutexGuard<'static, T> {
+        m.lock().unwrap_or_else(|e| e.into_inner())
+    }
+
+    struct Geometry {
+        x: i32,
+        y: i32,
+        w: i32,
+        h: i32,
+        bar: (i32, i32, i32, i32),
+    }
+
+    fn current_bar() -> Bar {
+        crate::platform::windows::taskbar_rects().map(|(b, _)| (b.left, b.top, b.right, b.bottom))
+    }
+
+    /// Size and position on the taskbar for a wanted top-left corner (saved or dragged), or next to the clock.
+    fn geometry<R: Runtime>(app: &AppHandle<R>, wanted: Option<(i32, i32)>) -> Option<Geometry> {
+        let (bar, notify) = crate::platform::windows::taskbar_rects()?;
+        let (bw, bh) = (bar.right - bar.left, bar.bottom - bar.top);
+        if bw <= 0 || bh <= 0 {
+            return None;
+        }
+        let scale = app
+            .monitor_from_point(f64::from(bar.left + bw / 2), f64::from(bar.top + bh / 2))
+            .ok()
+            .flatten()
+            .map(|m| m.scale_factor())
+            .unwrap_or(1.0);
+        let px = |v: f64| (v * scale).round() as i32;
+        // never off the taskbar, even when it is too small for the wanted place
+        let fit = |v: i32, lo: i32, hi: i32| v.min(hi).max(lo);
+        let gap = px(8.0);
+        let horizontal = bw >= bh;
+        let (w, h) = if horizontal {
+            // as tall as fits in the taskbar (34 px, less on a small taskbar)
+            (px(164.0), px(34.0).min(bh - px(4.0)).max(px(20.0)))
+        } else {
+            (px(40.0).max(bw - px(6.0)), px(46.0))
+        };
+        let (x, y) = if horizontal {
+            let default = notify.map(|n| n.left - w - gap).unwrap_or(bar.right - w - px(220.0));
+            (fit(wanted.map_or(default, |p| p.0), bar.left + gap / 2, bar.right - w - gap / 2), bar.top + (bh - h) / 2)
+        } else {
+            let default = notify.map(|n| n.top - h - gap).unwrap_or(bar.bottom - h - px(220.0));
+            (bar.left + (bw - w) / 2, fit(wanted.map_or(default, |p| p.1), bar.top + gap / 2, bar.bottom - h - gap / 2))
+        };
+        Some(Geometry { x, y, w, h, bar: (bar.left, bar.top, bar.right, bar.bottom) })
+    }
+
+    fn visible_now() -> bool {
+        crate::platform::windows::taskbar_visible() && !crate::platform::fullscreen_app_active()
+    }
+
+    fn show<R: Runtime>(w: &WebviewWindow<R>, shown: bool) {
+        if shown {
+            let _ = w.show();
+            layers::track(PILL, w, layers::Z::AboveTaskbar);
+        } else {
+            layers::untrack(PILL);
+            let _ = w.hide();
+        }
+    }
+
+    /// Size the pill to the taskbar, put it in its place and show it (unless the taskbar is hidden).
+    pub fn place<R: Runtime>(app: &AppHandle<R>, w: &WebviewWindow<R>) {
+        let saved = load_positions(app).get(KEY).copied();
+        let Some(g) = geometry(app, saved) else {
+            // no taskbar (Explorer restarting): the tick puts it back when the taskbar returns
+            show(w, false);
+            *lock(&PLACED) = Some(Placed { bar: current_bar(), shown: false });
+            return;
+        };
+        let size = PhysicalSize::new(g.w as u32, g.h as u32);
+        let _ = w.set_min_size(Some(size));
+        let _ = w.set_max_size(Some(size));
+        let _ = w.set_size(size);
+        let _ = w.set_position(PhysicalPosition::new(g.x, g.y));
+        let shown = visible_now();
+        show(w, shown);
+        *lock(&PLACED) = Some(Placed { bar: Some(g.bar), shown });
+    }
+
+    /// Every second: follow the taskbar (moved to another edge, resized, auto-hidden, covered by a full-screen app)
+    /// and stay above it after it was clicked.
+    pub fn tick<R: Runtime>(app: &AppHandle<R>) {
+        let Some(w) = app.get_webview_window(PILL) else { return };
+        {
+            let mut drag = lock(&DRAG_FROM);
+            match *drag {
+                Some((_, _, at)) if at.elapsed() < Duration::from_secs(5) => return,
+                Some(_) => *drag = None,
+                None => {}
             }
         }
-    });
+        let Some((last_bar, last_shown)) = lock(&PLACED).as_ref().map(|p| (p.bar, p.shown)) else { return };
+        if current_bar() != last_bar {
+            place(app, &w);
+            return;
+        }
+        let shown = visible_now();
+        if shown != last_shown {
+            show(&w, shown);
+            if let Some(p) = lock(&PLACED).as_mut() {
+                p.shown = shown;
+            }
+        }
+    }
+
+    pub fn closed() {
+        *lock(&PLACED) = None;
+        *lock(&DRAG_FROM) = None;
+    }
+
+    pub fn drag_start<R: Runtime>(app: &AppHandle<R>) {
+        if let Some(p) = app.get_webview_window(PILL).and_then(|w| w.outer_position().ok()) {
+            *lock(&DRAG_FROM) = Some((p.x, p.y, Instant::now()));
+        }
+    }
+
+    /// Follow the pointer (moved by dx, dy physical pixels since the drag started), along the taskbar only.
+    pub fn drag<R: Runtime>(app: &AppHandle<R>, dx: i32, dy: i32) {
+        let (x, y) = {
+            let mut drag = lock(&DRAG_FROM);
+            let Some((x, y, at)) = drag.as_mut() else { return };
+            *at = Instant::now();
+            (*x, *y)
+        };
+        let Some(w) = app.get_webview_window(PILL) else { return };
+        if let Some(g) = geometry(app, Some((x + dx, y + dy))) {
+            let _ = w.set_position(PhysicalPosition::new(g.x, g.y));
+        }
+    }
+
+    pub fn drag_end<R: Runtime>(app: &AppHandle<R>) {
+        if lock(&DRAG_FROM).take().is_none() {
+            return;
+        }
+        if let Some(p) = app.get_webview_window(PILL).and_then(|w| w.outer_position().ok()) {
+            save_position(app, KEY, p);
+        }
+    }
+
+    /// "Reset position": back next to the clock.
+    pub fn forget_position<R: Runtime>(app: &AppHandle<R>) {
+        let mut all = load_positions(app);
+        if all.remove(KEY).is_some() {
+            if let Some(p) = positions_file(app) {
+                let _ = std::fs::write(p, serde_json::to_string(&all).unwrap_or_default());
+            }
+        }
+        if let Some(w) = app.get_webview_window(PILL) {
+            place(app, &w);
+        }
+    }
+}
+
+/// Every second (scheduler), Windows: the pill follows the taskbar; widgets and pill stay in their layers.
+pub fn tick<R: Runtime>(app: &AppHandle<R>) {
+    #[cfg(windows)]
+    {
+        pill::tick(app);
+        layers::restack();
+    }
+    #[cfg(not(windows))]
+    let _ = app;
+}
+
+/// Dragging the pill along the taskbar (Windows): the page reports how far the pointer moved since it was pressed.
+pub fn pill_drag<R: Runtime>(app: &AppHandle<R>, phase: &str, dx: i32, dy: i32) {
+    #[cfg(windows)]
+    {
+        let locked = app.state::<crate::state::AppState>().config.read().map(|c| c.indicator.pill_locked).unwrap_or(true);
+        match phase {
+            "start" if !locked => pill::drag_start(app),
+            "move" => pill::drag(app, dx, dy),
+            "end" => pill::drag_end(app),
+            _ => {}
+        }
+    }
+    #[cfg(not(windows))]
+    let _ = (app, phase, dx, dy);
 }
 
 pub fn show_toast<R: Runtime>(app: &AppHandle<R>, cfg: &WindowsConfig, payload: &impl Serialize) {

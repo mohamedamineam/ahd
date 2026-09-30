@@ -1,7 +1,6 @@
 import { useFmt } from '@/lib/useFmt';
 import { useS } from '@/features/settings/store';
 import { ReminderList, newReminder } from '@/features/reminders/ReminderEditor';
-import { ADHAN_PRAYERS } from '@/features/prayer/types';
 import { Button, NumberField, TimeField, Toggle } from '@/design/components';
 import { IconPlus } from '@/design/icons';
 import { Group, ResetSection, Row, useUpdate } from './shared';
@@ -14,16 +13,27 @@ export default function Reminders() {
   return (
     <>
       <p className="mb-4 text-ink-muted">{t('settings.reminders.desc')}</p>
+      <Group>
+        <Row k="settings.reminders.beforePrayer">
+          <NumberField
+            label={t('settings.reminders.beforePrayer')}
+            value={r.beforePrayer.minutes}
+            min={1}
+            max={120}
+            suffix={t('common.minUnit')}
+            onChange={(v) => update((d) => void (d.reminders.beforePrayer.minutes = v ?? 10))}
+          />
+          <Toggle checked={r.beforePrayer.enabled} onChange={(v) => update((d) => void (d.reminders.beforePrayer.enabled = v))} label={t('settings.reminders.beforePrayer')} />
+        </Row>
+        {r.beforePrayer.enabled ? (
+          <Row k="settings.reminders.beforePrayerTone">
+            <Toggle checked={r.beforePrayer.type === 'tone'} onChange={(v) => update((d) => void (d.reminders.beforePrayer.type = v ? 'tone' : 'notification'))} label={t('settings.reminders.beforePrayerTone')} />
+          </Row>
+        ) : null}
+      </Group>
+
       <Group title={t('settings.reminders.presets')}>
         <div id="settings.reminders.presets" className="flex flex-wrap gap-2 py-4">
-          <Button
-            size="sm"
-            variant="secondary"
-            icon={<IconPlus size={15} />}
-            onClick={() => update((d) => void d.reminders.items.push(...ADHAN_PRAYERS.map((p) => newReminder(p, -10))))}
-          >
-            {t('settings.reminders.preset10')}
-          </Button>
           <Button
             size="sm"
             variant="secondary"

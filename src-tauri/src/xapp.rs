@@ -1,7 +1,7 @@
 //! Cinnamon and MATE tray (Linux Mint): their panels show a text label next to a tray icon only for XApp status
 //! icons (libxapp) — the AppIndicator/StatusNotifierItem label that GNOME shows is ignored there, so the prayer
 //! timer would be missing. On those desktops the tray is an XAppStatusIcon: icon, timer label, tooltip, left click
-//! opens the prayer panel, right click the menu.
+//! opens the app, right click the menu.
 //!
 //! libxapp is loaded at run time, so the binary still runs where it is not installed. GTK objects live on the main
 //! thread only; other threads send updates with `run_on_main_thread`.
@@ -79,7 +79,6 @@ struct Tray {
     icon: glib::Object,
     _menu: gtk::Menu,
     info: Vec<gtk::MenuItem>,
-    panel: gtk::MenuItem,
     stop: gtk::MenuItem,
     widget: gtk::CheckMenuItem,
     mini: gtk::CheckMenuItem,
@@ -140,14 +139,12 @@ pub fn create(app: &AppHandle<Wry>, icon_path: &Path) -> bool {
         });
         it
     };
-    let panel = item("panel");
     let stop = item("stop");
     let widget = check("toggle-widget");
     let mini = check("toggle-mini");
     let settings = item("settings");
     let open = item("open");
     let quit = item("quit");
-    menu.append(&panel);
     menu.append(&stop);
     menu.append(&gtk::SeparatorMenuItem::new());
     menu.append(&widget);
@@ -168,15 +165,15 @@ pub fn create(app: &AppHandle<Wry>, icon_path: &Path) -> bool {
         (api.set_secondary_menu)(raw(&icon), menu.to_glib_none().0);
         (api.set_visible)(raw(&icon), 1);
     }
-    // left click (no primary menu): the prayer panel, as on Windows
+    // left click (no primary menu): the app, as on Windows
     let app2 = app.clone();
     icon.connect_local("activate", false, move |_| {
-        crate::tray::on_menu(&app2, "panel");
+        crate::tray::on_menu(&app2, "open");
         None
     });
 
     TRAY.with(|t| {
-        *t.borrow_mut() = Some(Tray { icon, _menu: menu, info, panel, stop, widget, mini, settings, open, quit });
+        *t.borrow_mut() = Some(Tray { icon, _menu: menu, info, stop, widget, mini, settings, open, quit });
     });
     true
 }
@@ -187,8 +184,8 @@ pub struct Update {
     pub label: Option<String>,
     pub tooltip: Option<String>,
     pub icon: Option<PathBuf>,
-    /// panel, stop, widget, mini, settings, open, quit
-    pub texts: Option<[String; 7]>,
+    /// stop, widget, mini, settings, open, quit
+    pub texts: Option<[String; 6]>,
     pub info: Option<Vec<String>>,
     pub checked: Option<(bool, bool)>,
     pub stop_enabled: Option<bool>,
@@ -219,8 +216,7 @@ pub fn apply(app: &AppHandle<Wry>, u: Update) {
                     (api.set_visible)(raw(&t.icon), c_int::from(v));
                 }
             }
-            if let Some([panel, stop, widget, mini, settings, open, quit]) = &u.texts {
-                t.panel.set_label(panel);
+            if let Some([stop, widget, mini, settings, open, quit]) = &u.texts {
                 t.stop.set_label(stop);
                 t.widget.set_label(widget);
                 t.mini.set_label(mini);

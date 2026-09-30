@@ -176,9 +176,30 @@ export function buildSchedule(input: ScheduleInput): SchedulePayload {
       });
     }
 
-    // per-prayer reminders
+    // built-in reminder before each of the five prayers (on by default)
+    const before = settings.reminders.beforePrayer;
+    if (before.enabled) {
+      for (const p of ADHAN_PRAYERS) {
+        const at = day.times[p] - before.minutes * 60_000;
+        if (!within(at)) continue;
+        const name = labels[labelKey({ id: p, isFriday: day.isFriday }, settings.calc.jumuahLabel)];
+        fire.push({
+          key: `${date}:before:${p}`,
+          at,
+          kind: 'reminder',
+          prayer: p,
+          audio: before.type === 'tone' ? { sound: 'tone', volume: 0.7, fadeIn: false, stopAt: null, kind: 'tone' } : null,
+          notification: { title: t('notify.reminderTitle'), body: t('notify.before', { minutes: t('time.minutes', { count: before.minutes }), prayer: name }) },
+          toast: false,
+          route: null,
+        });
+      }
+    }
+
+    // per-prayer reminders (one at the same moment as the built-in reminder is not given twice)
     for (const r of settings.reminders.items) {
       if (!r.enabled) continue;
+      if (before.enabled && r.offsetMinutes === -before.minutes && ADHAN_PRAYERS.some((p) => p === r.prayer)) continue;
       const base = day.times[r.prayer];
       const at = base + r.offsetMinutes * 60_000;
       if (!within(at)) continue;
@@ -297,7 +318,6 @@ export function buildSchedule(input: ScheduleInput): SchedulePayload {
     labels,
     strings: {
       open: t('tray.open'),
-      showPanel: t('tray.showPanel'),
       stopAdhan: t('tray.stopAdhan'),
       quit: t('tray.quit'),
       settings: t('tray.settings'),
