@@ -40,6 +40,12 @@ Copy-Item (Join-Path $stage 'AppxManifest.xml') $pri
 $priconfig = Join-Path $work 'priconfig.xml'
 & $makepri createconfig /cf $priconfig /dq en-US /pv 10.0.0 /o
 if ($LASTEXITCODE) { throw "makepri createconfig failed ($LASTEXITCODE)" }
+# one resources.pri with every size: the default <packaging> section splits scale-200 into its own file, which is
+# meant for bundles of resource packages and is ignored in a single package
+[xml]$cfg = Get-Content $priconfig -Raw
+$packaging = $cfg.resources.SelectSingleNode('packaging')
+if ($packaging) { [void]$cfg.resources.RemoveChild($packaging) }
+$cfg.Save($priconfig)
 & $makepri new /pr $pri /cf $priconfig /mn (Join-Path $pri 'AppxManifest.xml') /of (Join-Path $stage 'resources.pri') /o
 if ($LASTEXITCODE) { throw "makepri new failed ($LASTEXITCODE)" }
 
