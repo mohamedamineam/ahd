@@ -1,6 +1,6 @@
 [package]
 name = "ahd"
-version = "0.1.3"
+version = "0.1.4"
 description = "3ahd — prayer times, adhan, Quran, adhkar and qibla for the desktop"
 authors = ["3ahd contributors"]
 license = "GPL-3.0-or-later"
