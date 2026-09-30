@@ -137,9 +137,9 @@ describe('engine behaviour', () => {
       expect(Math.abs(d2.times.dhuhr - d1.times.dhuhr - 86_400_000)).toBeLessThan(60_000);
       // the display state is continuous across the switch night
       const timeline = engine.timeline(before, 2);
-      let last = displayState(d1.times.isha + 1000, timeline, { thresholdMinutes: 30, includeSunrise: true })!;
+      let last = displayState(d1.times.isha + 1000, timeline, { countdownStart: 'halfway', thresholdMinutes: 30, includeSunrise: true })!;
       for (let t = d1.times.isha + 2000; t < d2.times.fajr; t += 1000) {
-        const s = displayState(t, timeline, { thresholdMinutes: 30, includeSunrise: true })!;
+        const s = displayState(t, timeline, { countdownStart: 'halfway', thresholdMinutes: 30, includeSunrise: true })!;
         if (s.mode === last.mode && s.event.at === last.event.at) {
           expect(Math.abs(s.seconds - last.seconds)).toBe(1);
         }

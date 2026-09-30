@@ -2,7 +2,7 @@
   "name": "ahd",
   "private": true,
   "version": "0.1.2",
-  "description": "Ahd — a calm prayer-times companion for the desktop: adhan, widget, Quran, adhkar and qibla.",
+  "description": "3ahd — a calm prayer-times companion for the desktop: adhan, widget, Quran, adhkar and qibla.",
   "license": "GPL-3.0-or-later",
   "type": "module",
   "engines": {

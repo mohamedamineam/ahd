@@ -152,6 +152,7 @@ export const api = {
   appReady: () => invoke<void>('app_ready'),
   setShortcut: (shortcut: string | null) => invoke<string | null>('set_stop_shortcut', { shortcut }),
   platformInfo: () => invoke<PlatformInfo>('platform_info'),
+  taskbarIsLight: () => invoke<boolean | null>('taskbar_is_light'),
   relaunchX11: (enable: boolean) => invoke<void>('set_wayland_compat', { enable }),
   exportFile: (path: string, contents: string) => invoke<void>('export_file', { path, contents }),
   readImportFile: (path: string) => invoke<string>('read_import_file', { path }),

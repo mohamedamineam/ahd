@@ -69,10 +69,10 @@ pub fn render(spec: &IconSpec) -> Option<Vec<u8>> {
         }
     }
 
-    // centre: minutes left during the countdown, a small dot otherwise
+    // centre: minutes left during the countdown (up to 99; the halfway countdown can be longer), a small dot otherwise
     match (spec.countdown, spec.minutes_left) {
-        (true, Some(m)) => {
-            let text = m.min(99).to_string();
+        (true, Some(m)) if m <= 99 => {
+            let text = m.to_string();
             let cell = (s * 0.085).max(1.0);
             let glyph_w = cell * 3.0;
             let gap = cell;

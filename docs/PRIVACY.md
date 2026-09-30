@@ -1,10 +1,10 @@
-# Privacy policy — Ahd (عهد)
+# Privacy policy — 3ahd (عهد)
 
 Last updated: 2026-09-29
 
-Ahd is a free, open-source desktop app for prayer times. It is built so that your data stays on your computer.
+3ahd is a free, open-source desktop app for prayer times. It is built so that your data stays on your computer.
 
-## What Ahd does not do
+## What 3ahd does not do
 
 - No accounts, no sign-in.
 - No analytics, no telemetry, no crash reporting to third parties.
@@ -16,9 +16,9 @@ Settings, saved locations, prayer-time offsets, an imported official timetable, 
 positions, today's adhkar counters, custom adhan files and downloaded books are stored only in the app's data
 folder on your computer. You can export, import or erase all of it in Settings → Privacy & data.
 
-## When Ahd uses the network
+## When 3ahd uses the network
 
-Ahd works fully offline. It connects to the internet only for these optional features, each of which can be
+3ahd works fully offline. It connects to the internet only for these optional features, each of which can be
 turned off in Settings → Privacy & data:
 
 | Feature | Service | What is sent | When |

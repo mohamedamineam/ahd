@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSchedule, startScheduleStore, dayFor } from '@/features/prayer/scheduleStore';
-import { displayState, formatValue, type DisplayState } from '@/features/prayer/displayState';
+import { displayState, formatValue, longCountdown, type DisplayState } from '@/features/prayer/displayState';
 import type { ScheduleTimelineEvent } from '@/features/prayer/schedule';
 import { useS } from '@/features/settings/store';
 import { useClock } from '@/lib/clock';
@@ -42,7 +42,7 @@ export function useLive(): LiveState {
   const digits = useS((s) => s.general.digits);
   const jumuah = useS((s) => s.calc.jumuahLabel);
   const { t } = useTranslation();
-  const state = events.length ? displayState(now, events, { thresholdMinutes: timer.thresholdMinutes, includeSunrise: timer.includeSunrise }) : null;
+  const state = events.length ? displayState(now, events, timer) : null;
   const label: LiveState['label'] = (e) => {
     if (!e) return '';
     const friday = e.friday ?? e.isFriday ?? false;
@@ -51,7 +51,7 @@ export function useLive(): LiveState {
   };
   const value: LiveState['value'] = (o = {}) =>
     state
-      ? toDigits(formatValue(state, { seconds: o.seconds ?? true, padHours: o.padHours ?? false, longCountdown: timer.thresholdMinutes > 60 }), digits)
+      ? toDigits(formatValue(state, { seconds: o.seconds ?? true, padHours: o.padHours ?? false, longCountdown: longCountdown(timer) }), digits)
       : '—';
   return { state, now, label, value, timeline: payload?.timeline ?? [] };
 }

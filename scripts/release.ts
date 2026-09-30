@@ -64,7 +64,7 @@ if (next !== current) {
   );
   git('commit', '-m', `Version ${next}`);
 }
-git('tag', '-a', `v${next}`, '-m', `Ahd ${next}`);
+git('tag', '-a', `v${next}`, '-m', `3ahd ${next}`);
 execFileSync('git', ['push', '--atomic', 'origin', 'main', `v${next}`], { stdio: 'inherit' });
 
 console.log(`

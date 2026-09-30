@@ -1,4 +1,4 @@
-//! Native notifications. Silent (Ahd plays its own adhan). On Linux the notification carries a default
+//! Native notifications. Silent (3ahd plays its own adhan). On Linux the notification carries a default
 //! action so clicking it opens the right screen; elsewhere the plugin's notification is used.
 
 use tauri::{AppHandle, Runtime};
@@ -11,7 +11,7 @@ pub fn show<R: Runtime>(app: &AppHandle<R>, title: &str, body: &str, route: Opti
         let icon = icon.map(|p| p.to_string_lossy().to_string());
         std::thread::spawn(move || {
             let mut n = notify_rust::Notification::new();
-            n.appname("Ahd").summary(&title).body(&body).action("default", "Open").hint(notify_rust::Hint::SuppressSound(true));
+            n.appname("3ahd").summary(&title).body(&body).action("default", "Open").hint(notify_rust::Hint::SuppressSound(true));
             if let Some(i) = &icon {
                 n.icon(i);
             }

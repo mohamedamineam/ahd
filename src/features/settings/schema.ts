@@ -2,6 +2,7 @@ import type { PaletteId, PaletteSpec } from '@/design/palette';
 import type { Digits, Lang, MonthStyle, TimeFormat } from '@/lib/format';
 import type { AdhanPrayerId, CalcSettings, Place, PrayerId, TimeZoneMode } from '@/features/prayer/types';
 import { DEFAULT_CALC } from '@/features/prayer/engine';
+import type { CountdownStart } from '@/features/prayer/displayState';
 
 export const SETTINGS_VERSION = 1;
 
@@ -66,6 +67,7 @@ export interface Settings {
     showDuha: boolean;
   };
   timer: {
+    countdownStart: CountdownStart;
     thresholdMinutes: number;
     includeSunrise: boolean;
     secondsMain: boolean;
@@ -124,6 +126,10 @@ export interface Settings {
       dynamicTrayIcon: boolean; // Windows
       pill: boolean; // Windows taskbar pill
       pillLocked: boolean;
+      /** 'auto' follows the light/dark taskbar (Windows setting "Choose your default Windows mode") */
+      pillBackground: 'auto' | 'dark' | 'light' | 'transparent';
+      /** Text on a transparent pill */
+      pillText: 'auto' | 'light' | 'dark';
       panelLabel: boolean; // Linux tray title
       labelFormat: 'name-value' | 'value' | 'name-time';
       trayIconStyle: 'auto' | 'light' | 'dark';
@@ -187,7 +193,7 @@ export function defaultSettings(lang: Lang = 'ar'): Settings {
       showImsak: false,
       showDuha: false,
     },
-    timer: { thresholdMinutes: 30, includeSunrise: true, secondsMain: true, secondsWidget: true, secondsTaskbar: false },
+    timer: { countdownStart: 'halfway', thresholdMinutes: 30, includeSunrise: true, secondsMain: true, secondsWidget: true, secondsTaskbar: false },
     adhan: {
       perPrayer: {
         fajr: notify(DEFAULT_FAJR_ADHAN),
@@ -229,6 +235,8 @@ export function defaultSettings(lang: Lang = 'ar'): Settings {
         dynamicTrayIcon: true,
         pill: true,
         pillLocked: false,
+        pillBackground: 'auto',
+        pillText: 'auto',
         panelLabel: true,
         labelFormat: 'name-value',
         trayIconStyle: 'auto',

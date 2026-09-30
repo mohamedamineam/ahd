@@ -1,7 +1,7 @@
 import { useId, useMemo } from 'react';
 import clsx from 'clsx';
 import { addDays, localDate, type PrayerEngine } from '@/features/prayer/engine';
-import { displayState, formatValue, labelKey, type DisplayState } from '@/features/prayer/displayState';
+import { displayState, formatValue, labelKey, longCountdown, type DisplayState } from '@/features/prayer/displayState';
 import type { PrayerId } from '@/features/prayer/types';
 import { useS } from '@/features/settings/store';
 import { useFmt } from '@/lib/useFmt';
@@ -19,7 +19,7 @@ export function useDisplay(engine: PrayerEngine, now: number): { state: DisplayS
   const timer = useS((s) => s.timer);
   const date = localDate(now, engine.zone);
   const events = useMemo(() => engine.timeline(date, 2), [engine, date]);
-  const state = displayState(now, events, { thresholdMinutes: timer.thresholdMinutes, includeSunrise: timer.includeSunrise });
+  const state = displayState(now, events, timer);
   return { state, date };
 }
 
@@ -55,7 +55,7 @@ export function SunPathDial({ engine, now }: { engine: PrayerEngine; now: number
   const arrival = state?.mode === 'elapsed' && state.seconds < 8;
 
   const value = state
-    ? toDigits(formatValue(state, { seconds: timer.secondsMain, padHours: true, longCountdown: timer.thresholdMinutes > 60 }), f.digits)
+    ? toDigits(formatValue(state, { seconds: timer.secondsMain, padHours: true, longCountdown: longCountdown(timer) }), f.digits)
     : '';
   const eventName = state ? t(`prayers.${labelKey(state.event, jumuah)}`) : '';
   const nextName = state ? t(`prayers.${labelKey(state.next, jumuah)}`) : '';

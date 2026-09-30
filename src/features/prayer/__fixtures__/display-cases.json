@@ -106,6 +106,7 @@
    "now": 1790224330000,
    "nowIso": "2026-09-24T04:32:10.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -122,6 +123,7 @@
    "now": 1790224329000,
    "nowIso": "2026-09-24T04:32:09.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -137,6 +139,7 @@
    "now": 1790224331000,
    "nowIso": "2026-09-24T04:32:11.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -153,6 +156,7 @@
    "now": 1790226129500,
    "nowIso": "2026-09-24T05:02:09.500Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -169,6 +173,7 @@
    "now": 1790226130000,
    "nowIso": "2026-09-24T05:02:10.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -185,6 +190,7 @@
    "now": 1790226131000,
    "nowIso": "2026-09-24T05:02:11.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -201,6 +207,7 @@
    "now": 1790230680000,
    "nowIso": "2026-09-24T06:18:00.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -217,6 +224,7 @@
    "now": 1790230680000,
    "nowIso": "2026-09-24T06:18:00.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": false
    },
@@ -232,6 +240,7 @@
    "now": 1790234880000,
    "nowIso": "2026-09-24T07:28:00.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": false
    },
@@ -247,6 +256,7 @@
    "now": 1790251301000,
    "nowIso": "2026-09-24T12:01:41.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": false
    },
@@ -263,6 +273,7 @@
    "now": 1790269860000,
    "nowIso": "2026-09-24T17:11:00.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -280,6 +291,7 @@
    "now": 1790290470000,
    "nowIso": "2026-09-24T22:54:30.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -295,6 +307,7 @@
    "now": 1790294400000,
    "nowIso": "2026-09-25T00:00:00.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -310,6 +323,7 @@
    "now": 1790311695000,
    "nowIso": "2026-09-25T04:48:15.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -326,6 +340,7 @@
    "now": 1790339780000,
    "nowIso": "2026-09-25T12:36:20.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -342,6 +357,7 @@
    "now": 1790265200000,
    "nowIso": "2026-09-24T15:53:20.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 5,
     "includeSunrise": true
    },
@@ -358,6 +374,7 @@
    "now": 1790265199000,
    "nowIso": "2026-09-24T15:53:19.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 5,
     "includeSunrise": true
    },
@@ -373,6 +390,7 @@
    "now": 1790267586000,
    "nowIso": "2026-09-24T16:33:06.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 120,
     "includeSunrise": true
    },
@@ -390,6 +408,7 @@
    "now": 1790272986000,
    "nowIso": "2026-09-24T18:03:06.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 120,
     "includeSunrise": true
    },
@@ -407,6 +426,7 @@
    "now": 1790267585000,
    "nowIso": "2026-09-24T16:33:05.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 120,
     "includeSunrise": true
    },
@@ -422,6 +442,7 @@
    "now": 1790267584000,
    "nowIso": "2026-09-24T16:33:04.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 120,
     "includeSunrise": true
    },
@@ -433,10 +454,214 @@
    }
   },
   {
+   "name": "halfway: first half of Dhuhr→Asr is elapsed since Dhuhr",
+   "now": 1790259299000,
+   "nowIso": "2026-09-24T14:14:59.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "dhuhr",
+    "eventAt": 1790253100000,
+    "seconds": 6199,
+    "value": "+01:43:19",
+    "valueShort": "+1:43"
+   }
+  },
+  {
+   "name": "halfway: the countdown starts exactly at the midpoint",
+   "now": 1790259300000,
+   "nowIso": "2026-09-24T14:15:00.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "asr",
+    "eventAt": 1790265500000,
+    "seconds": 6200,
+    "value": "−1:43:20",
+    "valueShort": "−1:44"
+   }
+  },
+  {
+   "name": "halfway: one hour left, without seconds the minutes round up",
+   "now": 1790261900000,
+   "nowIso": "2026-09-24T14:58:20.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "asr",
+    "eventAt": 1790265500000,
+    "seconds": 3600,
+    "value": "−1:00:00",
+    "valueShort": "−1:00"
+   }
+  },
+  {
+   "name": "halfway: the last hour is mm:ss, with or without seconds",
+   "now": 1790261901000,
+   "nowIso": "2026-09-24T14:58:21.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "asr",
+    "eventAt": 1790265500000,
+    "seconds": 3599,
+    "value": "−59:59",
+    "valueShort": "−59:59"
+   }
+  },
+  {
+   "name": "halfway: first half of Fajr→sunrise is elapsed since Fajr",
+   "now": 1790228704000,
+   "nowIso": "2026-09-24T05:45:04.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 2574
+   }
+  },
+  {
+   "name": "halfway: second half of Fajr→sunrise counts down to sunrise",
+   "now": 1790228705000,
+   "nowIso": "2026-09-24T05:45:05.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "sunrise",
+    "eventAt": 1790231280000,
+    "seconds": 2575,
+    "value": "−42:55"
+   }
+  },
+  {
+   "name": "halfway: at sunrise the countdown goes straight to Dhuhr",
+   "now": 1790231280000,
+   "nowIso": "2026-09-24T06:28:00.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "dhuhr",
+    "eventAt": 1790253100000,
+    "seconds": 21820,
+    "value": "−6:03:40",
+    "valueShort": "−6:04"
+   }
+  },
+  {
+   "name": "threshold: after sunrise also counts down to Dhuhr (no time since sunrise)",
+   "now": 1790234880000,
+   "nowIso": "2026-09-24T07:28:00.000Z",
+   "settings": {
+    "countdownStart": "threshold",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "dhuhr",
+    "eventAt": 1790253100000,
+    "seconds": 18220
+   }
+  },
+  {
+   "name": "halfway over midnight: half a second before the odd midpoint is elapsed since Isha",
+   "now": 1790296132000,
+   "nowIso": "2026-09-25T00:28:52.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "isha",
+    "eventAt": 1790279670000,
+    "seconds": 16462
+   }
+  },
+  {
+   "name": "halfway over midnight: half a second after the odd midpoint counts down to Fajr",
+   "now": 1790296133000,
+   "nowIso": "2026-09-25T00:28:53.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": true
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "fajr",
+    "eventAt": 1790312595000,
+    "seconds": 16462
+   }
+  },
+  {
+   "name": "halfway, sunrise excluded: Fajr→Dhuhr is split in two halves",
+   "now": 1790239615000,
+   "nowIso": "2026-09-24T08:46:55.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": false
+   },
+   "expected": {
+    "mode": "countdown",
+    "event": "dhuhr",
+    "eventAt": 1790253100000,
+    "seconds": 13485
+   }
+  },
+  {
+   "name": "halfway, sunrise excluded: just before the midpoint is elapsed since Fajr",
+   "now": 1790239614000,
+   "nowIso": "2026-09-24T08:46:54.000Z",
+   "settings": {
+    "countdownStart": "halfway",
+    "thresholdMinutes": 30,
+    "includeSunrise": false
+   },
+   "expected": {
+    "mode": "elapsed",
+    "event": "fajr",
+    "eventAt": 1790226130000,
+    "seconds": 13484
+   }
+  },
+  {
    "name": "before the first known event: no state",
    "now": 1790193329000,
    "nowIso": "2026-09-23T19:55:29.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },
@@ -447,6 +672,7 @@
    "now": 1790399061000,
    "nowIso": "2026-09-26T05:04:21.000Z",
    "settings": {
+    "countdownStart": "threshold",
     "thresholdMinutes": 30,
     "includeSunrise": true
    },

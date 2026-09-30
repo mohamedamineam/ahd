@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Ahd",
+  "productName": "3ahd",
   "mainBinaryName": "ahd",
   "version": "0.1.2",
   "identifier": "io.github.mohamedamineam.Ahd",
@@ -15,7 +15,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Ahd",
+        "title": "3ahd",
         "url": "index.html",
         "width": 1120,
         "height": 740,
@@ -66,14 +66,14 @@
       "nsis",
       "msi"
     ],
-    "publisher": "Ahd contributors",
-    "copyright": "© 2026 Ahd contributors — GPL-3.0-or-later",
+    "publisher": "3ahd contributors",
+    "copyright": "© 2026 3ahd contributors — GPL-3.0-or-later",
     "license": "GPL-3.0-or-later",
     "licenseFile": "../LICENSE",
     "homepage": "https://github.com/mohamedamineam/ahd",
     "category": "Lifestyle",
     "shortDescription": "Prayer times, adhan, Quran, adhkar and qibla",
-    "longDescription": "Ahd is a calm, free and private desktop companion for Muslims: accurate prayer times with per-second fine-tuning, the adhan with a notification you can close while it keeps playing, a desktop widget and taskbar indicator, the Quran (Hafs and Warsh), authentic adhkar from Hisn al-Muslim, the qibla direction and a small library of free Islamic books. No ads, no accounts, no tracking.",
+    "longDescription": "3ahd is a calm, free and private desktop companion for Muslims: accurate prayer times with per-second fine-tuning, the adhan with a notification you can close while it keeps playing, a desktop widget and taskbar indicator, the Quran (Hafs and Warsh), authentic adhkar from Hisn al-Muslim, the qibla direction and a small library of free Islamic books. No ads, no accounts, no tracking.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -88,13 +88,25 @@
     },
     "linux": {
       "deb": {
-        "desktopTemplate": "../packaging/linux/ahd.desktop"
+        "desktopTemplate": "../packaging/linux/ahd.desktop",
+        "conflicts": [
+          "ahd"
+        ],
+        "replaces": [
+          "ahd"
+        ]
       },
       "rpm": {
         "depends": [
           "libayatana-appindicator-gtk3"
         ],
-        "desktopTemplate": "../packaging/linux/ahd.desktop"
+        "desktopTemplate": "../packaging/linux/ahd.desktop",
+        "conflicts": [
+          "ahd"
+        ],
+        "obsoletes": [
+          "ahd"
+        ]
       },
       "appimage": {
         "bundleMediaFramework": false
@@ -113,13 +125,15 @@
         "installMode": "currentUser",
         "installerIcon": "icons/icon.ico",
         "sidebarImage": "icons/installer/sidebar.bmp",
-        "headerImage": "icons/installer/header.bmp"
+        "headerImage": "icons/installer/header.bmp",
+        "installerHooks": "../packaging/windows/installer-hooks.nsh"
       },
       "wix": {
         "language": [
           "en-US",
           "ar-SA"
-        ]
+        ],
+        "upgradeCode": "f6548ee3-4f71-5899-9d81-e0c884a853a5"
       }
     }
   },

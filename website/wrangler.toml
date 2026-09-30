@@ -1,4 +1,4 @@
-# Cloudflare Pages project for the Ahd website (see README.md).
+# Cloudflare Pages project for the 3ahd website (see README.md).
 name = "3ahd"
 pages_build_output_dir = "public"
 compatibility_date = "2026-07-01"

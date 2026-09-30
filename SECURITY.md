@@ -3,7 +3,7 @@
 Please report security problems privately through GitHub's "Report a vulnerability" (Security tab) rather than a
 public issue. You will get an answer within a week.
 
-How Ahd limits risk:
+How 3ahd limits risk:
 
 - Every window gets only the permissions it needs (src-tauri/capabilities); widgets and notifications cannot
   change settings or files.

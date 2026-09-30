@@ -62,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ github.ref_name }}
-          releaseName: Ahd ${{ github.ref_name }}
+          releaseName: 3ahd ${{ github.ref_name }}
           releaseBody: Installers for Windows and Linux. The notes are added when all files are ready.
           releaseDraft: true
           prerelease: false
@@ -86,13 +86,13 @@ jobs:
         run: |
           mkdir "$RUNNER_TEMP/assets" && cd "$RUNNER_TEMP/assets"
           gh release download "$TAG" --repo "$REPO" --pattern '*' --skip-existing
-          rm -f SHA256SUMS Ahd-windows-* Ahd-linux-*
-          cp *_x64-setup.exe Ahd-windows-x64-setup.exe
-          cp *_x64_en-US.msi Ahd-windows-x64.msi
-          cp *_amd64.deb Ahd-linux-amd64.deb
-          cp *.x86_64.rpm Ahd-linux-x86_64.rpm
-          cp *_amd64.AppImage Ahd-linux-x86_64.AppImage
+          rm -f SHA256SUMS 3ahd-windows-* 3ahd-linux-*
+          cp *_x64-setup.exe 3ahd-windows-x64-setup.exe
+          cp *_x64_en-US.msi 3ahd-windows-x64.msi
+          cp *_amd64.deb 3ahd-linux-amd64.deb
+          cp *.x86_64.rpm 3ahd-linux-x86_64.rpm
+          cp *_amd64.AppImage 3ahd-linux-x86_64.AppImage
           sha256sum * > SHA256SUMS
           cat SHA256SUMS
-          gh release upload "$TAG" Ahd-windows-* Ahd-linux-* SHA256SUMS --repo "$REPO" --clobber
+          gh release upload "$TAG" 3ahd-windows-* 3ahd-linux-* SHA256SUMS --repo "$REPO" --clobber
           gh release edit "$TAG" --repo "$REPO" --notes-file "$GITHUB_WORKSPACE/.github/release-notes.md"

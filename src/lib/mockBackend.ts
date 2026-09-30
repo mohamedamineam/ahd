@@ -227,6 +227,9 @@ export async function invoke<T>(cmd: string, args: Record<string, unknown> = {})
         xwayland: false,
         version: '0.1.0',
       } satisfies PlatformInfo as T;
+    case 'taskbar_is_light':
+      // browser preview of the taskbar pill: ?taskbar=light|dark
+      return (new URLSearchParams(location.search).get('taskbar') === 'light') as T;
     case 'set_stop_shortcut':
       return (args.shortcut ?? null) as T;
     case 'read_import_file':

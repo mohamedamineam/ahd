@@ -60,12 +60,19 @@ pub struct FireEvent {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DisplayConfig {
+    /// "halfway" | "threshold" (older cached schedules have no value: the new default)
+    #[serde(default = "default_countdown_start")]
+    pub countdown_start: String,
     pub threshold_minutes: f64,
     pub include_sunrise: bool,
     pub taskbar_seconds: bool,
     pub jumuah: bool,
     /// "name-value" | "value" | "name-time"
     pub label_format: String,
+}
+
+fn default_countdown_start() -> String {
+    "halfway".into()
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -62,7 +62,7 @@ pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
     let widget = CheckMenuItem::with_id(app, "toggle-widget", "Main widget", true, false, None::<&str>)?;
     let mini = CheckMenuItem::with_id(app, "toggle-mini", "Mini widget", true, false, None::<&str>)?;
     let settings = MenuItem::with_id(app, "settings", "Settings", true, None::<&str>)?;
-    let open = MenuItem::with_id(app, "open", "Open Ahd", true, None::<&str>)?;
+    let open = MenuItem::with_id(app, "open", "Open 3ahd", true, None::<&str>)?;
     let quit = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
 
     let mut mb = MenuBuilder::new(app);
@@ -88,7 +88,7 @@ pub fn create(app: &AppHandle<Wry>) -> tauri::Result<TrayHandles> {
     #[cfg_attr(not(target_os = "linux"), allow(unused_mut))]
     let mut builder = TrayIconBuilder::with_id("main")
         .icon(png(ICON_LIGHT).expect("tray icon"))
-        .tooltip("Ahd")
+        .tooltip("3ahd")
         .menu(&menu)
         .show_menu_on_left_click(cfg!(target_os = "linux"))
         .on_menu_event(|app, ev| on_menu(app, ev.id().as_ref()))
@@ -147,7 +147,8 @@ pub fn update(app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now: 
     let Ok(mut guard) = state.tray.lock() else { return };
     let Some(h) = guard.as_mut() else { return };
     let cfg = state.config.read().map(|c| c.clone()).unwrap_or_default();
-    let st = display_state(now, &s.timeline, s.display.threshold_minutes, s.display.include_sunrise);
+    let halfway = s.display.countdown_start == "halfway";
+    let st = display_state(now, &s.timeline, halfway, s.display.threshold_minutes, s.display.include_sunrise);
     #[cfg(target_os = "linux")]
     let mut xu = crate::xapp::Update::default();
     #[cfg(not(target_os = "linux"))]
@@ -156,7 +157,7 @@ pub fn update(app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now: 
     // ---- label + tooltip (every second in countdown or with seconds on, otherwise once a minute)
     if let Some(st) = &st {
         let name = s.label_for(st.event);
-        let value = to_digits(&format_value(st.mode, st.seconds, s.display.taskbar_seconds, false, s.display.threshold_minutes > 60.0), &s.digits);
+        let value = to_digits(&format_value(st.mode, st.seconds, s.display.taskbar_seconds, false, !halfway && s.display.threshold_minutes > 60.0), &s.digits);
         let next_name = s.label_for(st.next);
         let label = match s.display.label_format.as_str() {
             "value" => ltr(&value),

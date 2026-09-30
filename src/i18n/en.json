@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Ahd",
+    "name": "3ahd",
     "tagline": "A calm companion for prayer times",
     "loading": "Loading…"
   },
@@ -128,7 +128,7 @@
     "officialSource": "Official timetable",
     "degraded": "Some times cannot be calculated normally at this latitude today; the nearest valid day is used.",
     "noLocationTitle": "Where do you pray?",
-    "noLocationBody": "Choose your city so Ahd can calculate today’s prayer times.",
+    "noLocationBody": "Choose your city so 3ahd can calculate today’s prayer times.",
     "chooseLocation": "Choose location",
     "locations": "Saved locations",
     "addLocation": "Add a location",
@@ -156,7 +156,7 @@
     "offset": "Offset",
     "knowOfficial": "I know the official time",
     "officialTime": "Official time for {{prayer}} today",
-    "officialHint": "Type the time from your mosque or ministry; Ahd computes the offset in seconds.",
+    "officialHint": "Type the time from your mosque or ministry; 3ahd computes the offset in seconds.",
     "applyOfficial": "Use this time",
     "invalidTime": "Enter a time like 18:41 or 18:41:30",
     "resetRow": "Reset",
@@ -167,7 +167,7 @@
     "stepOf": "Step {{n}} of {{total}}",
     "skip": "Skip",
     "language": {
-      "title": "Welcome to Ahd",
+      "title": "Welcome to 3ahd",
       "subtitle": "Choose the language of the app. You can change it later."
     },
     "location": {
@@ -205,7 +205,7 @@
     },
     "theme": {
       "title": "Choose a look",
-      "subtitle": "Ahd follows your system by default."
+      "subtitle": "3ahd follows your system by default."
     },
     "widgets": {
       "title": "On your desktop",
@@ -213,7 +213,7 @@
       "indicator": "Show the prayer indicator in the taskbar or top panel",
       "indicatorHint": "Current or next prayer and its time",
       "gnomeTitle": "Your desktop may hide tray icons",
-      "gnomeBody": "On GNOME, install the “AppIndicator and KStatusNotifierItem Support” extension to see Ahd in the top bar.",
+      "gnomeBody": "On GNOME, install the “AppIndicator and KStatusNotifierItem Support” extension to see 3ahd in the top bar.",
       "gnomeLink": "Open the extension page",
       "main": "Show the main widget",
       "mainHint": "All times, time elapsed and remaining",
@@ -223,7 +223,7 @@
     },
     "adhan": {
       "title": "Adhan and notifications",
-      "subtitle": "Ahd plays the adhan at each prayer time, even when its window is closed.",
+      "subtitle": "3ahd plays the adhan at each prayer time, even when its window is closed.",
       "adhan": "Adhan",
       "fajr": "Fajr adhan",
       "fajrHint": "With «الصلاة خير من النوم»",
@@ -233,15 +233,15 @@
     },
     "startup": {
       "title": "Always on time",
-      "subtitle": "Ahd works quietly in the background.",
-      "startWithSystem": "Start Ahd when I log in",
+      "subtitle": "3ahd works quietly in the background.",
+      "startWithSystem": "Start 3ahd when I log in",
       "keepInTray": "Keep running in the tray when the window is closed",
       "keepInTrayHint": "Needed for the adhan to play when the window is closed."
     },
     "done": {
       "title": "All set",
-      "body": "Ahd will call the adhan at each prayer time. You can change everything later in Settings.",
-      "finish": "Open Ahd"
+      "body": "3ahd will call the adhan at each prayer time. You can change everything later in Settings.",
+      "finish": "Open 3ahd"
     }
   },
   "timetable": {
@@ -297,9 +297,9 @@
       "egypt": "Egypt & Gulf (يناير، فبراير…)",
       "levant": "Levant & Iraq (كانون الثاني، شباط…)",
       "startWithSystem": "Start with the system",
-      "startWithSystemDesc": "Open Ahd in the background when you log in.",
+      "startWithSystemDesc": "Open 3ahd in the background when you log in.",
       "keepInTray": "Keep running in the tray",
-      "keepInTrayDesc": "Closing the window keeps Ahd running so the adhan still plays.",
+      "keepInTrayDesc": "Closing the window keeps 3ahd running so the adhan still plays.",
       "checkUpdates": "Check for updates",
       "checkUpdatesDesc": "Look for a new version on GitHub once a day.",
       "storeUpdates": "Updates are delivered by your app store."
@@ -391,10 +391,11 @@
     },
     "timer": {
       "threshold": "Switch to countdown",
-      "thresholdDesc": "Show the time remaining when the next prayer is this close.",
+      "thresholdDesc": "When the timer stops showing the time since the last prayer and shows the time until the next one.",
       "thresholdValue": "{{minutes}} before",
+      "thresholdHalfway": "Halfway between prayers",
       "includeSunrise": "Include sunrise in the timer",
-      "includeSunriseDesc": "Sunrise ends Fajr time; count down to it too.",
+      "includeSunriseDesc": "Sunrise ends Fajr time: count down to it, then straight to Dhuhr.",
       "secondsMain": "Seconds in the main window",
       "secondsWidget": "Seconds in the widget",
       "secondsTaskbar": "Seconds in the taskbar",
@@ -419,14 +420,14 @@
       "builtin": "Built-in",
       "customLabel": "Your adhan",
       "addCustom": "Add custom adhan…",
-      "addCustomDesc": "MP3, OGG, FLAC, WAV or M4A, up to 30 MB. The file is copied into Ahd.",
+      "addCustomDesc": "MP3, OGG, FLAC, WAV or M4A, up to 30 MB. The file is copied into 3ahd.",
       "isFajr": "This is a Fajr adhan",
       "shortEnd": "Short version ends at",
       "shortEndDesc": "Used by the “Short” mode (mm:ss).",
       "duration": "Duration {{time}}",
       "fajrBadge": "Fajr",
       "shortcut": "Stop-adhan shortcut",
-      "shortcutDesc": "Works everywhere, even when Ahd is hidden.",
+      "shortcutDesc": "Works everywhere, even when 3ahd is hidden.",
       "recordShortcut": "Record",
       "recording": "Press the keys…",
       "shortcutDisabled": "Disabled",
@@ -441,7 +442,7 @@
       "fullscreen": "Mute when a full-screen app is active",
       "fullscreenDesc": "For presentations and films. The notification is still shown.",
       "dnd": "Respect Do Not Disturb / Focus assist",
-      "dndDesc": "The adhan is important, so this is off by default: when on, Ahd stays silent while your system is in Do Not Disturb.",
+      "dndDesc": "The adhan is important, so this is off by default: when on, 3ahd stays silent while your system is in Do Not Disturb.",
       "missed": "Play a missed adhan",
       "missedDesc": "If the computer wakes up this many minutes after a prayer, still play the adhan. Later, only a quiet notification is shown.",
       "test": "Test adhan now",
@@ -523,6 +524,16 @@
       "pill": "Taskbar pill",
       "pillDesc": "A small label beside the clock showing “Asr +1:12”.",
       "pillLock": "Lock pill position",
+      "pillColor": "Pill colour",
+      "pillColorDesc": "Match the taskbar follows its light or dark mode by itself.",
+      "pillColorAuto": "Match the taskbar",
+      "pillColorDark": "Dark",
+      "pillColorLight": "Light",
+      "pillColorTransparent": "Transparent",
+      "pillText": "Text colour",
+      "pillTextAuto": "Match the taskbar",
+      "pillTextLight": "White",
+      "pillTextDark": "Dark",
       "panelLabel": "Panel label",
       "panelLabelDesc": "Text next to the tray icon in the top panel.",
       "labelFormat": "Label format",
@@ -536,9 +547,9 @@
       "hideTray": "Hide the tray icon",
       "hideTrayDesc": "Only possible while the taskbar indicator is on.",
       "wayland": "Wayland session detected",
-      "waylandDesc": "On Wayland, apps cannot place their own windows, so the widget may appear in the middle of the screen. Compatibility mode runs Ahd through XWayland for full positioning (text may look slightly blurry with fractional scaling).",
+      "waylandDesc": "On Wayland, apps cannot place their own windows, so the widget may appear in the middle of the screen. Compatibility mode runs 3ahd through XWayland for full positioning (text may look slightly blurry with fractional scaling).",
       "waylandCompat": "Compatibility mode (XWayland)",
-      "restartNeeded": "Ahd will restart to apply this.",
+      "restartNeeded": "3ahd will restart to apply this.",
       "noTray": "No tray support detected",
       "noTrayDesc": "Your desktop does not show tray icons. On GNOME install the “AppIndicator and KStatusNotifierItem Support” extension.",
       "main": "Main widget",
@@ -553,7 +564,7 @@
     },
     "privacy": {
       "network": "Network features",
-      "networkDesc": "Ahd works fully offline. Each online feature can be turned off.",
+      "networkDesc": "3ahd works fully offline. Each online feature can be turned off.",
       "placeSearch": "Online place search (OpenStreetMap)",
       "mapTiles": "Map tiles (OpenStreetMap)",
       "library": "Library downloads (IslamHouse, archive.org)",
@@ -562,9 +573,9 @@
       "export": "Export settings and data",
       "exportDesc": "Save everything to a JSON file.",
       "import": "Import settings and data",
-      "importDesc": "Restore from a file exported by Ahd.",
+      "importDesc": "Restore from a file exported by 3ahd.",
       "imported": "Settings imported",
-      "resetApp": "Reset Ahd",
+      "resetApp": "Reset 3ahd",
       "resetAppDesc": "Erase all settings and data and start again.",
       "resetConfirm": "This erases all settings, locations, bookmarks and downloads. Continue?",
       "noTelemetry": "No accounts, no analytics, no ads. Your location stays on this computer."
@@ -579,7 +590,7 @@
       "report": "Report a problem",
       "logs": "Open logs folder",
       "credits": "Credits",
-      "nameMeaning": "The name Ahd (عهد, “covenant”) comes from the hadith:"
+      "nameMeaning": "The name 3ahd (عهد, “covenant”) comes from the hadith:"
     },
     "quran": {
       "riwaya": "Default riwaya",
@@ -653,11 +664,11 @@
     "adhkarPeriodic": "A moment of remembrance",
     "missedTitle": "{{prayer}}",
     "missedBody": "{{prayer}} time started {{ago}} ago",
-    "testTitle": "Ahd",
+    "testTitle": "3ahd",
     "testBody": "Notifications are working."
   },
   "tray": {
-    "open": "Open Ahd",
+    "open": "Open 3ahd",
     "showPanel": "Show prayer panel",
     "stopAdhan": "Stop adhan",
     "quit": "Quit",
@@ -670,7 +681,7 @@
   "toast": {
     "stop": "Stop adhan",
     "close": "Close",
-    "openApp": "Open Ahd",
+    "openApp": "Open 3ahd",
     "dua": "Dua after the adhan",
     "stopHint": "S",
     "ended": "The adhan has ended"
@@ -678,7 +689,7 @@
   "widget": {
     "elapsed": "elapsed",
     "remaining": "remaining",
-    "openApp": "Double-click to open Ahd"
+    "openApp": "Double-click to open 3ahd"
   },
   "panel": {
     "openApp": "Open app",

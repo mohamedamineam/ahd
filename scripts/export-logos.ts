@@ -61,7 +61,7 @@ const text = (x: number, y: number, size: number, s: string, fill: string, weigh
 // Microsoft Store: 1:1 box art (1080×1080) and 2:3 poster art (720×1080)
 png(composition(1080, 1080, place(540 - 153 * 1.35, 150, 207 * 2.7) + text(540, 900, 140, 'عهد', '#F3ECDD')), 'store-box-art-1080.png', 1080);
 png(
-  composition(720, 1080, place(360 - 153 * 1.1, 190, 207 * 2.2) + text(360, 800, 120, 'عهد', '#F3ECDD') + text(360, 880, 40, 'Ahd', '#C9B48E', 400)),
+  composition(720, 1080, place(360 - 153 * 1.1, 190, 207 * 2.2) + text(360, 800, 120, 'عهد', '#F3ECDD') + text(360, 880, 40, '3ahd', '#C9B48E', 400)),
   'store-poster-720x1080.png',
   720,
 );
@@ -73,7 +73,7 @@ png(
     place(160, 150, 340) +
       text(1130, 320, 150, 'عهد', '#F3ECDD', 700, 'end') +
       text(1130, 410, 44, 'مواقيت الصلاة والأذان والقرآن', '#C9B48E', 400, 'end') +
-      text(1130, 480, 38, 'Ahd — prayer times, adhan, Quran', '#9FB8A4', 400, 'end'),
+      text(1130, 480, 38, '3ahd — prayer times, adhan, Quran', '#9FB8A4', 400, 'end'),
   ),
   'github-social-preview-1280x640.png',
   1280,

@@ -1,4 +1,4 @@
-# Ahd — عهد
+# 3ahd — عهد
 
 A calm, free and private desktop companion for prayer times, for Windows and Linux.
 
@@ -44,7 +44,7 @@ A calm, free and private desktop companion for prayer times, for Windows and Lin
 Download from **<https://3ahd.pages.dev>** (direct download of the latest release) or the
 [Releases page](https://github.com/mohamedamineam/ahd/releases/latest).
 
-- **Windows 10 or 11 (64-bit)**: `Ahd-windows-x64-setup.exe` (or the `.msi`).
+- **Windows 10 or 11 (64-bit)**: `3ahd-windows-x64-setup.exe` (or the `.msi`).
 - **Linux (64-bit)**: `.deb` (Ubuntu, Debian, Mint), `.rpm` (Fedora, openSUSE) or `.AppImage` (any distribution).
 
 Verify downloads with `SHA256SUMS` from the same release.

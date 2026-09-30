@@ -1,6 +1,6 @@
 # Attributions and licences
 
-Ahd is free software under the GNU General Public License v3.0 or later. It includes or uses the following
+3ahd is free software under the GNU General Public License v3.0 or later. It includes or uses the following
 work by others. Religious texts are loaded verbatim from the sources listed here by the scripts in data-pipeline/,
 which record every download's checksum in data-pipeline/checksums.json.
 

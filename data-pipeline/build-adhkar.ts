@@ -19,7 +19,7 @@ const CROSS_INDEX = 'http://www.hisnmuslim.com/api/ar/husn_ar.json';
 async function cached(url: string, file: string): Promise<string> {
   const p = join(cache, file);
   if (!existsSync(p)) {
-    const res = await fetch(url, { headers: { 'User-Agent': 'Ahd-data-pipeline/0.1 (https://github.com/mohamedamineam/ahd)' } });
+    const res = await fetch(url, { headers: { 'User-Agent': '3ahd-data-pipeline/0.1 (https://github.com/mohamedamineam/ahd)' } });
     if (!res.ok) throw new Error(`${res.status} ${url}`);
     writeFileSync(p, Buffer.from(await res.arrayBuffer()));
     await new Promise((r) => setTimeout(r, 250));

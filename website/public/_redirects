@@ -1,9 +1,15 @@
 # Direct downloads: always the newest published GitHub release (the release workflow uploads these stable names).
-/download/Ahd-windows-x64-setup.exe  https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-windows-x64-setup.exe  302
-/download/Ahd-windows-x64.msi        https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-windows-x64.msi        302
-/download/Ahd-linux-amd64.deb        https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-linux-amd64.deb        302
-/download/Ahd-linux-x86_64.rpm       https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-linux-x86_64.rpm       302
-/download/Ahd-linux-x86_64.AppImage  https://github.com/mohamedamineam/ahd/releases/latest/download/Ahd-linux-x86_64.AppImage  302
+/download/3ahd-windows-x64-setup.exe  https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-windows-x64-setup.exe  302
+/download/3ahd-windows-x64.msi        https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-windows-x64.msi        302
+/download/3ahd-linux-amd64.deb        https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-linux-amd64.deb        302
+/download/3ahd-linux-x86_64.rpm       https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-linux-x86_64.rpm       302
+/download/3ahd-linux-x86_64.AppImage  https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-linux-x86_64.AppImage  302
 /download/SHA256SUMS                 https://github.com/mohamedamineam/ahd/releases/latest/download/SHA256SUMS                 302
-/download/windows                    /download/Ahd-windows-x64-setup.exe  302
+# Links shared before the rename (the app was called Ahd up to 0.1.2)
+/download/Ahd-windows-x64-setup.exe   /download/3ahd-windows-x64-setup.exe  301
+/download/Ahd-windows-x64.msi         /download/3ahd-windows-x64.msi        301
+/download/Ahd-linux-amd64.deb         /download/3ahd-linux-amd64.deb        301
+/download/Ahd-linux-x86_64.rpm        /download/3ahd-linux-x86_64.rpm       301
+/download/Ahd-linux-x86_64.AppImage   /download/3ahd-linux-x86_64.AppImage  301
+/download/windows                    /download/3ahd-windows-x64-setup.exe  302
 /download/linux                      /#download  302

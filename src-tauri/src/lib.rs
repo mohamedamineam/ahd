@@ -1,4 +1,4 @@
-//! Ahd (عهد) — desktop prayer times companion. Rust side: scheduler, adhan audio, tray/indicator,
+//! 3ahd (عهد) — desktop prayer times companion. Rust side: scheduler, adhan audio, tray/indicator,
 //! notifications, extra windows, bundled datasets.
 
 mod adhans;
@@ -190,7 +190,7 @@ pub fn run() {
                     }
                 });
             }
-            log::info!("Ahd {version} started (minimized: {started_minimized})");
+            log::info!("3ahd {version} started (minimized: {started_minimized})");
             Ok(())
         })
         .on_window_event(|window, event| {
@@ -234,6 +234,7 @@ pub fn run() {
             commands::set_stop_shortcut,
             commands::reset_widget_position,
             commands::platform_info,
+            commands::taskbar_is_light,
             commands::set_wayland_compat,
             commands::export_file,
             commands::read_import_file,
@@ -244,5 +245,5 @@ pub fn run() {
             commands::open_library_folder,
         ])
         .run(tauri::generate_context!())
-        .expect("error while running Ahd");
+        .expect("error while running 3ahd");
 }

@@ -3,13 +3,21 @@
  * (src-tauri/src/display.rs); both are tested against src/features/prayer/__fixtures__/display-cases.json.
  *
  *  prev = latest event with time ≤ now, next = first event with time > now.
- *  next − now ≤ threshold  → countdown to next  (value = remaining, rounded up to the second)
- *  otherwise               → elapsed since prev (value = elapsed, rounded down to the second)
+ *  prev is sunrise            → countdown to next (sunrise is not a prayer: nothing to count from it)
+ *  halfway:   2·(next − now) ≤ next − prev  → countdown to next (the second half of the interval)
+ *  threshold: next − now ≤ threshold        → countdown to next
+ *  otherwise                  → elapsed since prev (value = elapsed, rounded down to the second)
+ *  Countdown values are the remaining time, rounded up to the second.
  *  At next.time exactly the state is "elapsed +0:00" for next (the adhan fires at that instant).
  */
 import type { PrayerId, TimelineEvent } from './types';
 
+/** When the timer switches from the time since the last prayer to the time until the next one. */
+export type CountdownStart = 'halfway' | 'threshold';
+
 export interface DisplaySettings {
+  countdownStart: CountdownStart;
+  /** Used with countdownStart 'threshold'. */
   thresholdMinutes: number;
   includeSunrise: boolean;
 }
@@ -46,12 +54,15 @@ export function displayState(
   const next = list[lo];
   if (!prev || !next) return null;
 
-  const thresholdMs = settings.thresholdMinutes * 60_000;
   const remainingMs = next.at - now;
   const span = next.at - prev.at;
   const progress = span > 0 ? Math.min(1, Math.max(0, (now - prev.at) / span)) : 0;
+  // halfway compares 2 × remaining with the span: exact in integers, like the Rust port
+  const countdown =
+    prev.id === 'sunrise' ||
+    (settings.countdownStart === 'halfway' ? 2 * remainingMs <= span : remainingMs <= settings.thresholdMinutes * 60_000);
 
-  if (remainingMs <= thresholdMs) {
+  if (countdown) {
     return { mode: 'countdown', event: next, prev, next, seconds: Math.ceil(remainingMs / 1000), progress };
   }
   return { mode: 'elapsed', event: prev, prev, next, seconds: Math.floor((now - prev.at) / 1000), progress };
@@ -63,13 +74,16 @@ export function labelKey(event: Pick<TimelineEvent, 'id' | 'isFriday'>, jumuah =
 }
 
 export interface ValueFormat {
-  /** Show seconds in elapsed mode (main window, widget; optional in the taskbar). */
+  /** Show seconds in elapsed mode and in countdowns of an hour or more (main window, widget; optional in the taskbar). */
   seconds: boolean;
   /** Pad hours to two digits in elapsed mode ("+01:12:40" on the dial, "+1:12" in the taskbar). */
   padHours: boolean;
-  /** Countdown uses h:mm:ss (instead of mm:ss) when the threshold is more than an hour. */
+  /** Countdown always uses h:mm:ss (instead of mm:ss), for a steady width when the threshold is more than an hour. */
   longCountdown: boolean;
 }
+
+/** Fixed h:mm:ss countdowns only for a threshold above an hour (the halfway countdown changes format at one hour). */
+export const longCountdown = (s: Pick<DisplaySettings, 'countdownStart' | 'thresholdMinutes'>) => s.countdownStart === 'threshold' && s.thresholdMinutes > 60;
 
 const pad2 = (n: number) => (n < 10 ? `0${n}` : String(n));
 
@@ -80,7 +94,12 @@ export function formatValue(state: Pick<DisplayState, 'mode' | 'seconds'>, fmt: 
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
   if (state.mode === 'countdown') {
-    if (fmt.longCountdown) return `−${h}:${pad2(m)}:${pad2(sec)}`;
+    // an hour or more left: h:mm:ss, or h:mm (minutes rounded up) where seconds are off; the last hour is always mm:ss
+    if (h > 0 && !fmt.seconds) {
+      const mins = Math.ceil(s / 60);
+      return `−${Math.floor(mins / 60)}:${pad2(mins % 60)}`;
+    }
+    if (fmt.longCountdown || h > 0) return `−${h}:${pad2(m)}:${pad2(sec)}`;
     return `−${pad2(Math.floor(s / 60))}:${pad2(sec)}`;
   }
   const hh = fmt.padHours ? pad2(h) : String(h);

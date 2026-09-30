@@ -8,6 +8,11 @@ import { IconBookmark, IconChevronLeft, IconChevronRight, IconTrash, IconZoomIn,
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
 
+/** Decoders for scanned pages (JBIG2, JPEG 2000) and CMYK profiles; the build copies them to /pdfjs/ (vite.config.ts). */
+const PDFJS_ASSETS = new URL('/pdfjs/', window.location.href).href;
+/** Upper bound for the page bitmap (16 MP): a large zoom on a HiDPI screen would otherwise exhaust canvas memory. */
+const MAX_CANVAS_PIXELS = 4096 * 4096;
+
 /** pdf.js viewer: one page at a time, zoom, RTL page order (Arabic books), last page, up to 10 bookmarks. */
 export function PdfReader({ bookId, src, initialPage, onPage }: { bookId: string; src: string; initialPage: number; onPage: (p: number) => void }) {
   const f = useFmt();
@@ -18,39 +23,65 @@ export function PdfReader({ bookId, src, initialPage, onPage }: { bookId: string
   const doc = loaded?.src === src ? loaded.doc : null;
   const [page, setPage] = useState(initialPage);
   const [zoom, setZoom] = useState(1);
+  /** Width available to the page (CSS px): the page is fitted to it, and refitted when the window is resized. */
+  const [width, setWidth] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [marks, setMarks] = useState<LibraryBookmark[]>([]);
 
   useEffect(() => {
-    const task = pdfjs.getDocument({ url: src });
-    task.promise.then((d) => setLoaded({ src, doc: d })).catch((e) => setError(String(e)));
+    const el = container.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => entry && setWidth(Math.floor(entry.contentRect.width)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const task = pdfjs.getDocument({ url: src, wasmUrl: `${PDFJS_ASSETS}wasm/`, iccUrl: `${PDFJS_ASSETS}iccs/` });
+    task.promise.then(
+      (d) => !cancelled && setLoaded({ src, doc: d }),
+      // destroy() below rejects this promise ("Loading aborted"): not an error to show
+      (e) => !cancelled && setError(String(e)),
+    );
     void db.library.bookmarks(bookId).then(setMarks);
     return () => {
+      cancelled = true;
       void task.destroy();
     };
   }, [src, bookId]);
 
   useEffect(() => {
-    if (!doc || !canvas.current || !container.current) return;
+    if (!doc || !width || !canvas.current) return;
     let cancelled = false;
     let renderTask: pdfjs.RenderTask | null = null;
     void doc.getPage(Math.min(page, doc.numPages)).then((p) => {
-      if (cancelled || !canvas.current || !container.current) return;
+      if (cancelled || !canvas.current) return;
       const base = p.getViewport({ scale: 1 });
-      const fit = (container.current.clientWidth - 48) / base.width;
-      const viewport = p.getViewport({ scale: fit * zoom * window.devicePixelRatio });
+      // CSS px per PDF unit: fit the page to the width, then zoom
+      const css = (width / base.width) * zoom;
+      const scale = Math.min(css * window.devicePixelRatio, Math.sqrt(MAX_CANVAS_PIXELS / (base.width * base.height)));
+      const viewport = p.getViewport({ scale });
       const c = canvas.current;
-      c.width = viewport.width;
-      c.height = viewport.height;
-      c.style.width = `${viewport.width / window.devicePixelRatio}px`;
+      c.width = Math.floor(viewport.width);
+      c.height = Math.floor(viewport.height);
+      // both axes are set, so the page keeps its proportions whatever the layout around it does
+      c.style.width = `${base.width * css}px`;
+      c.style.height = `${base.height * css}px`;
       renderTask = p.render({ canvas: c, viewport });
+      renderTask.promise.catch(() => {}); // cancelled when the page, zoom or width changes
     });
     onPage(page);
     return () => {
       cancelled = true;
       renderTask?.cancel();
     };
-  }, [doc, page, zoom, onPage]);
+  }, [doc, page, zoom, width, onPage]);
+
+  // a new page starts at its top
+  useEffect(() => {
+    container.current?.scrollTo({ top: 0 });
+  }, [page]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -98,8 +129,15 @@ export function PdfReader({ bookId, src, initialPage, onPage }: { bookId: string
         </IconButton>
       </div>
       <div className="flex min-h-0 flex-1">
-        <div ref={container} className="flex min-w-0 flex-1 justify-center overflow-auto bg-surface-sunk p-6">
-          {doc ? <canvas ref={canvas} className="h-auto shadow-md" /> : <Spinner size={28} className="mt-20 text-sage" />}
+        {/* block layout: a canvas in a flex row is stretched to the row height, which squashed the page */}
+        <div ref={container} className="min-w-0 flex-1 overflow-auto bg-surface-sunk p-6 [scrollbar-gutter:stable]">
+          {doc ? (
+            <canvas ref={canvas} className="mx-auto block shadow-md" />
+          ) : (
+            <div className="flex justify-center">
+              <Spinner size={28} className="mt-20 text-sage" />
+            </div>
+          )}
         </div>
         {marks.length ? (
           <aside className="w-44 shrink-0 border-s border-line-soft p-2">

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import fixture from './__fixtures__/display-cases.json';
-import { displayState, formatValue, labelKey } from './displayState';
+import { displayState, formatValue, labelKey, type DisplaySettings } from './displayState';
 import type { TimelineEvent } from './types';
 
 const timeline = fixture.timeline as unknown as TimelineEvent[];
@@ -19,7 +19,7 @@ interface Expected {
 describe('displayState — shared fixture cases (also run by the Rust port)', () => {
   for (const c of fixture.cases) {
     it(c.name, () => {
-      const s = displayState(c.now, timeline, c.settings);
+      const s = displayState(c.now, timeline, c.settings as DisplaySettings);
       const exp = c.expected as Expected | null;
       if (exp === null) {
         expect(s).toBeNull();
@@ -42,8 +42,10 @@ describe('displayState — shared fixture cases (also run by the Rust port)', ()
 });
 
 describe('displayState — invariants', () => {
-  it('walks every second of a day without gaps and switches exactly at each boundary', () => {
-    const settings = { thresholdMinutes: 30, includeSunrise: true };
+  // six events that day, each with an elapsed start and a countdown start, except Dhuhr: its countdown starts at
+  // sunrise (halfway: Fajr's countdown starts at the midpoint of the night, 00:28:50, instead of 04:32:10)
+  it.each(['threshold', 'halfway'] as const)('%s: walks every second of a day without gaps and switches exactly at each boundary', (countdownStart) => {
+    const settings = { countdownStart, thresholdMinutes: 30, includeSunrise: true };
     const start = Date.parse('2026-09-24T00:00:00Z');
     let prevState = displayState(start, timeline, settings)!;
     let transitions = 0;
@@ -53,9 +55,15 @@ describe('displayState — invariants', () => {
       expect(s.seconds).toBeGreaterThanOrEqual(0);
       if (s.mode !== prevState.mode || s.event.at !== prevState.event.at) {
         transitions++;
-        if (s.mode === 'countdown') {
-          // entering countdown: exactly threshold seconds remain
-          expect(s.seconds).toBe(1800);
+        if (s.mode === 'countdown' && s.prev.id === 'sunrise') {
+          // at sunrise the timer goes straight to the countdown to Dhuhr
+          expect(s.prev.at).toBe(t);
+          expect(s.event.id).toBe('dhuhr');
+        } else if (s.mode === 'countdown') {
+          // entering countdown: exactly the threshold remains, or the second half of the interval has just begun
+          const remaining = s.next.at - t;
+          if (countdownStart === 'threshold') expect(s.seconds).toBe(1800);
+          else expect(2 * remaining <= s.next.at - s.prev.at && 2 * (remaining + 1000) > s.next.at - s.prev.at).toBe(true);
         } else {
           // entering elapsed at a prayer time: +0
           expect(s.seconds).toBe(0);
@@ -66,15 +74,16 @@ describe('displayState — invariants', () => {
       } else {
         expect(s.seconds).toBe(prevState.seconds - 1);
       }
+      // never "time since sunrise"
+      expect(s.mode === 'elapsed' && s.event.id === 'sunrise').toBe(false);
       prevState = s;
     }
-    // six events that day, each has a countdown start and an elapsed start
-    expect(transitions).toBe(12);
+    expect(transitions).toBe(11);
   });
 
   it('progress stays within 0..1', () => {
     for (let t = Date.parse('2026-09-24T00:00:00Z'); t < Date.parse('2026-09-25T00:00:00Z'); t += 97_000) {
-      const s = displayState(t, timeline, { thresholdMinutes: 30, includeSunrise: true })!;
+      const s = displayState(t, timeline, { countdownStart: 'halfway', thresholdMinutes: 30, includeSunrise: true })!;
       expect(s.progress).toBeGreaterThanOrEqual(0);
       expect(s.progress).toBeLessThanOrEqual(1);
     }

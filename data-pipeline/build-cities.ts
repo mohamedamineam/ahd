@@ -19,7 +19,7 @@ async function download(file: string) {
   const p = join(cache, file);
   if (existsSync(p)) return p;
   console.log('downloading', file);
-  const res = await fetch(BASE + file, { headers: { 'User-Agent': 'Ahd-data-pipeline/0.1 (https://github.com/mohamedamineam/ahd)' } });
+  const res = await fetch(BASE + file, { headers: { 'User-Agent': '3ahd-data-pipeline/0.1 (https://github.com/mohamedamineam/ahd)' } });
   if (!res.ok) throw new Error(`${res.status} ${file}`);
   writeFileSync(p, Buffer.from(await res.arrayBuffer()));
   return p;

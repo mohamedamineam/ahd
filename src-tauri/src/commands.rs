@@ -185,6 +185,12 @@ fn apply_autostart(app: &AppHandle<Wry>, enable: bool) {
         // MSIX uses the manifest's startupTask; Flatpak uses the Background portal (see docs/RELEASE_*.md)
         return;
     }
+    // The app was called "Ahd" up to 0.1.2 and the autostart entry is named after the app: remove the old Linux entry,
+    // which would start a second instance at login (the Windows installer removes the old one there).
+    #[cfg(target_os = "linux")]
+    if let Ok(home) = app.path().home_dir() {
+        let _ = std::fs::remove_file(home.join(".config/autostart/Ahd.desktop"));
+    }
     let al = app.autolaunch();
     let on = al.is_enabled().unwrap_or(false);
     let r = if enable && !on {
@@ -241,6 +247,12 @@ pub fn reset_widget_position(app: AppHandle<Wry>, which: String) {
 #[tauri::command]
 pub fn platform_info(app: AppHandle<Wry>) -> crate::platform::PlatformInfo {
     crate::platform::info(&app.package_info().version.to_string())
+}
+
+/// Is the Windows taskbar light? (None when unknown) The taskbar pill can match it.
+#[tauri::command]
+pub fn taskbar_is_light() -> Option<bool> {
+    crate::platform::taskbar_is_light()
 }
 
 #[tauri::command]

@@ -239,7 +239,7 @@ fn build<R: Runtime>(app: &AppHandle<R>, label: &str, cfg: &WindowsConfig) -> ta
         _ => false,
     };
     let builder = WebviewWindowBuilder::new(app, label, url)
-        .title("Ahd")
+        .title("3ahd")
         .inner_size(w, h)
         // fixed-size windows: pin min/max so GTK does not impose its default minimum height (~200 px)
         .min_inner_size(w, h)

@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
-import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createReadStream, existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
 import type { Plugin } from 'vite';
 
@@ -27,11 +27,32 @@ function devAssets(): Plugin {
   };
 }
 
+// pdf.js decodes scanned pages (JBIG2, JPEG 2000) and CMYK colours with these files, which it fetches at run time from
+// the `wasmUrl`/`iccUrl` folders (src/features/library/PdfReader.tsx): served in dev, copied into the build at /pdfjs/.
+function pdfjsAssets(): Plugin {
+  const root = fileURLToPath(new URL('./node_modules/pdfjs-dist', import.meta.url));
+  const files = ['wasm/jbig2.wasm', 'wasm/openjpeg.wasm', 'wasm/qcms_bg.wasm', ...readdirSync(join(root, 'iccs')).map((f) => `iccs/${f}`)];
+  return {
+    name: 'ahd-pdfjs-assets',
+    configureServer(server) {
+      server.middlewares.use('/pdfjs', (req, res, next) => {
+        const rel = decodeURIComponent((req.url ?? '/').split('?')[0]!).replace(/^\//, '');
+        if (!files.includes(rel)) return next();
+        res.setHeader('Content-Type', rel.endsWith('.wasm') ? 'application/wasm' : 'application/octet-stream');
+        createReadStream(join(root, rel)).pipe(res);
+      });
+    },
+    generateBundle() {
+      for (const f of files) this.emitFile({ type: 'asset', fileName: `pdfjs/${f}`, source: readFileSync(join(root, f)) });
+    },
+  };
+}
+
 const host = process.env.TAURI_DEV_HOST;
 
 // https://v2.tauri.app/start/frontend/vite/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), devAssets()],
+  plugins: [react(), tailwindcss(), devAssets(), pdfjsAssets()],
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },

@@ -1,4 +1,4 @@
-# Ahd website (Cloudflare Pages)
+# 3ahd website (Cloudflare Pages)
 
 A static, bilingual page (`public/`) with direct downloads, Linux install commands, system requirements, and a
 feedback form stored privately in a Cloudflare D1 database (`functions/`). Nothing here uses third-party scripts,
@@ -16,10 +16,14 @@ website/
 
 ## How downloads work
 
-`public/_redirects` sends `/download/Ahd-windows-x64-setup.exe` (and the .msi, .deb, .rpm, .AppImage, SHA256SUMS)
+`public/_redirects` sends `/download/3ahd-windows-x64-setup.exe` (and the .msi, .deb, .rpm, .AppImage, SHA256SUMS)
 to `https://github.com/mohamedamineam/ahd/releases/latest/download/…`. The browser downloads the file directly; the
 visitor never sees a GitHub page. The release workflow uploads these version-free file names with every release, so
 the links always give the newest **published** release. They work once the first release is published on GitHub.
+
+The app was renamed from Ahd to 3ahd after 0.1.2, and the file names changed with it (`Ahd-…` → `3ahd-…`; old links
+redirect to the new names). **Publish the first 3ahd release before deploying this version of the website**: until then
+the newest release only has the old `Ahd-…` files, so the new download links would fail.
 
 ## Deploy (once)
 

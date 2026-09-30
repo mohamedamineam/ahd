@@ -1,4 +1,4 @@
-/* Ahd design tokens — "Sage & Linen" (light, default) and "Sage & Night" (dark).
+/* 3ahd design tokens — "Sage & Linen" (light, default) and "Sage & Night" (dark).
    Values are the design brief's exact colours. Other palettes and custom colours are generated at runtime
    by src/design/palette.ts in OKLCH (same lightness per role, clamped chroma) and written over these
    variables on <html>, so these are also the no-JS fallback. */

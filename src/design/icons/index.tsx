@@ -1,4 +1,4 @@
-/* Ahd icon set — 24×24, 1.6 stroke, round joins, currentColor. Drawn for this app (GPL-3.0-or-later). */
+/* 3ahd icon set — 24×24, 1.6 stroke, round joins, currentColor. Drawn for this app (GPL-3.0-or-later). */
 import type { SVGProps } from 'react';
 
 export type IconProps = SVGProps<SVGSVGElement> & { size?: number; title?: string };

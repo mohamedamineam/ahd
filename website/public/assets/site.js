@@ -1,4 +1,4 @@
-// Ahd website: language switch, OS-aware download button, Linux commands with this site's address, copy buttons,
+// 3ahd website: language switch, OS-aware download button, Linux commands with this site's address, copy buttons,
 // reveal-on-scroll, the ticking demo timer, and the feedback form (POST /api/comments).
 (function () {
   'use strict';
@@ -25,6 +25,7 @@
       dlKicker: 'التنزيل', dlTitle: 'نزل عهد مجانا', dlLede: 'اختر نظامك. يبدأ التنزيل مباشرة.',
       winTitle: 'ويندوز', winDesc: 'مثبت عادي لا يحتاج صلاحيات المسؤول. ويندوز 10 و11 (64 بت).', winBtn: 'تنزيل المثبت (.exe)', winMsi: 'حزمة MSI',
       winNote: 'قد يظهر ويندوز رسالة «Windows protected your PC» لأن التطبيق جديد وغير موقع رقميا بعد: اضغط «More info» ثم «Run anyway».',
+      winSource: 'برنامج «عهد» مفتوح المصدر: يمكنك الاطلاع على شيفرته المصدرية كاملة على',
       linTitle: 'لينكس', tabDeb: 'أوبونتو · مينت', tabRpm: 'فيدورا', tabApp: 'AppImage', copy: 'نسخ',
       hintDeb: 'لأوبونتو ولينكس مينت وديبيان والتوزيعات المبنية عليها.', hintRpm: 'لفيدورا والتوزيعات التي تستخدم dnf.', hintApp: 'ملف واحد يعمل على أي توزيعة دون تثبيت.', copied: 'تم النسخ',
       getDeb: 'تنزيل ملف .deb', getRpm: 'تنزيل ملف .rpm', getApp: 'تنزيل ملف AppImage', linAfter: 'بعد التثبيت ستجد «عهد» في قائمة التطبيقات.',
@@ -44,11 +45,11 @@
       title: 'عهد | برنامج مواقيت الصلاة والأذان للكمبيوتر — ويندوز ولينكس مجانا', langBtn: 'English', faqKicker: 'أسئلة شائعة', faqTitle: 'عن برنامج مواقيت الصلاة للكمبيوتر', faqQ1: 'ما هو برنامج عهد؟', faqA1: 'عهد برنامج مجاني لمواقيت الصلاة على الكمبيوتر، لنظامي ويندوز ولينكس. يعرض أوقات الصلاة لمدينتك، ويرفع الأذان في وقته، ويضم القرآن الكريم والأذكار واتجاه القبلة.', faqQ2: 'كيف أعرف أوقات الصلاة على الكمبيوتر؟', faqA2: 'نزّل عهد وثبّته، ثم اختر مدينتك. تظهر مواقيت الصلاة في نافذة البرنامج وفي أداة صغيرة على سطح المكتب، ويظهر العد التنازلي للصلاة القادمة في شريط المهام.', faqQ3: 'هل يعمل البرنامج على ويندوز 10 وويندوز 11؟', faqA3: 'نعم، يعمل على ويندوز 10 وويندوز 11 (64 بت)، وعلى لينكس: أوبونتو ولينكس مينت وديبيان وفيدورا وغيرها. لا يعمل على ويندوز 7.', faqQ4: 'هل يرفع البرنامج الأذان تلقائيا؟', faqA4: 'نعم، يرفع الأذان عند دخول وقت كل صلاة، مع أذان خاص بالفجر، ثم يعرض دعاء ما بعد الأذان. ويمكن إيقاف الأذان بزر أو باختصار من لوحة المفاتيح.', faqQ5: 'هل يحتاج البرنامج إلى الإنترنت؟', faqA5: 'لا. حساب المواقيت وقائمة المدن (أكثر من 171 ألف مكان) والقرآن الكريم والأذكار كلها داخل البرنامج. يلزم الإنترنت فقط لتنزيل كتب المكتبة عند طلبك.', faqQ6: 'ما طرق حساب مواقيت الصلاة المتاحة؟', faqA6: 'كل الطرق المعروفة، منها رابطة العالم الإسلامي، وأم القرى، والهيئة المصرية العامة للمساحة، وجامعة العلوم الإسلامية بكراتشي، ووزارة الأوقاف المغربية والجزائرية والأردنية، مع ضبط كل صلاة بالدقائق والثواني.', faqQ7: 'هل البرنامج مجاني فعلا؟', faqA7: 'نعم، مجاني ومفتوح المصدر، بلا إعلانات ولا حسابات ولا تتبع.'
     },
     en: {
-      brand: 'Ahd', navFeatures: 'Features', navDownload: 'Download', navReq: 'Requirements', navFeedback: 'Feedback',
+      brand: '3ahd', navFeatures: 'Features', navDownload: 'Download', navReq: 'Requirements', navFeedback: 'Feedback',
       eyebrow: 'Free and open source · Windows and Linux', h1a: 'A calm companion', h1b: 'for prayer times',
       lede: 'Prayer times accurate to the second, an adhan you won’t miss, the Quran, adhkar and the qibla, in one app that works offline and respects your privacy.',
       dlWindows: 'Download for Windows', dlLinux: 'Download for Linux', allDownloads: 'All downloads', version: 'No ads, no accounts, no tracking', pillName: 'Asr',
-      featKicker: 'Features', featTitle: 'Everything for your prayers, in one place', featLede: 'Ahd stays quietly in the background and reminds you of every prayer on time.',
+      featKicker: 'Features', featTitle: 'Everything for your prayers, in one place', featLede: '3ahd stays quietly in the background and reminds you of every prayer on time.',
       f1t: 'Accurate times', f1d: 'For any city in the world, offline, with every common calculation method, and per-second fine-tuning of each prayer to match your mosque or the official timetable.',
       f2t: 'The adhan on time', f2d: 'A separate Fajr adhan, an alert you can close while the adhan keeps playing, a shortcut to stop it, then the dua after the adhan.',
       f3t: 'On your desktop', f3d: 'A main widget and a small one that can stay above other apps, and the timer next to the clock on the taskbar.',
@@ -60,12 +61,13 @@
       f9t: 'Arabic and English', f9d: 'A full interface in both languages, with light and dark themes.',
       shotsKicker: 'A look inside', shotsTitle: 'A calm interface that is easy on the eyes',
       shot1: 'The mushaf in Hafs and Warsh', shot2: 'Adhkar with a counter, in the dark theme', shot3: 'The English interface',
-      dlKicker: 'Download', dlTitle: 'Get Ahd for free', dlLede: 'Choose your system. The download starts right away.',
+      dlKicker: 'Download', dlTitle: 'Get 3ahd for free', dlLede: 'Choose your system. The download starts right away.',
       winTitle: 'Windows', winDesc: 'A normal installer, no administrator rights needed. Windows 10 and 11 (64-bit).', winBtn: 'Download installer (.exe)', winMsi: 'MSI package',
       winNote: 'Windows may show “Windows protected your PC” because the app is new and not yet digitally signed: click “More info”, then “Run anyway”.',
+      winSource: '3ahd is open source: you can check its full source code on',
       linTitle: 'Linux', tabDeb: 'Ubuntu · Mint', tabRpm: 'Fedora', tabApp: 'AppImage', copy: 'Copy',
       hintDeb: 'For Ubuntu, Linux Mint, Debian and distributions based on them.', hintRpm: 'For Fedora and other distributions that use dnf.', hintApp: 'A single file that runs on any distribution, no installation needed.', copied: 'Copied',
-      getDeb: 'Download .deb file', getRpm: 'Download .rpm file', getApp: 'Download AppImage', linAfter: 'After installing, find Ahd in your applications menu.',
+      getDeb: 'Download .deb file', getRpm: 'Download .rpm file', getApp: 'Download AppImage', linAfter: 'After installing, find 3ahd in your applications menu.',
       sums: 'SHA-256 checksums to verify the files', source: 'Source code',
       reqKicker: 'Requirements', reqTitle: 'System requirements', reqWin: 'Windows', reqWin1a: 'Windows 10 or 11', reqWin1b: '(64-bit).',
       reqWin2: 'The installer adds Microsoft’s WebView2 engine if it is missing; that needs an internet connection during installation only.',
@@ -78,8 +80,8 @@
       fPrivacy: 'We keep only what you write, and use your email only to reply to you.',
       sending: 'Sending…', sent: 'Thank you, your message has arrived.', errShort: 'The message is too short.', errEmail: 'Please check the email address.',
       errRate: 'You have sent several messages recently. Please try again in an hour.', errGeneric: 'Could not send your message. Please try again in a moment.',
-      footer: 'Ahd — free and open source under GPL-3.0', privacy: 'Privacy', releases: 'All releases',
-      title: 'Ahd | Free prayer times and adhan app for PC — Windows and Linux', langBtn: 'العربية', faqKicker: 'Questions', faqTitle: 'About the prayer times app for PC', faqQ1: 'What is Ahd?', faqA1: 'Ahd is a free prayer times app for PC, for Windows and Linux. It shows the prayer times for your city, plays the adhan on time, and includes the Quran, adhkar and the qibla direction.', faqQ2: 'How do I see prayer times on my computer?', faqA2: 'Download and install Ahd, then choose your city. The prayer times appear in the app window and in a small desktop widget, and the countdown to the next prayer shows in the taskbar.', faqQ3: 'Does it work on Windows 10 and Windows 11?', faqA3: 'Yes, on Windows 10 and Windows 11 (64-bit), and on Linux: Ubuntu, Linux Mint, Debian, Fedora and others. It does not run on Windows 7.', faqQ4: 'Does it play the adhan automatically?', faqA4: 'Yes. It plays the adhan when each prayer time begins, with a separate Fajr adhan, then shows the dua after the adhan. A button or a keyboard shortcut stops it.', faqQ5: 'Does it need the internet?', faqA5: 'No. The prayer time calculation, the list of places (over 171,000), the Quran and the adhkar are all inside the app. The internet is only used to download library books when you ask.', faqQ6: 'Which calculation methods are available?', faqA6: 'All the common ones, including the Muslim World League, Umm al-Qura, the Egyptian General Authority of Survey, the University of Islamic Sciences in Karachi, and the ministries of Morocco, Algeria and Jordan, with per-prayer adjustment in minutes and seconds.', faqQ7: 'Is it really free?', faqA7: 'Yes. Free and open source, with no ads, no accounts and no tracking.'
+      footer: '3ahd — free and open source under GPL-3.0', privacy: 'Privacy', releases: 'All releases',
+      title: '3ahd | Free prayer times and adhan app for PC — Windows and Linux', langBtn: 'العربية', faqKicker: 'Questions', faqTitle: 'About the prayer times app for PC', faqQ1: 'What is 3ahd?', faqA1: '3ahd is a free prayer times app for PC, for Windows and Linux. It shows the prayer times for your city, plays the adhan on time, and includes the Quran, adhkar and the qibla direction.', faqQ2: 'How do I see prayer times on my computer?', faqA2: 'Download and install 3ahd, then choose your city. The prayer times appear in the app window and in a small desktop widget, and the countdown to the next prayer shows in the taskbar.', faqQ3: 'Does it work on Windows 10 and Windows 11?', faqA3: 'Yes, on Windows 10 and Windows 11 (64-bit), and on Linux: Ubuntu, Linux Mint, Debian, Fedora and others. It does not run on Windows 7.', faqQ4: 'Does it play the adhan automatically?', faqA4: 'Yes. It plays the adhan when each prayer time begins, with a separate Fajr adhan, then shows the dua after the adhan. A button or a keyboard shortcut stops it.', faqQ5: 'Does it need the internet?', faqA5: 'No. The prayer time calculation, the list of places (over 171,000), the Quran and the adhkar are all inside the app. The internet is only used to download library books when you ask.', faqQ6: 'Which calculation methods are available?', faqA6: 'All the common ones, including the Muslim World League, Umm al-Qura, the Egyptian General Authority of Survey, the University of Islamic Sciences in Karachi, and the ministries of Morocco, Algeria and Jordan, with per-prayer adjustment in minutes and seconds.', faqQ7: 'Is it really free?', faqA7: 'Yes. Free and open source, with no ads, no accounts and no tracking.'
     }
   };
 

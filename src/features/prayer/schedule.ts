@@ -6,7 +6,7 @@
 import { DateTime } from 'luxon';
 import type { TFunction } from 'i18next';
 import { addDays, localDate, type PrayerEngine } from './engine';
-import { labelKey } from './displayState';
+import { labelKey, type CountdownStart } from './displayState';
 import { toHijri } from './hijri';
 import { ADHAN_PRAYERS, PRAYER_IDS, type AdhanPrayerId, type PrayerId } from './types';
 import { formatGregorian, formatHijri, formatTime, weekdayName } from '@/lib/format';
@@ -62,6 +62,7 @@ export interface SchedulePayload {
   labels: Record<PrayerId | 'jumuah', string>;
   strings: Record<string, string>;
   display: {
+    countdownStart: CountdownStart;
     thresholdMinutes: number;
     includeSunrise: boolean;
     taskbarSeconds: boolean;
@@ -315,6 +316,7 @@ export function buildSchedule(input: ScheduleInput): SchedulePayload {
       testBody: t('notify.testBody'),
     },
     display: {
+      countdownStart: settings.timer.countdownStart,
       thresholdMinutes: settings.timer.thresholdMinutes,
       includeSunrise: settings.timer.includeSunrise,
       taskbarSeconds: settings.timer.secondsTaskbar,

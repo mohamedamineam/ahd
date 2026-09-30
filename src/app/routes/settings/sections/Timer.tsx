@@ -15,10 +15,18 @@ export default function Timer() {
         <Row k="settings.timer.threshold">
           <Select
             label={t('settings.timer.threshold')}
-            value={String(timer.thresholdMinutes)}
-            onChange={(v) => update((d) => void (d.timer.thresholdMinutes = Number(v)))}
-            className="w-48"
-            options={THRESHOLDS.map((m) => ({ value: String(m), label: t('settings.timer.thresholdValue', { minutes: t('time.minutes', { count: m }) }) }))}
+            value={timer.countdownStart === 'halfway' ? 'halfway' : String(timer.thresholdMinutes)}
+            onChange={(v) =>
+              update((d) => {
+                d.timer.countdownStart = v === 'halfway' ? 'halfway' : 'threshold';
+                if (v !== 'halfway') d.timer.thresholdMinutes = Number(v);
+              })
+            }
+            className="w-60"
+            options={[
+              { value: 'halfway', label: t('settings.timer.thresholdHalfway') },
+              ...THRESHOLDS.map((m) => ({ value: String(m), label: t('settings.timer.thresholdValue', { minutes: t('time.minutes', { count: m }) }) })),
+            ]}
           />
         </Row>
         <Row k="settings.timer.includeSunrise">

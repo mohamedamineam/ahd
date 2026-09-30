@@ -5,18 +5,18 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
 
-  <name>Ahd</name>
+  <name>3ahd</name>
   <name xml:lang="ar">عهد</name>
   <summary>Prayer times, adhan, Quran, adhkar and qibla</summary>
   <summary xml:lang="ar">مواقيت الصلاة والأذان والقرآن والأذكار والقبلة</summary>
 
   <developer id="io.github.mohamedamineam">
-    <name>Ahd contributors</name>
+    <name>3ahd contributors</name>
   </developer>
 
   <description>
     <p>
-      Ahd is a calm, free and private desktop companion for Muslims. It works fully offline, has no ads and no
+      3ahd is a calm, free and private desktop companion for Muslims. It works fully offline, has no ads and no
       accounts, and sends nothing about you anywhere.
     </p>
     <p xml:lang="ar">
@@ -105,6 +105,13 @@
   </supports>
 
   <releases>
+    <release version="0.1.3" date="2026-09-30">
+      <description>
+        <p>The English name is now 3ahd. Books keep their page proportions and scanned pages are shown. The timer
+          counts down over the second half of the time between two prayers, and goes straight to Dhuhr after sunrise.
+          The Windows taskbar pill can match the taskbar, or be dark, light or transparent.</p>
+      </description>
+    </release>
     <release version="0.1.0" date="2026-09-29">
       <description>
         <p>First release.</p>

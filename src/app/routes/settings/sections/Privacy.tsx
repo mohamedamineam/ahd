@@ -63,7 +63,7 @@ export default function Privacy() {
               if (!file) return;
               try {
                 const parsed = JSON.parse(file.text) as { app?: string; settings?: unknown; data?: ExportedData };
-                if (parsed.app !== 'ahd') throw new Error('not an Ahd backup');
+                if (parsed.app !== 'ahd') throw new Error('not a 3ahd backup');
                 if (parsed.data) await db.importAll(parsed.data);
                 if (parsed.settings) replace(migrateSettings(parsed.settings, lang));
                 toast(t('settings.privacy.imported'), 'success');

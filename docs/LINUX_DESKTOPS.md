@@ -8,7 +8,7 @@ inside the letters: harakat and Quranic marks disappear, and fonts that place do
 Ruqaa) lose their dots, so «الظهر» reads «الطهر». Chromium (Windows WebView2) is not affected. The same happens
 with system-installed fonts, CPU rendering and canvas, so it is in WebKit's text pipeline.
 
-What Ahd does about it:
+What 3ahd does about it:
 
 - The Quran, adhkar, duas, chapter titles, the basmala and the covenant hadith are shaped with HarfBuzz
   (WebAssembly) and drawn as SVG glyphs — `src/features/shaping`. The result is identical on every platform, and
@@ -30,7 +30,7 @@ To reproduce: render `ٱلۡحَمۡدُ لِلَّهِ` with the KFGQPC Hafs fo
 ## Rendering glitches
 
 On some drivers (seen with hybrid Intel/NVIDIA laptops) WebKitGTK's DMA-BUF renderer flickers or leaves areas that
-show what is behind the window. Ahd starts WebKit with `WEBKIT_DISABLE_DMABUF_RENDERER=1` unless the variable is
+show what is behind the window. 3ahd starts WebKit with `WEBKIT_DISABLE_DMABUF_RENDERER=1` unless the variable is
 already set (set it to `0` to try the GPU path).
 
 ## Widgets on Wayland

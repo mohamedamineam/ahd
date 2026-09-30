@@ -159,7 +159,7 @@ pub fn create(app: &AppHandle<Wry>, icon_path: &Path) -> bool {
     menu.show_all();
 
     let icon_c = cstr(&icon_path.to_string_lossy());
-    let tip = cstr("Ahd");
+    let tip = cstr("3ahd");
     // SAFETY: icon is alive; strings are valid NUL-terminated C strings copied by libxapp; the menu pointer stays
     // valid because the menu is kept in `Tray` for the life of the icon.
     unsafe {

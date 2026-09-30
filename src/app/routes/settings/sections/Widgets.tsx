@@ -153,6 +153,37 @@ export default function Widgets() {
             <Row k="settings.widgets.pillLock">
               <Toggle checked={w.indicator.pillLocked} onChange={(v) => update((d) => void (d.widgets.indicator.pillLocked = v))} label={t('settings.widgets.pillLock')} />
             </Row>
+            {w.indicator.pill ? (
+              <Row k="settings.widgets.pillColor">
+                <Select
+                  label={t('settings.widgets.pillColor')}
+                  value={w.indicator.pillBackground}
+                  onChange={(v) => update((d) => void (d.widgets.indicator.pillBackground = v))}
+                  className="w-56"
+                  options={[
+                    { value: 'auto', label: t('settings.widgets.pillColorAuto') },
+                    { value: 'dark', label: t('settings.widgets.pillColorDark') },
+                    { value: 'light', label: t('settings.widgets.pillColorLight') },
+                    { value: 'transparent', label: t('settings.widgets.pillColorTransparent') },
+                  ]}
+                />
+              </Row>
+            ) : null}
+            {w.indicator.pill && w.indicator.pillBackground === 'transparent' ? (
+              <Row k="settings.widgets.pillText">
+                <Segmented
+                  size="sm"
+                  label={t('settings.widgets.pillText')}
+                  value={w.indicator.pillText}
+                  onChange={(v) => update((d) => void (d.widgets.indicator.pillText = v))}
+                  options={[
+                    { value: 'auto', label: t('settings.widgets.pillTextAuto') },
+                    { value: 'light', label: t('settings.widgets.pillTextLight') },
+                    { value: 'dark', label: t('settings.widgets.pillTextDark') },
+                  ]}
+                />
+              </Row>
+            ) : null}
           </>
         ) : null}
         {w.indicator.enabled && os !== 'windows' ? (

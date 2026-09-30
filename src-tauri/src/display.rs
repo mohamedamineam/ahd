@@ -34,7 +34,8 @@ pub struct DisplayState<'a, E: Event> {
     pub progress: f64,
 }
 
-pub fn display_state<'a, E: Event>(now: i64, events: &'a [E], threshold_minutes: f64, include_sunrise: bool) -> Option<DisplayState<'a, E>> {
+/// `halfway`: count down over the second half of each interval; otherwise over the last `threshold_minutes`.
+pub fn display_state<'a, E: Event>(now: i64, events: &'a [E], halfway: bool, threshold_minutes: f64, include_sunrise: bool) -> Option<DisplayState<'a, E>> {
     let list: Vec<&'a E> = events.iter().filter(|e| include_sunrise || e.id() != "sunrise").collect();
     // first event strictly after now (events are sorted ascending)
     let idx = list.partition_point(|e| e.at() <= now);
@@ -43,11 +44,12 @@ pub fn display_state<'a, E: Event>(now: i64, events: &'a [E], threshold_minutes:
     }
     let prev = list[idx - 1];
     let next = list[idx];
-    let threshold_ms = (threshold_minutes * 60_000.0) as i64;
     let remaining = next.at() - now;
     let span = next.at() - prev.at();
     let progress = if span > 0 { ((now - prev.at()) as f64 / span as f64).clamp(0.0, 1.0) } else { 0.0 };
-    if remaining <= threshold_ms {
+    // sunrise is not a prayer: nothing to count from it, so count down to Dhuhr
+    let countdown = prev.id() == "sunrise" || if halfway { 2 * remaining <= span } else { remaining <= (threshold_minutes * 60_000.0) as i64 };
+    if countdown {
         // ceil(remaining / 1000) for positive values
         let seconds = (remaining + 999).div_euclid(1000);
         Some(DisplayState { mode: Mode::Countdown, event: next, prev, next, seconds, progress })
@@ -69,7 +71,11 @@ pub fn format_value(mode: Mode, seconds: i64, with_seconds: bool, pad_hours: boo
     let sec = s % 60;
     match mode {
         Mode::Countdown => {
-            if long_countdown {
+            // an hour or more left: h:mm:ss, or h:mm (minutes rounded up) without seconds; the last hour is always mm:ss
+            if h > 0 && !with_seconds {
+                let mins = (s + 59) / 60;
+                format!("\u{2212}{}:{}", mins / 60, pad2(mins % 60))
+            } else if long_countdown || h > 0 {
                 format!("\u{2212}{h}:{}:{}", pad2(m), pad2(sec))
             } else {
                 format!("\u{2212}{}:{}", pad2(s / 60), pad2(sec))
@@ -120,6 +126,7 @@ mod tests {
     #[derive(Deserialize)]
     #[serde(rename_all = "camelCase")]
     struct Settings {
+        countdown_start: String,
         threshold_minutes: f64,
         include_sunrise: bool,
     }
@@ -151,7 +158,7 @@ mod tests {
     fn shared_fixture_cases() {
         let fx: Fixture = serde_json::from_str(include_str!("../../src/features/prayer/__fixtures__/display-cases.json")).unwrap();
         for c in &fx.cases {
-            let s = display_state(c.now, &fx.timeline, c.settings.threshold_minutes, c.settings.include_sunrise);
+            let s = display_state(c.now, &fx.timeline, c.settings.countdown_start == "halfway", c.settings.threshold_minutes, c.settings.include_sunrise);
             match (&c.expected, s) {
                 (None, None) => {}
                 (Some(exp), Some(st)) => {
