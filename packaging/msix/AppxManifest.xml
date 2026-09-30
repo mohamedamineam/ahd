@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Microsoft Store package (MSIX) of 3ahd, built by packaging/msix/build-msix.ps1 in the release workflow.
+     Identity, Publisher and PublisherDisplayName come from Partner Center → Product management → Product identity
+     and must stay exactly as they are. {VERSION} is filled in by the build (the release number plus ".0"). -->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap desktop rescap">
+
+  <Identity Name="3ahd.3ahd" Publisher="CN=2B0846AE-7F69-4B87-9097-56E556510148" Version="{VERSION}" ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>3ahd</DisplayName>
+    <PublisherDisplayName>3ahd</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <!-- 1809: the first Windows 10 version where a packaged desktop app can read how it was started -->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us" />
+    <Resource Language="ar" />
+  </Resources>
+
+  <Applications>
+    <Application Id="App" Executable="ahd.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="3ahd"
+        Description="Prayer times, adhan, Quran, adhkar and qibla"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\Square71x71Logo.png" Square310x310Logo="Assets\Square310x310Logo.png" ShortName="3ahd" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+      <Extensions>
+        <!-- Start with Windows. The app turns it on or off from its setting (src-tauri/src/platform/windows.rs),
+             and starts in the tray when this task starts it. -->
+        <desktop:Extension Category="windows.startupTask" Executable="ahd.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="3ahdStartup" Enabled="true" DisplayName="3ahd" />
+        </desktop:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!-- a desktop (Win32) app: adhan in the background, widgets, tray icon -->
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

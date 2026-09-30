@@ -1,0 +1,43 @@
+name: Microsoft Store package
+
+# Builds the MSIX to upload in Partner Center (packaging/msix): for every release tag, and by hand from the Actions
+# tab (Run workflow). Separate from the Release workflow, so the Store package can never hold up a release.
+# The .msix is an artifact of the run, not a release file: it is unsigned (the Store signs it), and Windows
+# installs only signed MSIX files.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  msix:
+    name: MSIX for the Microsoft Store
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # the app only: the MSIX takes the place of the installers
+      - run: npx tauri build --no-bundle
+      - name: Package
+        id: package
+        shell: pwsh
+        run: |
+          $version = (Get-Content src-tauri/tauri.conf.json -Raw | ConvertFrom-Json).version
+          ./packaging/msix/build-msix.ps1 -Version $version
+          "version=$version" >> $env:GITHUB_OUTPUT
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 3ahd-${{ steps.package.outputs.version }}-microsoft-store
+          path: src-tauri/target/msix/*.msix
+          if-no-files-found: error

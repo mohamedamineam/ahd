@@ -83,6 +83,8 @@ windows-sys = { version = "0.59", features = [
   "Win32_UI_Shell",
   "Win32_UI_WindowsAndMessaging",
 ] }
+# Microsoft Store build (MSIX): its startup task (start with Windows) and how the app was started
+windows = { version = "0.62", features = ["ApplicationModel", "ApplicationModel_Activation"] }
 
 [target.'cfg(target_os = "linux")'.dependencies]
 gtk = "0.18"

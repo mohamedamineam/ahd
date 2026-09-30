@@ -91,7 +91,7 @@ pub fn apply_x11_compat() {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let _ = rustls::crypto::ring::default_provider().install_default();
-    let started_minimized = std::env::args().any(|a| a == "--minimized");
+    let started_minimized = std::env::args().any(|a| a == "--minimized") || platform::started_by_store_startup();
 
     #[allow(unused_mut)]
     let mut builder = tauri::Builder::default()

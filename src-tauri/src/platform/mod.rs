@@ -95,6 +95,24 @@ pub fn do_not_disturb_active() -> bool {
     }
 }
 
+/// Started at Windows login by the Microsoft Store build's startup task? (It cannot pass `--minimized`.)
+pub fn started_by_store_startup() -> bool {
+    #[cfg(windows)]
+    {
+        windows::started_by_startup_task()
+    }
+    #[cfg(not(windows))]
+    {
+        false
+    }
+}
+
+/// Microsoft Store build: start with Windows through the package's startup task. Blocks: call it off the main thread.
+#[cfg(windows)]
+pub fn set_store_startup(enable: bool) -> Result<(), String> {
+    windows::set_startup_task(enable).map_err(|e| e.to_string())
+}
+
 /// Light taskbar? (None when unknown)
 pub fn taskbar_is_light() -> Option<bool> {
     #[cfg(windows)]

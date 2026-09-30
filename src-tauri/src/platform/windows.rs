@@ -70,6 +70,32 @@ pub fn taskbar_rects() -> Option<(RECT, Option<RECT>)> {
 }
 
 /// Running inside an MSIX package (Microsoft Store build)?
+/// Startup task declared in packaging/msix/AppxManifest.xml (Microsoft Store build).
+const STARTUP_TASK_ID: &str = "3ahdStartup";
+
+/// Microsoft Store build: started at Windows login by its startup task? A startup task cannot pass `--minimized`,
+/// so this is how the Store build knows to start in the tray.
+pub fn started_by_startup_task() -> bool {
+    use ::windows::ApplicationModel::Activation::ActivationKind;
+    use ::windows::ApplicationModel::AppInstance;
+    is_packaged() && AppInstance::GetActivatedEventArgs().and_then(|a| a.Kind()).is_ok_and(|k| k == ActivationKind::StartupTask)
+}
+
+/// Microsoft Store build: turn its startup task on or off (the other builds use the Run key through
+/// tauri-plugin-autostart). Blocks until Windows answers: call it off the main thread.
+pub fn set_startup_task(enable: bool) -> ::windows::core::Result<()> {
+    use ::windows::ApplicationModel::{StartupTask, StartupTaskState};
+    let task = StartupTask::GetAsync(&::windows::core::HSTRING::from(STARTUP_TASK_ID))?.join()?;
+    let state = task.State()?;
+    if enable && state == StartupTaskState::Disabled {
+        // no effect when the user turned it off in Task Manager (DisabledByUser): Windows keeps that choice theirs
+        task.RequestEnableAsync()?.join()?;
+    } else if !enable && state == StartupTaskState::Enabled {
+        task.Disable()?;
+    }
+    Ok(())
+}
+
 pub fn is_packaged() -> bool {
     std::env::current_exe()
         .map(|p| p.to_string_lossy().to_lowercase().contains("\\windowsapps\\"))

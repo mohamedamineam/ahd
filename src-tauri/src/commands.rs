@@ -182,7 +182,15 @@ fn apply_autostart(app: &AppHandle<Wry>, enable: bool) {
     use tauri_plugin_autostart::ManagerExt;
     let info = crate::platform::info("");
     if info.store.is_some() {
-        // MSIX uses the manifest's startupTask; Flatpak uses the Background portal (see docs/RELEASE_*.md)
+        // MSIX: the startup task in packaging/msix/AppxManifest.xml; Flatpak: the Background portal (docs/RELEASE_*.md)
+        #[cfg(windows)]
+        if info.store == Some("msix") {
+            std::thread::spawn(move || {
+                if let Err(e) = crate::platform::set_store_startup(enable) {
+                    log::warn!("startup task: {e}");
+                }
+            });
+        }
         return;
     }
     // The app was called "Ahd" up to 0.1.2 and the autostart entry is named after the app: remove the old Linux entry,

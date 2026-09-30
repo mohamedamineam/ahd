@@ -218,8 +218,20 @@ for (const size of [128, 256, 512]) {
 }
 
 // ---- Microsoft Store wide tile + splash (square tiles come from `tauri icon`)
+render(wideTile(310, 150, BG_DARK, PALETTE_DARK_UI), p('packaging/msix/Assets/Wide310x150Logo.png'), 310);
 render(wideTile(620, 300, BG_DARK, PALETTE_DARK_UI), p('packaging/msix/Assets/Wide310x150Logo.scale-200.png'), 620);
+render(wideTile(620, 300, BG_DARK, PALETTE_DARK_UI), p('packaging/msix/Assets/SplashScreen.png'), 620);
 render(wideTile(1240, 600, BG_DARK, PALETTE_DARK_UI), p('packaging/msix/Assets/SplashScreen.scale-200.png'), 1240);
+// sharper icons for HiDPI tiles, and the exact sizes the taskbar, Start and Settings ask for (packaging/msix/build-msix.ps1
+// indexes them in resources.pri; "unplated" = shown without a coloured square behind it)
+for (const [name, size] of [['Square44x44Logo', 88], ['Square71x71Logo', 142], ['Square150x150Logo', 300], ['Square310x310Logo', 620], ['StoreLogo', 100]] as const) {
+  render(appIcon, p(`packaging/msix/Assets/${name}.scale-200.png`), size);
+}
+for (const size of [16, 24, 32, 48, 256]) {
+  for (const form of ['', '_altform-unplated', '_altform-lightunplated']) {
+    render(appIcon, p(`packaging/msix/Assets/Square44x44Logo.targetsize-${size}${form}.png`), size);
+  }
+}
 
 // ---- platform bundles via the Tauri CLI
 execFileSync(
