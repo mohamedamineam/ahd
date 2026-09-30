@@ -25,7 +25,7 @@
 Install on Ubuntu / Linux Mint / Debian from a terminal:
 
 ```sh
-wget -O 3ahd.deb https://3ahd.pages.dev/download/3ahd-linux-amd64.deb
+wget -O 3ahd.deb https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-linux-amd64.deb
 sudo apt install ./3ahd.deb
 ```
 

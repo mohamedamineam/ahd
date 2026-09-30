@@ -208,19 +208,19 @@
           </div>
           <div class="pane" id="pane-deb" role="tabpanel" aria-labelledby="tab-deb">
             <p class="hint" data-t="hintDeb">لأوبونتو ولينكس مينت وديبيان والتوزيعات المبنية عليها.</p>
-            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="wget -O 3ahd.deb {origin}/download/3ahd-linux-amd64.deb&#10;sudo apt install ./3ahd.deb"></pre></div>
+            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="wget -O 3ahd.deb https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-linux-amd64.deb&#10;sudo apt install ./3ahd.deb"></pre></div>
             <div class="links"><a class="btn ghost small" href="/download/3ahd-linux-amd64.deb" download data-t="getDeb">تنزيل ملف .deb</a></div>
             <p class="hint after" data-t="linAfter">بعد التثبيت ستجد «عهد» في قائمة التطبيقات.</p>
           </div>
           <div class="pane" id="pane-rpm" role="tabpanel" aria-labelledby="tab-rpm" hidden>
             <p class="hint" data-t="hintRpm">لفيدورا والتوزيعات التي تستخدم dnf.</p>
-            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="sudo dnf install {origin}/download/3ahd-linux-x86_64.rpm"></pre></div>
+            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="sudo dnf install https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-linux-x86_64.rpm"></pre></div>
             <div class="links"><a class="btn ghost small" href="/download/3ahd-linux-x86_64.rpm" download data-t="getRpm">تنزيل ملف .rpm</a></div>
             <p class="hint after" data-t="linAfter">بعد التثبيت ستجد «عهد» في قائمة التطبيقات.</p>
           </div>
           <div class="pane" id="pane-app" role="tabpanel" aria-labelledby="tab-app" hidden>
             <p class="hint" data-t="hintApp">ملف واحد يعمل على أي توزيعة دون تثبيت.</p>
-            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="wget -O 3ahd.AppImage {origin}/download/3ahd-linux-x86_64.AppImage&#10;chmod +x 3ahd.AppImage&#10;./3ahd.AppImage"></pre></div>
+            <div class="term"><div class="tbar"><i></i><i></i><i></i><button type="button" data-copy data-t="copy">نسخ</button></div><pre data-cmd="wget -O 3ahd.AppImage https://github.com/mohamedamineam/ahd/releases/latest/download/3ahd-linux-x86_64.AppImage&#10;chmod +x 3ahd.AppImage&#10;./3ahd.AppImage"></pre></div>
             <div class="links"><a class="btn ghost small" href="/download/3ahd-linux-x86_64.AppImage" download data-t="getApp">تنزيل ملف AppImage</a></div>
           </div>
         </div>
