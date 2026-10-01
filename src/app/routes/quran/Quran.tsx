@@ -248,7 +248,8 @@ export default function Quran() {
   };
 
   const pages = spread ? [page, page + 1].filter((p) => p <= data.pages) : [page];
-  const fontSize = (spread ? 23 : 27) * settings.fontScale;
+  // the Uthmani fonts are small for their size, and their dots are tiny: a little larger than ordinary text
+  const fontSize = (spread ? 25 : 29) * settings.fontScale;
   const selRow = selected ? data.ayat.find((a) => a[0] === selected.surah && a[1] === selected.ayah) : null;
   const nextLabel = settings.arrowNextIsLeft ? t('quran.nextPage') : t('quran.prevPage');
   const prevLabel = settings.arrowNextIsLeft ? t('quran.prevPage') : t('quran.nextPage');

@@ -229,6 +229,8 @@ export function glyphHref(g: PlacedGlyph): string {
     path.id = id;
     path.setAttribute('d', g.font.font.glyphToPath(g.gid));
     path.setAttribute('transform', `scale(${1 / g.font.upem})`);
+    // the outline drawn around each glyph (ShapedText) keeps the same width on screen at any text size
+    path.setAttribute('vector-effect', 'non-scaling-stroke');
     defs.appendChild(path);
     defined.add(id);
   }

@@ -76,9 +76,16 @@ function useWidth(lazy: boolean) {
   return { ref, width, visible };
 }
 
+/**
+ * Width of an outline in the text colour around each glyph, in screen px. Glyphs drawn as SVG shapes get none of
+ * the hinting and contrast that text rendering gives small type, so at reading sizes thin strokes and the dots came
+ * out faint (dots of 2 px looked missing); this brings them to the weight of native text, and is lost at large sizes.
+ */
+const GLYPH_OUTLINE = 0.4;
+
 const Glyphs = memo(function Glyphs({ layout }: { layout: Layout }) {
   return (
-    <g pointerEvents="none">
+    <g pointerEvents="none" stroke="currentColor" strokeWidth={GLYPH_OUTLINE} strokeLinejoin="round">
       {layout.lines.map((line, li) =>
         line.words.map((w, wi) => (
           <g key={`${li}-${wi}`} transform={`translate(${w.x} ${line.baseline}) scale(${w.size} ${-w.size})`}>
