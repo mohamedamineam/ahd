@@ -1,6 +1,6 @@
 // Images for announcing the app on X/Twitter (1200×675 at 2×, so 2400×1350): the announcement and a thread of four.
 //   node scripts/twitter-screens.mjs   (once, with `npx vite --port 1420` running) → twitterpost/screens
-//   node scripts/twitter.mjs           → twitterpost/{en,ar}/1-announcement.png … 5-and-more.png
+//   node scripts/twitter.mjs           → twitterpost/ar/1-announcement.png … 5-and-more.png
 // The texts for the posts are in twitterpost/captions.md.
 import { chromium } from '@playwright/test';
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
@@ -26,8 +26,9 @@ const T = {
       points: ['Any city in the world, offline, with every common calculation method', 'Fine-tune each prayer to the second to match your mosque', 'A separate Fajr adhan, then the dua after the adhan', 'A monthly timetable you can export to PDF or CSV'] },
     quran: { kicker: 'The Quran', title: 'The Quran in Hafs and Warsh',
       points: ['The King Fahd Complex script, page by page', 'Warsh in Eastern or Maghrebi writing', 'Search, bookmarks and your last-read page'] },
-    desktop: { kicker: 'On your desktop', title: 'Always in sight, never in the way',
-      points: ['A main widget in three styles, light or dark', 'A small widget that can stay above your apps', 'The countdown next to the clock on the taskbar', 'A reminder 10 minutes before each prayer'] },
+    desktop: { kicker: 'Desktop & settings', title: 'On your desktop, your way',
+      points: ['Desktop widgets in three styles, and a small one above your apps', 'The countdown next to the taskbar clock, and a reminder 10 minutes before each prayer', 'Lots of settings: colours, interface size, adhan, alerts, all customizable'],
+      chips: ['Arabic and English', 'Light and dark', 'Your own colours'] },
     more: { kicker: 'And more', title: 'Adhkar, qibla and a library, all private',
       points: ['Morning and evening adhkar from Hisn al-Muslim, with a counter', 'The qibla, and the moments the sun lines up with it', 'Free books, read inside the app'],
       chips: ['Free', 'Works offline', 'No ads', 'No accounts', 'Open source'] },
@@ -44,8 +45,9 @@ const T = {
       points: ['لأي مدينة في العالم دون إنترنت، بكل طرق الحساب المعروفة', 'ضبط كل صلاة بالثواني لتطابق مسجدك', 'أذان خاص بالفجر، ثم دعاء ما بعد الأذان', 'جدول شهري يمكنك تصديره بصيغة PDF أو CSV'] },
     quran: { kicker: 'القرآن الكريم', title: 'القرآن الكريم بروايتي حفص وورش',
       points: ['بخط مجمع الملك فهد، صفحة بصفحة', 'ورش بالخط المشرقي أو المغربي', 'البحث والعلامات وحفظ موضع القراءة'] },
-    desktop: { kicker: 'على سطح المكتب', title: 'أمام عينيك دائما، دون أن يزعجك',
-      points: ['أداة رئيسية بثلاثة أشكال، فاتحة أو داكنة', 'أداة مصغرة تبقى فوق التطبيقات', 'المؤقت بجانب الساعة في شريط المهام', 'تذكير قبل كل صلاة بعشر دقائق'] },
+    desktop: { kicker: 'سطح المكتب والإعدادات', title: 'على سطح مكتبك، وعلى ذوقك',
+      points: ['أدوات على سطح المكتب بثلاثة أشكال، وأداة مصغرة فوق التطبيقات', 'المؤقت في شريط المهام، وتذكير قبل كل صلاة بعشر دقائق', 'إعدادات كثيرة لتخصيص الألوان والحجم والأذان والتنبيهات'],
+      chips: ['العربية والإنجليزية', 'مظهر فاتح وداكن', 'ألوان على ذوقك'] },
     more: { kicker: 'والمزيد', title: 'الأذكار والقبلة ومكتبة، وخصوصيتك محفوظة',
       points: ['أذكار الصباح والمساء من حصن المسلم، مع عداد', 'اتجاه القبلة، والأوقات التي تكون فيها الشمس على خطها', 'كتب مجانية تقرأ داخل التطبيق'],
       chips: ['مجاني', 'يعمل دون إنترنت', 'بلا إعلانات', 'بلا حسابات', 'مفتوح المصدر'] },
@@ -100,7 +102,7 @@ h1 em { font-style: normal; background: linear-gradient(100deg, #2c5a40, #b08a45
 body.dark .num i { color: var(--gold-2); }
 h2 { font: 600 36px/1.22 Changa, sans-serif; margin-top: 18px; text-wrap: balance; }
 ul { list-style: none; margin-top: 24px; display: grid; gap: 13px; }
-li { display: flex; gap: 12px; align-items: baseline; font-size: 17px; line-height: 1.5; color: var(--muted); }
+li { display: flex; gap: 12px; align-items: baseline; text-wrap: pretty; font-size: 17px; line-height: 1.5; color: var(--muted); }
 body.dark li { color: #c9d3c8; }
 li::before { content: ''; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(201,163,94,.18); transform: translateY(-2px); }
 .foot { position: absolute; bottom: 30px; inset-inline-start: 64px; display: flex; align-items: center; gap: 10px; font: 600 16px/1 Changa, sans-serif; }
@@ -109,6 +111,7 @@ li::before { content: ''; flex: none; width: 9px; height: 9px; border-radius: 50
 .foot i { font-style: normal; color: var(--muted); }
 body.dark .foot span, body.dark .foot i { color: #aebbb0; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+body:not(.dark) .chips b { color: #2c523d; border-color: rgba(63,114,85,.28); background: rgba(63,114,85,.08); }
 .chips b { font: 500 13.5px/1 Plex, sans-serif; padding: 8px 12px; border-radius: 999px; border: 1px solid rgba(243,236,221,.22); color: #f1ebdd; background: rgba(243,236,221,.06); }
 /* desktop scene */
 .desk { position: absolute; inset: 0; background: radial-gradient(420px 320px at 70% 25%, rgba(226,196,138,.35), transparent 70%), radial-gradient(500px 400px at 20% 90%, rgba(63,114,85,.55), transparent 70%), linear-gradient(160deg, #2f4a3b, #18241e); }
@@ -175,7 +178,7 @@ const only = process.argv[2];
 const dir = mkdtempSync(join(tmpdir(), 'ahd-twitter-'));
 const browser = await chromium.launch();
 const tab = await browser.newPage({ viewport: { width: 1200, height: 675 }, deviceScaleFactor: 2 });
-for (const lang of ['en', 'ar']) {
+for (const lang of ['ar']) {
   mkdirSync(join(root, 'twitterpost', lang), { recursive: true });
   for (const [name, make] of Object.entries(IMAGES)) {
     if (only && !name.startsWith(only)) continue;
