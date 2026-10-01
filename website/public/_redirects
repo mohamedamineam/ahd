@@ -11,5 +11,5 @@
 /download/Ahd-linux-amd64.deb         /download/3ahd-linux-amd64.deb        301
 /download/Ahd-linux-x86_64.rpm        /download/3ahd-linux-x86_64.rpm       301
 /download/Ahd-linux-x86_64.AppImage   /download/3ahd-linux-x86_64.AppImage  301
-/download/windows                    /download/3ahd-windows-x64-setup.exe  302
+/download/windows                    https://apps.microsoft.com/detail/9N6BBHKBKFNB  302
 /download/linux                      /#download  302

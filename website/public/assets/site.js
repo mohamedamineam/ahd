@@ -9,7 +9,7 @@
       brand: 'عهد', navFeatures: 'المزايا', navDownload: 'التنزيل', navReq: 'المتطلبات', navFeedback: 'رأيك',
       eyebrow: 'مجاني ومفتوح المصدر · ويندوز ولينكس', h1a: 'رفيقك الهادئ', h1b: 'لمواقيت الصلاة',
       lede: 'مواقيت دقيقة حتى الثانية، وأذان لا يفوتك، والقرآن الكريم والأذكار والقبلة، في تطبيق واحد يعمل دون إنترنت ويحفظ خصوصيتك.',
-      dlWindows: 'تنزيل لويندوز', dlLinux: 'تنزيل للينكس', allDownloads: 'كل خيارات التنزيل', version: 'بلا إعلانات ولا حسابات ولا تتبع', pillName: 'العصر',
+      dlWindows: 'حمّله من متجر مايكروسوفت', dlLinux: 'تنزيل للينكس', allDownloads: 'كل خيارات التنزيل', version: 'بلا إعلانات ولا حسابات ولا تتبع', pillName: 'العصر',
       featKicker: 'المزايا', featTitle: 'كل ما تحتاجه للصلاة، في مكان واحد', featLede: 'صمم عهد ليبقى هادئا في الخلفية، ويذكرك بكل صلاة في وقتها.',
       f1t: 'مواقيت دقيقة', f1d: 'لأي مدينة في العالم دون إنترنت، بكل طرق الحساب المعروفة، مع ضبط كل صلاة بالثواني لتطابق مسجدك أو الجدول الرسمي.',
       f2t: 'الأذان في وقته', f2d: 'أذان خاص بالفجر، وتنبيه يمكن إغلاقه دون أن يتوقف الأذان، واختصار لإيقافه، ثم دعاء ما بعد الأذان.',
@@ -23,8 +23,8 @@
       shotsKicker: 'لمحة من التطبيق', shotsTitle: 'واجهة هادئة ومريحة للعين',
       shot1: 'المصحف بروايتي حفص وورش', shot2: 'الأذكار مع العداد، بالمظهر الداكن', shot3: 'الواجهة الإنجليزية',
       dlKicker: 'التنزيل', dlTitle: 'نزل عهد مجانا', dlLede: 'اختر نظامك. يبدأ التنزيل مباشرة.',
-      winTitle: 'ويندوز', winDesc: 'مثبت عادي لا يحتاج صلاحيات المسؤول. ويندوز 10 و11 (64 بت).', winBtn: 'تنزيل المثبت (.exe)', winMsi: 'حزمة MSI',
-      winNote: 'قد يظهر ويندوز رسالة «Windows protected your PC» لأن التطبيق جديد وغير موقع رقميا بعد: اضغط «More info» ثم «Run anyway».',
+      winTitle: 'ويندوز', winDesc: 'من متجر مايكروسوفت: يُثبَّت دون أي تحذير ويتحدث تلقائيا. ويندوز 10 و11 (64 بت).', winStore: 'حمّله من متجر مايكروسوفت', winBtn: 'أو المثبت (.exe)', winMsi: 'حزمة MSI',
+      winNote: 'ملفا ‎.exe و‎.msi غير موقعين رقميا بعد: قد يظهر ويندوز رسالة «Windows protected your PC»، فاضغط «More info» ثم «Run anyway». نسخة المتجر لا يظهر فيها هذا التحذير.',
       winSource: 'برنامج «عهد» مفتوح المصدر: يمكنك الاطلاع على شيفرته المصدرية كاملة على',
       linTitle: 'لينكس', tabDeb: 'أوبونتو · مينت', tabRpm: 'فيدورا', tabApp: 'AppImage', copy: 'نسخ',
       hintDeb: 'لأوبونتو ولينكس مينت وديبيان والتوزيعات المبنية عليها.', hintRpm: 'لفيدورا والتوزيعات التي تستخدم dnf.', hintApp: 'ملف واحد يعمل على أي توزيعة دون تثبيت.', copied: 'تم النسخ',
@@ -48,7 +48,7 @@
       brand: '3ahd', navFeatures: 'Features', navDownload: 'Download', navReq: 'Requirements', navFeedback: 'Feedback',
       eyebrow: 'Free and open source · Windows and Linux', h1a: 'A calm companion', h1b: 'for prayer times',
       lede: 'Prayer times accurate to the second, an adhan you won’t miss, the Quran, adhkar and the qibla, in one app that works offline and respects your privacy.',
-      dlWindows: 'Download for Windows', dlLinux: 'Download for Linux', allDownloads: 'All downloads', version: 'No ads, no accounts, no tracking', pillName: 'Asr',
+      dlWindows: 'Get it from the Microsoft Store', dlLinux: 'Download for Linux', allDownloads: 'All downloads', version: 'No ads, no accounts, no tracking', pillName: 'Asr',
       featKicker: 'Features', featTitle: 'Everything for your prayers, in one place', featLede: '3ahd stays quietly in the background and reminds you of every prayer on time.',
       f1t: 'Accurate times', f1d: 'For any city in the world, offline, with every common calculation method, and per-second fine-tuning of each prayer to match your mosque or the official timetable.',
       f2t: 'The adhan on time', f2d: 'A separate Fajr adhan, an alert you can close while the adhan keeps playing, a shortcut to stop it, then the dua after the adhan.',
@@ -60,10 +60,10 @@
       f8t: 'Private by design', f8d: 'No accounts, no ads, no tracking. Your data stays on your computer.',
       f9t: 'Arabic and English', f9d: 'A full interface in both languages, with light and dark themes.',
       shotsKicker: 'A look inside', shotsTitle: 'A calm interface that is easy on the eyes',
-      shot1: 'The mushaf in Hafs and Warsh', shot2: 'Adhkar with a counter, in the dark theme', shot3: 'The English interface',
+      shot1: 'The mushaf in Hafs and Warsh', shot2: 'Prayer times in the dark theme', shot3: 'The light theme',
       dlKicker: 'Download', dlTitle: 'Get 3ahd for free', dlLede: 'Choose your system. The download starts right away.',
-      winTitle: 'Windows', winDesc: 'A normal installer, no administrator rights needed. Windows 10 and 11 (64-bit).', winBtn: 'Download installer (.exe)', winMsi: 'MSI package',
-      winNote: 'Windows may show “Windows protected your PC” because the app is new and not yet digitally signed: click “More info”, then “Run anyway”.',
+      winTitle: 'Windows', winDesc: 'From the Microsoft Store: installs with no warning and updates itself. Windows 10 and 11 (64-bit).', winStore: 'Get it from the Microsoft Store', winBtn: 'Or the installer (.exe)', winMsi: 'MSI package',
+      winNote: 'The .exe and .msi are not digitally signed yet: Windows may show “Windows protected your PC”; click “More info”, then “Run anyway”. The Store version shows no warning.',
       winSource: '3ahd is open source: you can check its full source code on',
       linTitle: 'Linux', tabDeb: 'Ubuntu · Mint', tabRpm: 'Fedora', tabApp: 'AppImage', copy: 'Copy',
       hintDeb: 'For Ubuntu, Linux Mint, Debian and distributions based on them.', hintRpm: 'For Fedora and other distributions that use dnf.', hintApp: 'A single file that runs on any distribution, no installation needed.', copied: 'Copied',
@@ -106,6 +106,11 @@
       if (v !== undefined) el.textContent = v;
     });
     document.getElementById('lang').textContent = t.langBtn;
+    // English screenshots on the English page (data-src-en), the Arabic ones otherwise
+    document.querySelectorAll('img[data-src-en]').forEach(function (img) {
+      if (!img.hasAttribute('data-src-ar')) img.setAttribute('data-src-ar', img.getAttribute('src'));
+      img.src = lang === 'en' ? img.getAttribute('data-src-en') : img.getAttribute('data-src-ar');
+    });
     var shot = document.getElementById('hero-shot');
     if (shot) shot.src = lang === 'ar' ? '/assets/img/home-ar.webp' : '/assets/img/home-en.webp';
     var primary = document.getElementById('primary-dl');

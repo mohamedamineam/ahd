@@ -65,9 +65,9 @@
         <h1><span data-t="h1a">رفيقك الهادئ</span> <span class="accent" data-t="h1b">لمواقيت الصلاة</span></h1>
         <p class="lede" data-t="lede">مواقيت دقيقة حتى الثانية، وأذان لا يفوتك، والقرآن الكريم والأذكار والقبلة، في تطبيق واحد يعمل دون إنترنت ويحفظ خصوصيتك.</p>
         <div class="cta">
-          <a class="btn primary" id="primary-dl" href="/download/3ahd-windows-x64-setup.exe" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
-            <span id="primary-label" data-t="dlWindows">تنزيل لويندوز</span>
+          <a class="btn primary" id="primary-dl" href="https://apps.microsoft.com/detail/9N6BBHKBKFNB" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#f25022" d="M2 2h9.5v9.5H2z"/><path fill="#7fba00" d="M12.5 2H22v9.5h-9.5z"/><path fill="#00a4ef" d="M2 12.5h9.5V22H2z"/><path fill="#ffb900" d="M12.5 12.5H22V22h-9.5z"/></svg>
+            <span id="primary-label" data-t="dlWindows">حمّله من متجر مايكروسوفت</span>
           </a>
           <a class="btn ghost" href="#download" data-t="allDownloads">كل خيارات التنزيل</a>
         </div>
@@ -165,9 +165,9 @@
         <h2 data-t="shotsTitle">واجهة هادئة ومريحة للعين</h2>
       </div>
       <div class="shots">
-        <figure class="shot" data-reveal><img src="/assets/img/quran-ar.webp" width="1440" height="900" loading="lazy" alt="المصحف في برنامج عهد على الكمبيوتر"><figcaption data-t="shot1">المصحف بروايتي حفص وورش</figcaption></figure>
-        <figure class="shot" data-reveal><img src="/assets/img/adhkar-ar.webp" width="1440" height="900" loading="lazy" alt="أذكار الصباح والمساء في برنامج عهد"><figcaption data-t="shot2">الأذكار مع العداد، بالمظهر الداكن</figcaption></figure>
-        <figure class="shot" data-reveal><img src="/assets/img/home-en.webp" width="1440" height="900" loading="lazy" alt="3ahd prayer times app for Windows and Linux"><figcaption data-t="shot3">الواجهة الإنجليزية</figcaption></figure>
+        <figure class="shot" data-reveal><img data-src-en="/assets/img/quran-en.webp" src="/assets/img/quran-ar.webp" width="1440" height="900" loading="lazy" alt="المصحف في برنامج عهد على الكمبيوتر"><figcaption data-t="shot1">المصحف بروايتي حفص وورش</figcaption></figure>
+        <figure class="shot" data-reveal><img data-src-en="/assets/img/home-en-dark.webp" src="/assets/img/adhkar-ar.webp" width="1440" height="900" loading="lazy" alt="أذكار الصباح والمساء في برنامج عهد"><figcaption data-t="shot2">الأذكار مع العداد، بالمظهر الداكن</figcaption></figure>
+        <figure class="shot" data-reveal><img data-src-en="/assets/img/home-en.webp" src="/assets/img/home-en.webp" width="1440" height="900" loading="lazy" alt="3ahd prayer times app for Windows and Linux"><figcaption data-t="shot3">الواجهة الإنجليزية</figcaption></figure>
       </div>
     </div>
   </section>
@@ -185,13 +185,16 @@
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.5 10.5 4.5v7H3zM11.5 4.3 21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>
             <h3 data-t="winTitle">ويندوز</h3>
           </div>
-          <p data-t="winDesc">مثبت عادي لا يحتاج صلاحيات المسؤول. ويندوز 10 و11 (64 بت).</p>
+          <p data-t="winDesc">من متجر مايكروسوفت: يُثبَّت دون أي تحذير ويتحدث تلقائيا. ويندوز 10 و11 (64 بت).</p>
           <div class="links">
-            <a class="btn primary" href="/download/3ahd-windows-x64-setup.exe" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span data-t="winBtn">تنزيل المثبت (.exe)</span></a>
+            <a class="btn primary" href="https://apps.microsoft.com/detail/9N6BBHKBKFNB" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#f25022" d="M2 2h9.5v9.5H2z"/><path fill="#7fba00" d="M12.5 2H22v9.5h-9.5z"/><path fill="#00a4ef" d="M2 12.5h9.5V22H2z"/><path fill="#ffb900" d="M12.5 12.5H22V22h-9.5z"/></svg><span data-t="winStore">حمّله من متجر مايكروسوفت</span></a>
+          </div>
+          <div class="links">
+            <a class="btn ghost small" href="/download/3ahd-windows-x64-setup.exe" download data-t="winBtn">أو المثبت (.exe)</a>
             <a class="btn ghost small" href="/download/3ahd-windows-x64.msi" download data-t="winMsi">حزمة MSI</a>
           </div>
           <div class="note">
-            <p data-t="winNote">قد يظهر ويندوز رسالة «Windows protected your PC» لأن التطبيق جديد وغير موقع رقميا بعد: اضغط «More info» ثم «Run anyway».</p>
+            <p data-t="winNote">ملفا ‎.exe و‎.msi غير موقعين رقميا بعد: قد يظهر ويندوز رسالة «Windows protected your PC»، فاضغط «More info» ثم «Run anyway». نسخة المتجر لا يظهر فيها هذا التحذير.</p>
             <p><span data-t="winSource">برنامج «عهد» مفتوح المصدر: يمكنك الاطلاع على شيفرته المصدرية كاملة على</span> <a href="https://github.com/mohamedamineam/ahd" rel="noopener">GitHub</a>.</p>
           </div>
         </div>
