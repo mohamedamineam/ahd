@@ -8,6 +8,7 @@ import { resolvedTheme } from '@/app/appearance';
 import { db, type QuranBookmark } from '@/lib/db';
 import { ayatOfPage, loadQuran, mapPosition, pageOf, searchQuran, useQuran, type AyahRow, type QuranData, type Riwaya } from '@/features/quran/data';
 import { ShapedText, type ShapedSegment } from '@/features/shaping/ShapedText';
+import { quranFont } from '@/features/quran/warshEastern';
 import { Button, Dialog, IconButton, Segmented, Skeleton, Tabs, TextInput, toast } from '@/design/components';
 import { IconBookmark, IconChevronLeft, IconChevronRight, IconClose, IconFocus, IconSearch, IconSinglePage, IconSpread } from '@/design/icons';
 
@@ -55,13 +56,14 @@ const ayahKey = (a: { 0: number; 1: number }) => `${a[0]}:${a[1]}`;
 /** One run of ayat between surah headers, justified like a printed page; each ayah is a clickable segment. */
 function AyatBlock({ riwaya, rows, fontSize, selected, onSelect }: { riwaya: Riwaya; rows: AyahRow[]; fontSize: number; selected: Sel | null; onSelect: (s: Sel) => void }) {
   const segments = useMemo<ShapedSegment[]>(() => rows.map((a) => ({ key: ayahKey(a), text: a[4] })), [rows]);
+  const warshScript = useS((s) => s.quran.warshScript);
   const onClick = useCallback((key: string) => {
     const [surah, ayah] = key.split(':').map(Number);
     onSelect({ surah: surah!, ayah: ayah! });
   }, [onSelect]);
   return (
     <ShapedText
-      font={riwaya}
+      font={quranFont(riwaya, warshScript)}
       segments={segments}
       size={fontSize}
       lineHeight={2.05}
@@ -353,7 +355,7 @@ export default function Quran() {
                   className="mb-1 w-full rounded-[10px] px-3 py-2 text-start hover:bg-[color-mix(in_oklab,var(--ink)_5%,transparent)]"
                 >
                   <span className="block text-[0.8125rem] text-sage-strong">{t('quran.ayahRef', { surah: data.surahs[h.surah - 1]!.ar, ayah: f.num(h.ayah) })}</span>
-                  <ShapedText font={riwaya} text={h.text} size={17} lineHeight={2} maxLines={2} lazy className="text-ink" fallbackClassName={clsx('line-clamp-2', mushafFont)} />
+                  <ShapedText font={quranFont(riwaya, settings.warshScript)} text={h.text} size={17} lineHeight={2} maxLines={2} lazy className="text-ink" fallbackClassName={clsx('line-clamp-2', mushafFont)} />
                 </button>
               ))}
             </div>

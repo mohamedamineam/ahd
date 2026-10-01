@@ -150,6 +150,8 @@ export interface Settings {
   };
   quran: {
     riwaya: 'hafs' | 'warsh';
+    /** Warsh in Eastern writing (the letters and dots of the Hafs mushaf) or as the Maghrebi Madinah Warsh mushaf */
+    warshScript: 'eastern' | 'maghrebi';
     fontScale: number; // 0.8 … 1.8
     layout: 'auto' | 'single' | 'spread';
     arrowNextIsLeft: boolean;
@@ -256,7 +258,7 @@ export function defaultSettings(lang: Lang = 'ar'): Settings {
       },
       waylandCompat: false,
     },
-    quran: { riwaya: 'hafs', fontScale: 1, layout: 'auto', arrowNextIsLeft: true, theme: 'auto', tafsir: null },
+    quran: { riwaya: 'hafs', warshScript: 'eastern', fontScale: 1, layout: 'auto', arrowNextIsLeft: true, theme: 'auto', tafsir: null },
     adhkar: {
       notifications: false,
       morning: { enabled: true, anchor: 'fajr', offsetMinutes: 20, fixedTime: '06:30' },

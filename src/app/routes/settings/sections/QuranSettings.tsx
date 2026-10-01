@@ -29,6 +29,20 @@ export default function QuranSettings() {
             ]}
           />
         </Row>
+        {q.riwaya === 'warsh' ? (
+          <Row k="settings.quran.warshScript">
+            <Segmented
+              size="sm"
+              label={t('settings.quran.warshScript')}
+              value={q.warshScript}
+              onChange={(v) => update((d) => void (d.quran.warshScript = v))}
+              options={[
+                { value: 'eastern', label: t('settings.quran.warshEastern') },
+                { value: 'maghrebi', label: t('settings.quran.warshMaghrebi') },
+              ]}
+            />
+          </Row>
+        ) : null}
         <Row k="settings.quran.fontSize">
           <Slider label={t('settings.quran.fontSize')} value={Math.round(q.fontScale * 100)} min={80} max={180} step={10} format={(v) => `${v}%`} onChange={(v) => update((d) => void (d.quran.fontScale = v / 100))} className="w-56" />
         </Row>
