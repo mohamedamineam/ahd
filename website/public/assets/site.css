@@ -102,6 +102,9 @@ p { margin: 0; }
 .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 30px; }
 .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 14px; padding: 13px 22px; font: 600 1rem var(--body); text-decoration: none; cursor: pointer; border: 1px solid transparent; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s; }
 .btn svg { width: 20px; height: 20px; flex: none; }
+/* main download button: the Store icon for Windows, a download arrow for Linux (site.js) */
+#primary-dl .i-dl, #primary-dl.linux .i-store { display: none; }
+#primary-dl.linux .i-dl { display: block; }
 .btn.primary { color: #fff; background: linear-gradient(135deg, #3f7255, #2b5040); box-shadow: 0 10px 24px -10px rgba(43, 80, 64, 0.8); }
 .btn.primary::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%); transform: translateX(-120%); animation: sheen 4.5s ease-in-out infinite 1.5s; }
 .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(43, 80, 64, 0.9); }
@@ -154,14 +157,16 @@ section.block { padding-block: 76px; scroll-margin-top: 64px; }
 .shot figcaption { padding: 10px 14px; color: var(--muted); font-size: 0.9rem; }
 
 /* ---------- download ---------- */
-.dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px; align-items: start; }
+.dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 16px; align-items: stretch; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 .card.featured { border-color: color-mix(in oklab, var(--sage) 55%, var(--line)); box-shadow: var(--shadow); }
 .card .title { display: flex; align-items: center; gap: 12px; }
 .card .title svg { width: 30px; height: 30px; color: var(--sage-strong); }
 .card h3 { font-size: 1.4rem; }
-.card .note { font-size: 0.9rem; color: var(--muted); background: var(--gold-soft); border-radius: 12px; padding: 12px 14px; }
-.card .note p + p { margin-top: 6px; }
+/* the Windows card is as tall as the Linux one; its small print sits at the bottom */
+#card-windows { display: flex; flex-direction: column; }
+.card .fine { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); font-size: 0.78rem; line-height: 1.6; color: var(--muted); }
+.card .fine p + p { margin-top: 4px; }
 .card .links { display: flex; flex-wrap: wrap; gap: 8px; }
 .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: var(--bg-2); padding: 4px; border-radius: 12px; }
 .tabs button { min-width: 0; border: 0; background: transparent; color: var(--muted); font: 500 0.92rem var(--body); padding: 8px 6px; border-radius: 9px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: background 0.2s, color 0.2s; }

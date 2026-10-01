@@ -22,13 +22,13 @@
       f9t: 'بالعربية والإنجليزية', f9d: 'واجهة كاملة باللغتين، مع مظهر فاتح وداكن.',
       shotsKicker: 'لمحة من التطبيق', shotsTitle: 'واجهة هادئة ومريحة للعين',
       shot1: 'المصحف بروايتي حفص وورش', shot2: 'الأذكار مع العداد، بالمظهر الداكن', shot3: 'الواجهة الإنجليزية',
-      dlKicker: 'التنزيل', dlTitle: 'نزل عهد مجانا', dlLede: 'اختر نظامك. يبدأ التنزيل مباشرة.',
-      winTitle: 'ويندوز', winDesc: 'من متجر مايكروسوفت: يُثبَّت دون أي تحذير ويتحدث تلقائيا. ويندوز 10 و11 (64 بت).', winStore: 'حمّله من متجر مايكروسوفت', winBtn: 'أو المثبت (.exe)', winMsi: 'حزمة MSI',
-      winNote: 'ملفا ‎.exe و‎.msi غير موقعين رقميا بعد: قد يظهر ويندوز رسالة «Windows protected your PC»، فاضغط «More info» ثم «Run anyway». نسخة المتجر لا يظهر فيها هذا التحذير.',
+      dlKicker: 'التنزيل', dlTitle: 'نزل عهد مجانا', dlLede: 'اختر نظامك: ويندوز من متجر مايكروسوفت، ولينكس بأمر واحد.',
+      winTitle: 'ويندوز', winDesc: 'من متجر مايكروسوفت: يُثبَّت دون أي تحذير ويتحدث تلقائيا. ويندوز 10 و11 (64 بت).', winStore: 'حمّله من متجر مايكروسوفت', winBtn: 'أو المثبت (⁦.exe⁩)', winMsi: 'حزمة MSI',
+      winNote: 'ملف ⁦.exe⁩ غير موقع رقميا بعد: إذا ظهر تحذير ويندوز فاضغط «⁦More info⁩» ثم «⁦Run anyway⁩».',
       winSource: 'برنامج «عهد» مفتوح المصدر: يمكنك الاطلاع على شيفرته المصدرية كاملة على',
       linTitle: 'لينكس', tabDeb: 'أوبونتو · مينت', tabRpm: 'فيدورا', tabApp: 'AppImage', copy: 'نسخ',
       hintDeb: 'لأوبونتو ولينكس مينت وديبيان والتوزيعات المبنية عليها.', hintRpm: 'لفيدورا والتوزيعات التي تستخدم dnf.', hintApp: 'ملف واحد يعمل على أي توزيعة دون تثبيت.', copied: 'تم النسخ',
-      getDeb: 'تنزيل ملف .deb', getRpm: 'تنزيل ملف .rpm', getApp: 'تنزيل ملف AppImage', linAfter: 'بعد التثبيت ستجد «عهد» في قائمة التطبيقات.',
+      getDeb: 'تنزيل ملف ⁦.deb⁩', getRpm: 'تنزيل ملف ⁦.rpm⁩', getApp: 'تنزيل ملف AppImage', linAfter: 'بعد التثبيت ستجد «عهد» في قائمة التطبيقات.',
       sums: 'بصمات SHA-256 للتحقق من الملفات', source: 'الشيفرة المصدرية',
       reqKicker: 'المتطلبات', reqTitle: 'متطلبات التشغيل', reqWin: 'ويندوز', reqWin1a: 'ويندوز 10 أو 11', reqWin1b: '(64 بت).',
       reqWin2: 'يثبت المثبت محرك WebView2 من مايكروسوفت تلقائيا إن لم يكن موجودا، ويحتاج ذلك اتصالا بالإنترنت أثناء التثبيت فقط.',
@@ -61,9 +61,9 @@
       f9t: 'Arabic and English', f9d: 'A full interface in both languages, with light and dark themes.',
       shotsKicker: 'A look inside', shotsTitle: 'A calm interface that is easy on the eyes',
       shot1: 'The mushaf in Hafs and Warsh', shot2: 'The qibla, in the dark theme', shot3: 'Prayer times',
-      dlKicker: 'Download', dlTitle: 'Get 3ahd for free', dlLede: 'Choose your system. The download starts right away.',
+      dlKicker: 'Download', dlTitle: 'Get 3ahd for free', dlLede: 'Choose your system: Windows from the Microsoft Store, Linux with one command.',
       winTitle: 'Windows', winDesc: 'From the Microsoft Store: installs with no warning and updates itself. Windows 10 and 11 (64-bit).', winStore: 'Get it from the Microsoft Store', winBtn: 'Or the installer (.exe)', winMsi: 'MSI package',
-      winNote: 'The .exe and .msi are not digitally signed yet: Windows may show “Windows protected your PC”; click “More info”, then “Run anyway”. The Store version shows no warning.',
+      winNote: 'The .exe is not digitally signed yet: if Windows shows “Windows protected your PC”, click “More info”, then “Run anyway”.',
       winSource: '3ahd is open source: you can check its full source code on',
       linTitle: 'Linux', tabDeb: 'Ubuntu · Mint', tabRpm: 'Fedora', tabApp: 'AppImage', copy: 'Copy',
       hintDeb: 'For Ubuntu, Linux Mint, Debian and distributions based on them.', hintRpm: 'For Fedora and other distributions that use dnf.', hintApp: 'A single file that runs on any distribution, no installation needed.', copied: 'Copied',
@@ -117,7 +117,8 @@
     var label = document.getElementById('primary-label');
     if (os === 'linux') {
       primary.href = '#download';
-      primary.removeAttribute('download');
+      primary.removeAttribute('target');
+      primary.classList.add('linux');
       label.textContent = t.dlLinux;
     } else {
       label.textContent = t.dlWindows;
