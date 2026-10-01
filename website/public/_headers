@@ -4,5 +4,6 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
 
+# Cached for a week: when site.css or site.js change, raise their ?v= in index.html and 404.html
 /assets/*
   Cache-Control: public, max-age=604800
