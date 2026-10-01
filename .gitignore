@@ -25,3 +25,6 @@ data-pipeline/cache/
 .env.*
 .wrangler/
 /original-files/
+
+# X/Twitter images and the screens they use (scripts/twitter-screens.mjs, scripts/twitter.mjs)
+twitterpost/
