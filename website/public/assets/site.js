@@ -60,7 +60,7 @@
       f8t: 'Private by design', f8d: 'No accounts, no ads, no tracking. Your data stays on your computer.',
       f9t: 'Arabic and English', f9d: 'A full interface in both languages, with light and dark themes.',
       shotsKicker: 'A look inside', shotsTitle: 'A calm interface that is easy on the eyes',
-      shot1: 'The mushaf in Hafs and Warsh', shot2: 'Prayer times in the dark theme', shot3: 'The light theme',
+      shot1: 'The mushaf in Hafs and Warsh', shot2: 'The qibla, in the dark theme', shot3: 'Prayer times',
       dlKicker: 'Download', dlTitle: 'Get 3ahd for free', dlLede: 'Choose your system. The download starts right away.',
       winTitle: 'Windows', winDesc: 'From the Microsoft Store: installs with no warning and updates itself. Windows 10 and 11 (64-bit).', winStore: 'Get it from the Microsoft Store', winBtn: 'Or the installer (.exe)', winMsi: 'MSI package',
       winNote: 'The .exe and .msi are not digitally signed yet: Windows may show “Windows protected your PC”; click “More info”, then “Run anyway”. The Store version shows no warning.',
