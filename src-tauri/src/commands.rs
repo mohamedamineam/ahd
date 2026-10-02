@@ -54,6 +54,12 @@ pub fn play_tone(state: State<'_, AppState>, volume: f32) {
     state.audio.play(PlayRequest { path: None, volume, fade_in: false, stop_at: None, kind: "tone", prayer: None, sound: None, duration: Some(1.9) });
 }
 
+/// The test notification of the first-run setup, sent the way reminders are.
+#[tauri::command]
+pub fn test_notification(app: AppHandle<Wry>, state: State<'_, AppState>, title: String, body: String) {
+    crate::notify::show(&app, &title, &body, None, state.notification_icon.as_deref());
+}
+
 /// "Test adhan now": the next real event for this prayer (with the user's settings), fired immediately.
 #[tauri::command]
 pub fn test_adhan(app: AppHandle<Wry>, state: State<'_, AppState>, prayer: String) -> Res<()> {

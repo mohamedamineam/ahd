@@ -187,6 +187,7 @@ export async function invoke<T>(cmd: string, args: Record<string, unknown> = {})
       await play(String(args.sound), Number(args.volume ?? 0.8), 'preview');
       return undefined as T;
     case 'play_tone':
+    case 'test_notification':
       return undefined as T;
     case 'test_adhan': {
       const now = mockNow();

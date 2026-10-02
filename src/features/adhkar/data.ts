@@ -1,6 +1,7 @@
 /**
  * Hisn al-Muslim data (src/content/adhkar/adhkar.json, built by data-pipeline/build-adhkar.ts).
- * Text is shown verbatim; nothing here edits or composes religious text.
+ * Text is shown verbatim, without the square brackets the book puts around words from another narration (the
+ * reference names it): readers took them for stray characters. Nothing here composes religious text.
  */
 import { useEffect, useState } from 'react';
 import { addDays, localDate, type PrayerEngine } from '@/features/prayer/engine';
@@ -12,6 +13,8 @@ export interface Dhikr {
   text: string;
   count: number;
   reference: string;
+  /** the book's English translation (hisnmuslim.com), shown under the Arabic in the English interface */
+  en?: string;
 }
 export interface AdhkarChapter {
   index: number;
@@ -25,14 +28,24 @@ export interface AdhkarCategory {
 }
 export interface AdhkarData {
   source: { name: string; url: string; license: string; sha256: string };
+  english: { name: string; url: string; sha256: string };
   special: { duaAfterAdhan: string };
   categories: AdhkarCategory[];
   chapters: AdhkarChapter[];
 }
 
+/** The text as shown: without the book's square brackets (see above). */
+export function withoutBrackets(text: string): string {
+  return text.replace(/[[\]]/g, '').replace(/ {2,}/g, ' ').trim();
+}
+
 let cache: Promise<AdhkarData> | null = null;
 export function loadAdhkar(): Promise<AdhkarData> {
-  if (!cache) cache = import('@/content/adhkar/adhkar.json').then((m) => m.default as unknown as AdhkarData);
+  if (!cache)
+    cache = import('@/content/adhkar/adhkar.json').then((m) => {
+      const d = m.default as unknown as AdhkarData;
+      return { ...d, chapters: d.chapters.map((c) => ({ ...c, items: c.items.map((i) => ({ ...i, text: withoutBrackets(i.text) })) })) };
+    });
   return cache;
 }
 

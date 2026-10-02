@@ -110,8 +110,13 @@ fn size_of(label: &str, cfg: &WindowsConfig) -> (f64, f64) {
             (_, "L") => (300.0, 448.0),
             _ => (300.0, 372.0),
         },
-        // snug: the longest prayer name and a timer with seconds, with a small space between them
-        MINI => (226.0, 48.0),
+        // snug: the longest prayer name and a timer with seconds, with a small space between them; two prayers on two
+        // lines; the next prayer's time beside its name (Settings → Widgets → What it shows, sent as its style)
+        MINI => match cfg.mini_widget.style.as_str() {
+            "two-value" | "two-time" => (236.0, 76.0),
+            "next-time-value" => (292.0, 48.0),
+            _ => (226.0, 48.0),
+        },
         // Windows sizes it to the taskbar (pill::place)
         PILL => (164.0, 34.0),
         TOAST => (400.0, f64::from(TOAST_HEIGHT.load(Ordering::Relaxed))),
@@ -486,6 +491,16 @@ mod pill {
         crate::platform::windows::taskbar_rects().map(|(b, _)| (b.left, b.top, b.right, b.bottom))
     }
 
+    /// Logical width on a horizontal taskbar and height on a vertical one (where each prayer is stacked), for what
+    /// the pill shows: one prayer, two prayers, or the next prayer with its time (Settings → Widgets → Label format).
+    fn size_for(format: &str) -> (f64, f64) {
+        match format {
+            "two-value" | "two-time" => (304.0, 70.0),
+            "next-time-value" => (232.0, 54.0),
+            _ => (164.0, 46.0),
+        }
+    }
+
     /// Size and position on the taskbar for a wanted top-left corner (saved or dragged), or next to the clock.
     fn geometry<R: Runtime>(app: &AppHandle<R>, wanted: Option<(i32, i32)>) -> Option<Geometry> {
         let (bar, notify) = crate::platform::windows::taskbar_rects()?;
@@ -504,11 +519,13 @@ mod pill {
         let fit = |v: i32, lo: i32, hi: i32| v.min(hi).max(lo);
         let gap = px(8.0);
         let horizontal = bw >= bh;
+        let format = app.state::<crate::state::AppState>().config.read().map(|c| c.indicator.label_format.clone()).unwrap_or_default();
+        let (length, stacked) = size_for(&format);
         let (w, h) = if horizontal {
             // as tall as fits in the taskbar (34 px, less on a small taskbar)
-            (px(164.0), px(34.0).min(bh - px(4.0)).max(px(20.0)))
+            (px(length), px(34.0).min(bh - px(4.0)).max(px(20.0)))
         } else {
-            (px(40.0).max(bw - px(6.0)), px(46.0))
+            (px(40.0).max(bw - px(6.0)), px(stacked))
         };
         let (x, y) = if horizontal {
             let default = notify.map(|n| n.left - w - gap).unwrap_or(bar.right - w - px(220.0));

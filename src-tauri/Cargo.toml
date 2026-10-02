@@ -63,7 +63,7 @@ rodio = { version = "0.22", default-features = false, features = [
 ] }
 
 # Read-only bundled datasets (places, Quran). Same sqlx major as tauri-plugin-sql so one SQLite is linked.
-sqlx = { version = "0.8", default-features = false, features = ["sqlite", "runtime-tokio"] }
+sqlx = { version = "0.8", default-features = false, features = ["sqlite", "runtime-tokio", "migrate"] }
 
 # Downloads (library books, tafsir) — rustls with the ring provider, same stack as Tauri's updater.
 reqwest = { version = "0.13", default-features = false, features = ["rustls-no-provider", "stream", "http2", "charset", "query", "json"] }
@@ -79,6 +79,7 @@ tiny-skia = "0.11"
 windows-sys = { version = "0.59", features = [
   "Win32_Foundation",
   "Win32_Graphics_Gdi",
+  "Win32_Storage_Packaging_Appx",
   "Win32_System_Registry",
   "Win32_UI_Accessibility",
   "Win32_UI_Shell",
@@ -86,6 +87,8 @@ windows-sys = { version = "0.59", features = [
 ] }
 # Microsoft Store build (MSIX): its startup task (start with Windows) and how the app was started
 windows = { version = "0.62", features = ["ApplicationModel", "ApplicationModel_Activation"] }
+# toasts sent under the right AppUserModelID for each build (src/notify.rs); already used by tauri-plugin-notification
+tauri-winrt-notification = "0.8"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 gtk = "0.18"

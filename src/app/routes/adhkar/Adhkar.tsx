@@ -77,7 +77,7 @@ function CategoryCard({ data, id, featured, current }: { data: AdhkarData; id: s
 }
 
 function Index({ data }: { data: AdhkarData }) {
-  const { t } = useFmt();
+  const { t, lang } = useFmt();
   const navigate = useNavigate();
   const notifications = useS((s) => s.adhkar.notifications);
   const update = useSettings((s) => s.update);
@@ -111,6 +111,7 @@ function Index({ data }: { data: AdhkarData }) {
         ))}
       </div>
       <p className="mt-8 text-center text-[0.8125rem] text-ink-faint">{t('adhkar.source')}</p>
+      {lang === 'en' ? <p className="mt-1 text-center text-[0.8125rem] text-ink-faint">{t('adhkar.translationSource')}</p> : null}
     </div>
   );
 }
@@ -133,6 +134,11 @@ function DhikrCard({ d, done, onCount, fontScale, animate, innerRef }: { d: Dhik
     >
       <div className="min-w-0 flex-1">
         <ShapedText font="amiri" text={d.text} size={24 * fontScale} lineHeight={2.05} className="text-ink" fallbackClassName="selectable font-dhikr" />
+        {f.lang === 'en' && d.en ? (
+          <p lang="en" dir="ltr" className="selectable mt-3 leading-relaxed text-ink-muted" style={{ fontSize: 15 * fontScale }}>
+            {d.en}
+          </p>
+        ) : null}
         <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.8125rem] text-ink-muted">
           {d.reference ? (
             <span lang="ar" dir="rtl" className="selectable">
@@ -180,8 +186,13 @@ function FocusMode({ items, index, setIndex, done, onCount, fontScale, onClose }
           <IconClose size={20} />
         </IconButton>
       </div>
-      <div className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-10">
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto px-10">
         <ShapedText key={d.id} font="amiri" text={d.text} size={32 * fontScale} lineHeight={2.1} align="center" className="animate-fade-in w-full max-w-3xl text-ink" fallbackClassName="selectable font-dhikr" />
+        {f.lang === 'en' && d.en ? (
+          <p key={`${d.id}-en`} lang="en" dir="ltr" className="animate-fade-in selectable mt-5 w-full max-w-3xl text-center leading-relaxed text-ink-muted" style={{ fontSize: 17 * fontScale }}>
+            {d.en}
+          </p>
+        ) : null}
       </div>
       <p lang="ar" dir="rtl" className="px-10 pb-4 text-center text-[0.875rem] text-ink-muted">
         {d.reference}

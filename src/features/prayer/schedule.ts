@@ -10,7 +10,7 @@ import { labelKey, type CountdownStart } from './displayState';
 import { toHijri } from './hijri';
 import { ADHAN_PRAYERS, PRAYER_IDS, type AdhanPrayerId, type PrayerId } from './types';
 import { formatGregorian, formatHijri, formatTime, weekdayName } from '@/lib/format';
-import type { AdhkarSchedule, Settings } from '@/features/settings/schema';
+import type { AdhkarSchedule, LabelFormat, Settings } from '@/features/settings/schema';
 
 export const SCHEDULE_DAYS = 35;
 
@@ -67,7 +67,7 @@ export interface SchedulePayload {
     includeSunrise: boolean;
     taskbarSeconds: boolean;
     jumuah: boolean;
-    labelFormat: 'name-value' | 'value' | 'name-time';
+    labelFormat: LabelFormat;
   };
   missedGraceMinutes: number;
   toastAutoHideSeconds: number;
@@ -307,6 +307,9 @@ export function buildSchedule(input: ScheduleInput): SchedulePayload {
   }
 
   fire.sort((a, b) => a.at - b.at);
+  // The key names the moment too: Rust remembers the keys of events already fired, so a reminder or adhan moved
+  // to a new time (a setting changed after it went off today) is armed again for that time.
+  for (const f of fire) f.key = `${f.key}@${f.at}`;
 
   return {
     version: 1,

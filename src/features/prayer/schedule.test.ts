@@ -52,6 +52,13 @@ describe('reminder before each prayer', () => {
       custom(-10)(s);
       s.reminders.beforePrayer.enabled = false;
     });
-    expect(onlyCustom.map((f) => f.key)).toEqual(['2026-09-30:reminder:x']);
+    expect(onlyCustom.map((f) => f.key)).toEqual([`2026-09-30:reminder:x@${today.dhuhr - 10 * 60_000}`]);
+  });
+
+  it('gets a new key at a new time, so a reminder moved after it went off is armed again', () => {
+    const at10 = reminders().find((f) => f.prayer === 'asr')!;
+    const at25 = reminders((s) => void (s.reminders.beforePrayer.minutes = 25)).find((f) => f.prayer === 'asr')!;
+    expect(at10.key).not.toBe(at25.key);
+    expect(reminders().find((f) => f.prayer === 'asr')!.key).toBe(at10.key); // same settings: same key
   });
 });

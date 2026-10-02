@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import fixture from './__fixtures__/display-cases.json';
-import { displayState, formatValue, labelKey, type DisplaySettings } from './displayState';
+import { displayState, formatValue, labelKey, sinceAndUntil, type DisplaySettings } from './displayState';
 import type { TimelineEvent } from './types';
 
 const timeline = fixture.timeline as unknown as TimelineEvent[];
@@ -102,3 +102,28 @@ describe('displayState — invariants', () => {
     expect(formatValue({ mode: 'countdown', seconds: 1799 }, { seconds: false, padHours: false, longCountdown: false })).toBe('−29:59');
   });
 });
+
+describe('sinceAndUntil — both timers of the two-prayer widgets', () => {
+  const prev = { id: 'dhuhr', at: Date.parse('2026-09-30T12:28:19Z') } as TimelineEvent;
+  const next = { id: 'asr', at: Date.parse('2026-09-30T15:49:23Z') } as TimelineEvent;
+  const fmt = { seconds: true, padHours: false, longCountdown: false };
+
+  it('gives the time since the last prayer and until the next, whichever the single timer shows', () => {
+    const now = Date.parse('2026-09-30T14:12:40.600Z');
+    const { since, until } = sinceAndUntil(now, { prev, next });
+    expect(formatValue(since, fmt)).toBe('+1:44:21'); // rounded down, like elapsed
+    expect(formatValue(until, fmt)).toBe('−1:36:43'); // rounded up, like a countdown
+    expect(formatValue(since, { ...fmt, seconds: false })).toBe('+1:44');
+    expect(formatValue(until, { ...fmt, seconds: false })).toBe('−1:37');
+  });
+
+  it('matches the single timer on each side', () => {
+    const settings: DisplaySettings = { countdownStart: 'halfway', thresholdMinutes: 30, includeSunrise: true };
+    for (const now of [prev.at + 1000, prev.at + 3_600_000, next.at - 60_000, next.at - 1]) {
+      const st = displayState(now, [prev, next], settings)!;
+      const both = sinceAndUntil(now, st);
+      expect(st.mode === 'elapsed' ? both.since.seconds : both.until.seconds).toBe(st.seconds);
+    }
+  });
+});
+

@@ -14,7 +14,8 @@ function windowsConfig(s: Settings) {
     keepInTray: s.general.keepInTray,
     startWithSystem: s.general.startWithSystem,
     mainWidget: { ...s.widgets.main },
-    miniWidget: { ...s.widgets.mini, size: 'M' },
+    // the mini widget's size follows what it shows
+    miniWidget: { ...s.widgets.mini, size: 'M', style: s.widgets.mini.content },
     indicator: { ...s.widgets.indicator },
     toastPosition: s.adhan.toastPosition,
     muteFullscreen: s.adhan.muteWhenFullscreen,

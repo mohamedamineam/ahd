@@ -149,11 +149,18 @@ pub fn update(app: &AppHandle<Wry>, state: &AppState, s: &SchedulePayload, now: 
     // ---- label + tooltip (every second in countdown or with seconds on, otherwise once a minute)
     if let Some(st) = &st {
         let name = s.label_for(st.event);
-        let value = to_digits(&format_value(st.mode, st.seconds, s.display.taskbar_seconds, false, !halfway && s.display.threshold_minutes > 60.0), &s.digits);
+        let long = !halfway && s.display.threshold_minutes > 60.0;
+        let value = to_digits(&format_value(st.mode, st.seconds, s.display.taskbar_seconds, false, long), &s.digits);
         let next_name = s.label_for(st.next);
+        // both timers at once, for the formats with two prayers (src/features/prayer/displayState.ts sinceAndUntil)
+        let since = to_digits(&format_value(Mode::Elapsed, ((now - st.prev.at) / 1000).max(0), s.display.taskbar_seconds, false, false), &s.digits);
+        let until = to_digits(&format_value(Mode::Countdown, ((st.next.at - now + 999) / 1000).max(0), s.display.taskbar_seconds, false, long), &s.digits);
         let label = match s.display.label_format.as_str() {
             "value" => ltr(&value),
             "name-time" => format!("{next_name} {}", ltr(&st.next.time_text)),
+            "two-value" => format!("{} {} · {next_name} {}", s.label_for(st.prev), ltr(&since), ltr(&until)),
+            "two-time" => format!("{} {} · {next_name} {}", s.label_for(st.prev), ltr(&since), ltr(&st.next.time_text)),
+            "next-time-value" => format!("{next_name} {} {}", ltr(&st.next.time_text), ltr(&until)),
             _ => format!("{name} {}", ltr(&value)),
         };
         let tooltip = format!("{name} {}{}{next_name} {}", ltr(&value), s.string("tooltipSep"), ltr(&st.next.time_text));

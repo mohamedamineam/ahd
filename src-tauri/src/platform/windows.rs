@@ -165,3 +165,25 @@ pub fn is_packaged() -> bool {
         .map(|p| p.to_string_lossy().to_lowercase().contains("\\windowsapps\\"))
         .unwrap_or(false)
 }
+
+/// AppUserModelID of the Microsoft Store build, `<package family name>!App`; None for the other builds.
+/// Windows shows the notifications of a packaged app only when they are sent under this ID.
+pub fn package_app_id() -> Option<&'static str> {
+    use windows_sys::Win32::Foundation::{ERROR_INSUFFICIENT_BUFFER, ERROR_SUCCESS};
+    use windows_sys::Win32::Storage::Packaging::Appx::GetCurrentApplicationUserModelId;
+    static ID: OnceLock<Option<String>> = OnceLock::new();
+    ID.get_or_init(|| {
+        let mut len: u32 = 0;
+        // APPMODEL_ERROR_NO_APPLICATION when the process has no package identity
+        if unsafe { GetCurrentApplicationUserModelId(&mut len, std::ptr::null_mut()) } != ERROR_INSUFFICIENT_BUFFER || len == 0 {
+            return None;
+        }
+        let mut buf = vec![0u16; len as usize];
+        if unsafe { GetCurrentApplicationUserModelId(&mut len, buf.as_mut_ptr()) } != ERROR_SUCCESS {
+            return None;
+        }
+        let end = buf.iter().position(|&c| c == 0).unwrap_or(buf.len());
+        Some(String::from_utf16_lossy(&buf[..end]))
+    })
+    .as_deref()
+}

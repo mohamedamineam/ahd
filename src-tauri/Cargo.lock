@@ -42,6 +42,7 @@ dependencies = [
  "tauri-plugin-store",
  "tauri-plugin-updater",
  "tauri-plugin-window-state",
+ "tauri-winrt-notification",
  "thiserror 2.0.21",
  "tiny-skia",
  "tokio",

@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { useSchedule, startScheduleStore, dayFor } from '@/features/prayer/scheduleStore';
-import { displayState, formatValue, longCountdown, type DisplayState } from '@/features/prayer/displayState';
+import { displayState, formatValue, longCountdown, sinceAndUntil, type DisplayState } from '@/features/prayer/displayState';
 import type { ScheduleTimelineEvent } from '@/features/prayer/schedule';
 import { useS } from '@/features/settings/store';
 import { useClock } from '@/lib/clock';
@@ -31,6 +31,10 @@ export interface LiveState {
   now: number;
   label: (e: { id: string; friday?: boolean; isFriday?: boolean } | null | undefined) => string;
   value: (opts?: { seconds?: boolean; padHours?: boolean }) => string;
+  /** for the widgets that show two prayers: the time since the last one, until the next one, and its time */
+  since: (opts?: { seconds?: boolean }) => string;
+  until: (opts?: { seconds?: boolean }) => string;
+  nextTime: string;
   timeline: ScheduleTimelineEvent[];
 }
 
@@ -53,7 +57,13 @@ export function useLive(): LiveState {
     state
       ? toDigits(formatValue(state, { seconds: o.seconds ?? true, padHours: o.padHours ?? false, longCountdown: longCountdown(timer) }), digits)
       : '—';
-  return { state, now, label, value, timeline: payload?.timeline ?? [] };
+  const both = state ? sinceAndUntil(now, state) : null;
+  const since: LiveState['since'] = (o = {}) =>
+    both ? toDigits(formatValue(both.since, { seconds: o.seconds ?? true, padHours: false, longCountdown: false }), digits) : '—';
+  const until: LiveState['until'] = (o = {}) =>
+    both ? toDigits(formatValue(both.until, { seconds: o.seconds ?? true, padHours: false, longCountdown: longCountdown(timer) }), digits) : '—';
+  const nextTime = (state && payload?.timeline.find((e) => e.at === state.next.at)?.timeText) ?? '';
+  return { state, now, label, value, since, until, nextTime, timeline: payload?.timeline ?? [] };
 }
 
 export function useToday() {

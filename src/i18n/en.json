@@ -567,13 +567,18 @@
       "main": "Main widget",
       "mainDesc": "Prayer times and the timer, always in view.",
       "mini": "Mini widget",
-      "miniDesc": "A tiny floating label with the current or next prayer and its timer.",
+      "miniDesc": "A tiny floating label: the current or next prayer and its timer, or two prayers at once.",
       "layer": "Position",
       "layerDesc": "Behind your windows like a desktop widget, or floating above all apps.",
       "layerDesktop": "On the desktop",
       "layerTop": "Above all apps",
       "showName": "Show the prayer name",
-      "opacityDesc": "Only the background fades; the text stays clear."
+      "opacityDesc": "Only the background fades; the text stays clear.",
+      "miniContent": "What it shows",
+      "miniSingle": "One prayer and its timer (Asr −1:36)",
+      "labelTwoValue": "Last and next prayer (Dhuhr +1:44 · Asr −1:36)",
+      "labelTwoTime": "Last and next, with its time (Dhuhr +1:44 · Asr 15:49)",
+      "labelNextTimeValue": "Next prayer, time and timer (Asr 15:49 −1:36)"
     },
     "privacy": {
       "network": "Network features",
@@ -630,7 +635,7 @@
       "tafsir": "Tafsir",
       "tafsirDesc": "Downloaded on demand and shown beside the text.",
       "bookmarks": "Bookmarks",
-      "bookmarksDesc": "Five named bookmarks.",
+      "bookmarksDesc": "Ten named bookmarks.",
       "noBookmarks": "No bookmarks yet.",
       "clearLastRead": "Forget the last-read position"
     },
@@ -785,7 +790,8 @@
       "riding": "Riding",
       "istighfar": "Seeking forgiveness",
       "tasbih": "Glorifying Allah"
-    }
+    },
+    "translationSource": "Translation: Fortress of the Muslim, from hisnmuslim.com"
   },
   "qibla": {
     "title": "Qibla",
@@ -827,7 +833,7 @@
     "noResults": "No verses found.",
     "bookmarks": "Bookmarks",
     "saveBookmark": "Save a bookmark here",
-    "replaceBookmark": "All five bookmarks are used. Replace which one?",
+    "replaceBookmark": "All ten bookmarks are used. Replace which one?",
     "bookmarkName": "Bookmark name",
     "emptySlot": "Empty",
     "continue": "Continue reading",
@@ -846,7 +852,14 @@
     "copy": "Copy verse",
     "source": "Text and fonts: King Fahd Glorious Qur’an Printing Complex (KFGQPC).",
     "loading": "Opening the mushaf…",
-    "index": "Index"
+    "index": "Index",
+    "textLanguage": "Quran text",
+    "textArabic": "العربية",
+    "textEnglish": "English",
+    "searchTranslation": "A word in the translation",
+    "translationSource": "Translation of the meanings: Saheeh International (tanzil.net). No translation can replace the Arabic text.",
+    "hafsShort": "Hafs",
+    "warshShort": "Warsh"
   },
   "library": {
     "title": "Library",

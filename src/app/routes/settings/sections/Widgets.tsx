@@ -144,9 +144,25 @@ export default function Widgets() {
             <Row k="settings.widgets.layer">
               <LayerChoice value={w.mini.layer} onChange={(v) => update((d) => void (d.widgets.mini.layer = v))} />
             </Row>
-            <Row k="settings.widgets.showName">
-              <Toggle checked={w.mini.showName} onChange={(v) => update((d) => void (d.widgets.mini.showName = v))} label={t('settings.widgets.showName')} />
+            <Row k="settings.widgets.miniContent">
+              <Select
+                label={t('settings.widgets.miniContent')}
+                value={w.mini.content}
+                onChange={(v) => update((d) => void (d.widgets.mini.content = v))}
+                className="w-[27rem] max-w-full"
+                options={[
+                  { value: 'single', label: t('settings.widgets.miniSingle') },
+                  { value: 'two-value', label: t('settings.widgets.labelTwoValue') },
+                  { value: 'two-time', label: t('settings.widgets.labelTwoTime') },
+                  { value: 'next-time-value', label: t('settings.widgets.labelNextTimeValue') },
+                ]}
+              />
             </Row>
+            {w.mini.content === 'single' ? (
+              <Row k="settings.widgets.showName">
+                <Toggle checked={w.mini.showName} onChange={(v) => update((d) => void (d.widgets.mini.showName = v))} label={t('settings.widgets.showName')} />
+              </Row>
+            ) : null}
             <Look opacity={w.mini.opacity} text={w.mini.text} onOpacity={(v) => update((d) => void (d.widgets.mini.opacity = v))} onText={(v) => update((d) => void (d.widgets.mini.text = v))} />
             <Row k="settings.widgets.lock">
               <Toggle checked={w.mini.locked} onChange={(v) => update((d) => void (d.widgets.mini.locked = v))} label={t('settings.widgets.lock')} />
@@ -237,11 +253,14 @@ export default function Widgets() {
               label={t('settings.widgets.labelFormat')}
               value={w.indicator.labelFormat}
               onChange={(v) => update((d) => void (d.widgets.indicator.labelFormat = v))}
-              className="w-72"
+              className="w-[27rem] max-w-full"
               options={[
                 { value: 'name-value', label: t('settings.widgets.labelNameValue') },
                 { value: 'value', label: t('settings.widgets.labelValue') },
                 { value: 'name-time', label: t('settings.widgets.labelNameTime') },
+                { value: 'two-value', label: t('settings.widgets.labelTwoValue') },
+                { value: 'two-time', label: t('settings.widgets.labelTwoTime') },
+                { value: 'next-time-value', label: t('settings.widgets.labelNextTimeValue') },
               ]}
             />
           </Row>

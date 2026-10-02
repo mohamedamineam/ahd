@@ -128,6 +128,59 @@ export function searchQuran(d: QuranData, query: string, limit = 200): SearchHit
   return out;
 }
 
+/** The English translation (public/quran/en.json, built by data-pipeline/build-quran-translation.ts). */
+export interface QuranTranslation {
+  id: string;
+  lang: string;
+  source: { name: string; downloadedFrom: string; sha256: string; terms: string };
+  /** one per ayah, in the order of the Hafs text (index i translates hafs.ayat[i]) */
+  ayat: string[];
+}
+
+let translation: Promise<QuranTranslation> | null = null;
+let translationLoaded: QuranTranslation | null = null;
+
+export function loadTranslation(): Promise<QuranTranslation> {
+  translation ??= fetch('/quran/en.json')
+    .then((r) => {
+      if (!r.ok) throw new Error(`translation: ${r.status}`);
+      return r.json() as Promise<QuranTranslation>;
+    })
+    .then((t) => (translationLoaded = t));
+  return translation;
+}
+
+/** The translation, loaded once it is needed (`enabled`). */
+export function useQuranTranslation(enabled: boolean) {
+  const [, setLoaded] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    if (!enabled || translationLoaded) return;
+    let alive = true;
+    loadTranslation()
+      .then(() => alive && setLoaded((n) => n + 1))
+      .catch((e) => alive && setError(String(e)));
+    return () => {
+      alive = false;
+    };
+  }, [enabled]);
+  return { translation: enabled ? translationLoaded : null, error };
+}
+
+/** Search in the translation of the Hafs text `d` (case-insensitive). */
+export function searchTranslation(d: QuranData, tr: QuranTranslation, query: string, limit = 200): SearchHit[] {
+  const q = query.trim().toLowerCase();
+  if (q.length < 2) return [];
+  const out: SearchHit[] = [];
+  for (let i = 0; i < tr.ayat.length && out.length < limit; i++) {
+    if (tr.ayat[i]!.toLowerCase().includes(q)) {
+      const a = d.ayat[i]!;
+      out.push({ surah: a[0], ayah: a[1], page: a[2], text: tr.ayat[i]! });
+    }
+  }
+  return out;
+}
+
 /**
  * Hafs ↔ Warsh: verse numbers differ between the Kufi and Madani counts, so the position is mapped by page
  * within the same surah (both editions follow the Madinah mushaf pagination). If the surah is not on that page

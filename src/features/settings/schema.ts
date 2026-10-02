@@ -25,6 +25,14 @@ export type ReminderType = 'notification' | 'tone' | 'sound';
 export type WidgetText = 'auto' | 'light' | 'dark';
 /** Main widget types: 1 standard (tall), 2 panel (dates, all times, Open app), 3 wide. */
 export type MainWidgetStyle = 'classic' | 'panel' | 'wide';
+/** What the mini widget shows: one prayer and its timer, or two prayers at once (see LabelFormat). */
+export type MiniContent = 'single' | 'two-value' | 'two-time' | 'next-time-value';
+/**
+ * What the taskbar pill and the Linux panel label show: the prayer and its timer (Asr +1:12), the timer only, the next
+ * prayer and its time (Maghrib 18:41); the last prayer with the time since it and the next with the time until it
+ * (Dhuhr +1:12 · Asr −2:30) or its time (Dhuhr +1:12 · Asr 15:49); the next prayer, its time and the time until it.
+ */
+export type LabelFormat = 'name-value' | 'value' | 'name-time' | 'two-value' | 'two-time' | 'next-time-value';
 
 export interface Reminder {
   id: string;
@@ -131,6 +139,7 @@ export interface Settings {
       locked: boolean;
       seconds: boolean;
       showName: boolean;
+      content: MiniContent;
     };
     indicator: {
       enabled: boolean;
@@ -142,13 +151,15 @@ export interface Settings {
       /** Text on a transparent pill */
       pillText: 'auto' | 'light' | 'dark';
       panelLabel: boolean; // Linux tray title
-      labelFormat: 'name-value' | 'value' | 'name-time';
+      labelFormat: LabelFormat;
       trayIconStyle: 'auto' | 'light' | 'dark';
       hideTrayIcon: boolean;
     };
     waylandCompat: boolean;
   };
   quran: {
+    /** the reader shows the Arabic mushaf, or the English translation of the same pages */
+    text: 'arabic' | 'english';
     riwaya: 'hafs' | 'warsh';
     /** Warsh in Eastern writing (the letters and dots of the Hafs mushaf) or as the Maghrebi Madinah Warsh mushaf */
     warshScript: 'eastern' | 'maghrebi';
@@ -243,7 +254,7 @@ export function defaultSettings(lang: Lang = 'ar'): Settings {
     },
     widgets: {
       main: { enabled: false, style: 'classic', size: 'M', layer: 'desktop', opacity: 1, text: 'auto', locked: false, seconds: true },
-      mini: { enabled: false, layer: 'top', opacity: 0.96, text: 'auto', locked: false, seconds: true, showName: true },
+      mini: { enabled: false, layer: 'top', opacity: 0.96, text: 'auto', locked: false, seconds: true, showName: true, content: 'single' },
       indicator: {
         enabled: false,
         dynamicTrayIcon: true,
@@ -258,7 +269,7 @@ export function defaultSettings(lang: Lang = 'ar'): Settings {
       },
       waylandCompat: false,
     },
-    quran: { riwaya: 'hafs', warshScript: 'eastern', fontScale: 1, layout: 'auto', arrowNextIsLeft: true, theme: 'auto', tafsir: null },
+    quran: { text: 'arabic', riwaya: 'hafs', warshScript: 'eastern', fontScale: 1, layout: 'auto', arrowNextIsLeft: true, theme: 'auto', tafsir: null },
     adhkar: {
       notifications: false,
       morning: { enabled: true, anchor: 'fajr', offsetMinutes: 20, fixedTime: '06:30' },

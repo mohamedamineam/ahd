@@ -28,7 +28,7 @@ export interface QuranPosition {
 }
 
 export interface QuranBookmark {
-  slot: number; // 1..5
+  slot: number; // 1..10
   name: string;
   color: string;
   riwaya: Riwaya;
@@ -275,7 +275,7 @@ export const db = {
       return rows.map((r) => ({ ...r, createdAt: r.created_at }));
     },
     async setBookmark(b: QuranBookmark): Promise<void> {
-      if (b.slot < 1 || b.slot > 5) throw new Error('bookmark slot must be 1..5');
+      if (b.slot < 1 || b.slot > 10) throw new Error('bookmark slot must be 1..10');
       if (!IS_TAURI) {
         lsUpdate((t) => {
           t.bookmarks = [...t.bookmarks.filter((x) => x.slot !== b.slot), b];

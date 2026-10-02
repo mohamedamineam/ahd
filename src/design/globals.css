@@ -154,6 +154,10 @@
     font-family: var(--font-display);
     letter-spacing: 0;
   }
+  /* Reem Kufi's space is about a tenth of an em: English headings read "Afterthe prayer" without this */
+  :lang(en) .font-display {
+    word-spacing: 0.16em;
+  }
 
   .font-dhikr {
     font-family: var(--font-dhikr);

@@ -2,6 +2,9 @@
 //  - Primary (shipped): github.com/asellam/HisnElMuslim hisn.json — MIT, typed from the printed book
 //    (Dar as-Sijillat edition) and diffed by its author against an online copy.
 //  - Cross-check (not shipped): hisnmuslim.com API, one JSON per chapter.
+//  - English (shipped, shown under the Arabic in the English interface): the book's English translation from
+//    hisnmuslim.com, the book's own site. Each of its items carries its Arabic text, which is how a translation is
+//    matched to an item here; an item without a confident match is shipped without one.
 // Texts are copied verbatim. Differences between the two copies (whitespace-normalised only) are written to
 // docs/ADHKAR_REVIEW.md for the owner to review.
 //   node data-pipeline/build-adhkar.ts
@@ -15,6 +18,7 @@ mkdirSync(cache, { recursive: true });
 
 const PRIMARY_URL = 'https://raw.githubusercontent.com/asellam/HisnElMuslim/main/hisn.json';
 const CROSS_INDEX = 'http://www.hisnmuslim.com/api/ar/husn_ar.json';
+const EN_INDEX = 'http://www.hisnmuslim.com/api/en/husn_en.json';
 
 async function cached(url: string, file: string): Promise<string> {
   const p = join(cache, file);
@@ -25,6 +29,17 @@ async function cached(url: string, file: string): Promise<string> {
     await new Promise((r) => setTimeout(r, 250));
   }
   return readFileSync(p, 'utf8').replace(/^\uFEFF/, '');
+}
+
+/** One hisnmuslim.com chapter file, `{ title: items }`. A few of them are not valid JSON (a raw line break, a title
+ *  without its closing quote): white space becomes plain spaces, and a broken title is skipped to read the items. */
+function chapterItems<T>(text: string): T[] {
+  const clean = text.replace(/\s/g, ' '); // raw line breaks and tabs inside strings
+  try {
+    return Object.values(JSON.parse(clean) as Record<string, T[]>)[0] ?? [];
+  } catch {
+    return JSON.parse(clean.slice(clean.indexOf('['), clean.lastIndexOf(']') + 1)) as T[];
+  }
 }
 
 const sha = (s: string) => createHash('sha256').update(s).digest('hex');
@@ -86,6 +101,8 @@ interface Item {
   text: string;
   count: number;
   reference: string;
+  /** English translation (hisnmuslim.com), when one was matched */
+  en?: string;
 }
 interface Chapter {
   index: number;
@@ -160,6 +177,91 @@ for (const ch of chapters) {
   if (lines.length) report.push(`### ${ch.title}\n\n${lines.join('\n')}\n`);
 }
 
+// ---- English translation
+interface EnItem {
+  ID: number;
+  ARABIC_TEXT?: string;
+  Text?: string; // one item names its Arabic text this way
+  TRANSLATED_TEXT?: string;
+}
+const enIndexRaw = await cached(EN_INDEX, 'husn_en.json');
+const enChapters = Object.values(JSON.parse(enIndexRaw) as Record<string, { ID: number; TITLE: string }[]>)[0]!;
+const crossIds = new Set(crossChapters.map((c) => c.ID));
+if (enChapters.length !== crossChapters.length || enChapters.some((c) => !crossIds.has(c.ID))) throw new Error('the English and Arabic chapters of hisnmuslim.com no longer share their ids');
+const english = new Map<number, { ar: string; en: string }[]>();
+const enHash = createHash('sha256').update(enIndexRaw);
+for (const c of enChapters) {
+  const raw = await cached(`http://www.hisnmuslim.com/api/en/${c.ID}.json`, `en-${c.ID}.json`);
+  enHash.update(raw);
+  english.set(
+    c.ID,
+    chapterItems<EnItem>(raw)
+      .map((i) => ({ ar: i.ARABIC_TEXT ?? i.Text ?? '', en: tidyTranslation(i.TRANSLATED_TEXT ?? '') }))
+      .filter((i) => i.ar && i.en),
+  );
+}
+/**
+ * The site's translations lost the line breaks between their parts ("…promise.’al-waseelah: A station in
+ * paradise.al-fadeelah: …", ")(shaheed:One who…"): a space goes back where a sentence, a note or a glossary term
+ * starts. Only spaces are added, and not inside words such as mu.adhdhin or i.e.
+ */
+export function tidyTranslation(s: string): string {
+  return ws(
+    s
+      .replace(/([.’)\]])(?=[A-Z‘(])/g, '$1 ')
+      .replace(/\)(?=[a-z])/g, ') ')
+      .replace(/([.’])(?=[a-z][\w -]{0,30}:)/g, '$1 ')
+      .replace(/:(?=[A-Za-z‘(])/g, ': '),
+  );
+}
+const words = (s: string) => new Set(bare(s).split(' ').filter(Boolean));
+/** Of the words of our item, the share found in theirs (`ours`), and of theirs, the share found in ours (`theirs`). */
+function cover(ourText: string, theirText: string) {
+  const a = words(ourText);
+  const b = words(theirText);
+  let common = 0;
+  for (const w of a) if (b.has(w)) common++;
+  return { ours: common / Math.max(1, a.size), theirs: common / Math.max(1, b.size), both: common / Math.max(1, a.size, b.size) };
+}
+// The whole item is in theirs and theirs is not mostly something else (a count, the instructions around it), or both
+// largely agree. Rejected by this: pieces of a longer dua (light, 33 × tasbih) and the book's opening line.
+const confident = (c: { ours: number; theirs: number }) => (c.ours >= 0.8 && c.theirs >= 0.4) || (c.ours >= 0.6 && c.theirs >= 0.6);
+// our chapter → theirs: the same title, else the chapter most of its items match (morning and evening are one
+// chapter there, and some titles are spelt differently)
+function englishChapter(ch: Chapter): number | null {
+  const same = crossChapters.find((c) => bare(c.TITLE) === bare(ch.title));
+  if (same) return same.ID;
+  const votes = new Map<number, number>();
+  for (const item of ch.items) {
+    let best: { id: number; score: number } | null = null;
+    for (const [id, list] of english) {
+      for (const e of list) {
+        const c = cover(item.text, e.ar);
+        if (confident(c) && (!best || c.both > best.score)) best = { id, score: c.both };
+      }
+    }
+    if (best) votes.set(best.id, (votes.get(best.id) ?? 0) + 1);
+  }
+  return [...votes.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null;
+}
+let translated = 0;
+const untranslated: string[] = [];
+const itemCount = chapters.reduce((n, c) => n + c.items.length, 0);
+for (const ch of chapters) {
+  const id = englishChapter(ch);
+  const list = id === null ? [] : (english.get(id) ?? []);
+  for (const item of ch.items) {
+    const best = list.map((e) => ({ e, c: cover(item.text, e.ar) })).sort((a, b) => b.c.both - a.c.both)[0];
+    // the evening form of a morning dhikr: only with a translation that gives the evening words (the site has one
+    // morning-and-evening chapter, and sometimes only the morning words)
+    const eveningWords = /(^| )[وف]?امس(ي|ينا|يت)( |$)/.test(bare(item.text)) && !/evening/i.test(best?.e.en ?? '');
+    if (best && confident(best.c) && !eveningWords) {
+      item.en = best.e.en;
+      translated++;
+    } else untranslated.push(`- **${item.id}** — ${ws(item.text).slice(0, 80)}`);
+  }
+}
+
 function overlap(a: string, b: string): number {
   const A = new Set(a.split(' '));
   const B = new Set(b.split(' '));
@@ -172,6 +274,7 @@ const out = {
   $comment:
     'Hisn al-Muslim by Saʿid ibn ʿAli ibn Wahf al-Qahtani. Text verbatim from github.com/asellam/HisnElMuslim (MIT). Do not edit by hand — regenerate with data-pipeline/build-adhkar.ts.',
   source: { name: 'حصن المسلم — سعيد بن علي بن وهف القحطاني', url: 'https://github.com/asellam/HisnElMuslim', license: 'MIT', sha256: sha(primaryRaw) },
+  english: { name: 'Fortress of the Muslim (Hisn al-Muslim in English)', url: 'https://www.hisnmuslim.com', sha256: enHash.digest('hex') },
   special: { duaAfterAdhan: dua.id },
   categories,
   chapters,
@@ -202,6 +305,14 @@ typed from the printed book by its author and checked against an online copy. **
 please confirm each "wording" difference against the printed book.
 
 ${report.join('\n')}
+
+## English translation
+
+${translated} of ${itemCount} items have the English translation of hisnmuslim.com (shown under the Arabic in the
+English interface). These ${untranslated.length} have none: no item there matches them confidently (parts of a
+longer dua, the book's opening line, instructions).
+
+${untranslated.join('\n')}
 `;
 writeFileSync(join(root, 'docs/ADHKAR_REVIEW.md'), doc);
-console.log(`adhkar: ${chapters.length} chapters, ${compared} items — identical ${identical}, different ${differing} (wording ${wording}), unmatched chapters ${unmatched}`);
+console.log(`adhkar: ${chapters.length} chapters, ${compared} items — identical ${identical}, different ${differing} (wording ${wording}), unmatched chapters ${unmatched}; English ${translated}/${itemCount}`);

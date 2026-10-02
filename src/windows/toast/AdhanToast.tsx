@@ -23,7 +23,7 @@ interface ToastPayload {
 /** Adhan toast (brief §10.3): closing it only hides it — the adhan keeps playing until it ends or Stop. */
 export default function AdhanToast() {
   useAuxWindow();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const audio = useAudio();
   const [p, setP] = useState<ToastPayload | null>(null);
   // the dua after the adhan: shown once the adhan has ended, or earlier on click
@@ -122,6 +122,12 @@ export default function AdhanToast() {
           <div className="animate-fade-in mx-5 mt-3 border-t border-line-soft pt-2.5">
             <p className="mb-1 text-[0.75rem] font-medium text-sage-strong">{t('toast.dua')}</p>
             <ShapedText font="amiri" text={dua.text} size={16} lineHeight={1.8} className="text-ink" fallbackClassName="font-dhikr" />
+            {i18n.language === 'en' && dua.en ? (
+              // the dua itself; the glossary that follows it in the book's translation is left for the adhkar page
+              <p lang="en" dir="ltr" title={dua.en} className="mt-1 line-clamp-5 text-[0.8125rem] leading-snug text-ink-muted">
+                {dua.en}
+              </p>
+            ) : null}
           </div>
         ) : null}
         <div className="mt-3 flex items-center gap-2 px-4 pb-3">

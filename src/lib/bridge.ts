@@ -132,6 +132,7 @@ export const api = {
   playPreview: (sound: string, volume: number) => invoke<void>('play_preview', { sound, volume }),
   playTone: (volume: number) => invoke<void>('play_tone', { volume }),
   testAdhan: (prayer: string) => invoke<void>('test_adhan', { prayer }),
+  testNotification: (title: string, body: string) => invoke<void>('test_notification', { title, body }),
   listAdhans: () => invoke<AdhanSound[]>('list_adhans'),
   importAdhan: (path: string, name: string, isFajr: boolean) =>
     invoke<AdhanSound>('import_adhan', { path, name, isFajr }),

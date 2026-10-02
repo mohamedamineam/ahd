@@ -221,6 +221,7 @@ pub fn run() {
             commands::play_preview,
             commands::play_tone,
             commands::test_adhan,
+            commands::test_notification,
             commands::list_adhans,
             commands::import_adhan,
             commands::delete_adhan,

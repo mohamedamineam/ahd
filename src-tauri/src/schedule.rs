@@ -67,7 +67,8 @@ pub struct DisplayConfig {
     pub include_sunrise: bool,
     pub taskbar_seconds: bool,
     pub jumuah: bool,
-    /// "name-value" | "value" | "name-time"
+    /// "name-value" | "value" | "name-time" | "two-value" | "two-time" | "next-time-value" (see LabelFormat in
+    /// src/features/settings/schema.ts)
     pub label_format: String,
 }
 

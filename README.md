@@ -16,9 +16,12 @@ A calm, free and private desktop companion for prayer times, for Windows and Lin
   the adhan keeps playing; a global shortcut stops it. A reminder before each prayer (10 minutes by default).
 - **On the desktop**: a widget in three types (standard, panel, wide) on the desktop or above all apps, a small
   floating widget, both with their own background opacity and text colour; a timer on the Windows taskbar or the
-  Linux top bar.
-- **Quran** in the Hafs and Warsh narrations, King Fahd Complex text and fonts, five bookmarks and last-read position.
-- **Adhkar** from Hisn al-Muslim with counters, focus mode and reminders.
+  Linux top bar. The small widget and the taskbar can show two prayers at once (the last and the next) or the next
+  prayer with its time and timer.
+- **Quran** in the Hafs and Warsh narrations, King Fahd Complex text and fonts, and the English translation of the
+  same pages (Saheeh International); ten bookmarks and last-read position.
+- **Adhkar** from Hisn al-Muslim with counters, focus mode and reminders; in English, each dhikr with the book's
+  English translation.
 - **Qibla** by the sun, with the days the sun passes over the Kaaba.
 - **Library** of free books from IslamHouse and archive.org (including Sahih al-Bukhari and «الرحيق المختوم»),
   downloaded only when you ask.

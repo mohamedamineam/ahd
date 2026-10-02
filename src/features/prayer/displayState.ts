@@ -68,6 +68,17 @@ export function displayState(
   return { mode: 'elapsed', event: prev, prev, next, seconds: Math.floor((now - prev.at) / 1000), progress };
 }
 
+/**
+ * Both timers at once, for the widgets that show two prayers: the time since the last prayer (floor) and until the
+ * next one (ceil), whichever the single timer shows. Same rounding as displayState; ported to src-tauri/src/tray.rs.
+ */
+export function sinceAndUntil(now: number, state: Pick<DisplayState, 'prev' | 'next'>): { since: Pick<DisplayState, 'mode' | 'seconds'>; until: Pick<DisplayState, 'mode' | 'seconds'> } {
+  return {
+    since: { mode: 'elapsed', seconds: Math.max(0, Math.floor((now - state.prev.at) / 1000)) },
+    until: { mode: 'countdown', seconds: Math.max(0, Math.ceil((state.next.at - now) / 1000)) },
+  };
+}
+
 /** Name key for an event: Dhuhr on Friday is shown as Jumuʿah (when enabled). */
 export function labelKey(event: Pick<TimelineEvent, 'id' | 'isFriday'>, jumuah = true): PrayerId | 'jumuah' {
   return jumuah && event.id === 'dhuhr' && event.isFriday ? 'jumuah' : event.id;

@@ -1,13 +1,10 @@
-import { IS_TAURI } from './bridge';
+import { api, IS_TAURI } from './bridge';
 
-/** Native notification (tauri-plugin-notification) with a browser fallback for development. */
+/** A test notification, sent by the Rust side the way reminders are (src-tauri/src/notify.rs), with a browser
+ *  fallback for development. */
 export async function sendNotification(title: string, body: string): Promise<boolean> {
   if (IS_TAURI) {
-    const n = await import('@tauri-apps/plugin-notification');
-    let granted = await n.isPermissionGranted();
-    if (!granted) granted = (await n.requestPermission()) === 'granted';
-    if (!granted) return false;
-    n.sendNotification({ title, body });
+    await api.testNotification(title, body);
     return true;
   }
   if (!('Notification' in window)) return false;

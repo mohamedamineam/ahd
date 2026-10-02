@@ -28,6 +28,7 @@
     "data:adhkar": "node data-pipeline/build-adhkar.ts",
     "data:fixtures": "node data-pipeline/fetch-aladhan-fixtures.ts",
     "data:quran": "node data-pipeline/build-quran.ts",
+    "data:quran-en": "node data-pipeline/build-quran-translation.ts",
     "data:fonts": "node data-pipeline/build-shaping-fonts.ts",
     "data:library": "node data-pipeline/build-library-catalog.ts"
   },
