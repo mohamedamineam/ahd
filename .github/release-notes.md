@@ -4,7 +4,7 @@
 
 **الموقع والتنزيل:** https://3ahd.pages.dev
 
-- **ويندوز 10 أو 11 (64 بت)**: نزّل `3ahd-windows-x64-setup.exe` وشغّله. إذا ظهرت رسالة «Windows protected your PC» فاضغط «More info» ثم «Run anyway».
+- **ويندوز 10 أو 11 (64 بت)**: من [متجر مايكروسوفت](https://apps.microsoft.com/detail/9N6BBHKBKFNB)، يُثبَّت دون أي تحذير ويتحدث تلقائيا. أو نزّل `3ahd-windows-x64-setup.exe` من هنا: إذا ظهرت رسالة «Windows protected your PC» فاضغط «More info» ثم «Run anyway».
 - **أوبونتو ولينكس مينت وديبيان**: ملف `.deb`، و**فيدورا**: ملف `.rpm`، و**أي توزيعة**: ملف `.AppImage`.
 
 </div>
@@ -17,7 +17,7 @@
 
 | System | File |
 | --- | --- |
-| Windows 10 / 11 (64-bit) | `3ahd-windows-x64-setup.exe` (or `3ahd-windows-x64.msi`) |
+| Windows 10 / 11 (64-bit) | [Microsoft Store](https://apps.microsoft.com/detail/9N6BBHKBKFNB), or `3ahd-windows-x64-setup.exe` (or `3ahd-windows-x64.msi`) |
 | Ubuntu, Linux Mint, Debian | `3ahd-linux-amd64.deb` |
 | Fedora | `3ahd-linux-x86_64.rpm` |
 | Any Linux distribution | `3ahd-linux-x86_64.AppImage` |
@@ -29,6 +29,6 @@ wget -O 3ahd.deb https://github.com/mohamedamineam/ahd/releases/latest/download/
 sudo apt install ./3ahd.deb
 ```
 
-Windows may show "Windows protected your PC" because the installer is not code-signed yet: choose **More info → Run anyway**.
+The .exe and .msi may show "Windows protected your PC" because they are not code-signed yet: choose **More info → Run anyway**. The Microsoft Store version installs with no warning and updates itself.
 
 Verify a download with `sha256sum -c SHA256SUMS --ignore-missing`.
